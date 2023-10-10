@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { NavDropdown } from "react-bootstrap";
 import logo from "../../assets/icons/cat.png";
 
@@ -166,8 +166,6 @@ const Header = () => {
         </nav>
         {/* Navbar */}
       </header>
-
-      <Outlet />
     </>
   );
 };
