@@ -16,3 +16,23 @@
 .img-new-product {
   aspect-ratio: 1/1;
 }
+
+.feature-div {
+  min-height: 200px;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  background-repeat: no-repeat;
+  top: 50%;
+  background-image: url('https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/banners/banner-item2.webp');
+}
+
+.max-width-70 {
+  max-width: 70%;
+}
+.min-width-200 {
+  min-width: 200px;
+}
+.max-width-400 {
+  max-width: 400px;
+}

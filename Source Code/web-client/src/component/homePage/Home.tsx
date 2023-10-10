@@ -1,6 +1,6 @@
-import { NavLink, useNavigate, Outlet } from "react-router-dom";
-import { NavDropdown } from "react-bootstrap";
-import "../styles/Home.scss";
+import React from "react";
+import { NavLink } from "react-router-dom";
+import "../../styles/Home.scss";
 
 const Home = () => {
   return (
@@ -20,10 +20,13 @@ const Home = () => {
                     No matter how far along you are in your sophistication as an
                     amateur astronomer, there is always one.
                   </p>
-                  <a href="#" className="btn btn-light shadow-0 text-primary">
+                  <NavLink
+                    to=""
+                    className="btn btn-light shadow-0 text-primary"
+                  >
                     {" "}
                     View more{" "}
-                  </a>
+                  </NavLink>
                 </div>
               </div>
             </main>
@@ -34,10 +37,10 @@ const Home = () => {
                   <p className="text-white">
                     No matter how far along you are in your sophistication
                   </p>
-                  <a href="#" className="btn btn-outline-light">
+                  <NavLink to="" className="btn btn-outline-light">
                     {" "}
                     View more{" "}
-                  </a>
+                  </NavLink>
                 </div>
               </div>
             </aside>
@@ -323,7 +326,7 @@ const Home = () => {
           <div className="row">
             <div className="col-lg-3 col-md-6 col-sm-6">
               <div className="card my-2 shadow-0 border-0">
-                <a href="#" className="">
+                <NavLink to="" className="">
                   <div className="mask label-height position-absolute">
                     <div className="d-flex justify-content-start align-items-start h-100 m-2">
                       <h6>
@@ -334,15 +337,16 @@ const Home = () => {
                   <img
                     src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/1.webp"
                     className="card-img-top rounded-2 img-new-product"
+                    alt="product"
                   />
-                </a>
+                </NavLink>
                 <div className="card-body p-0 pt-3">
-                  <a
-                    href="#!"
+                  <NavLink
+                    to=""
                     className="btn btn-light border px-2 pt-2 float-end icon-hover"
                   >
                     <i className="fas fa-heart fa-lg px-1 text-secondary"></i>
-                  </a>
+                  </NavLink>
                   <h5 className="card-title">$29.95</h5>
                   <p className="card-text mb-0">GoPro action camera 4K</p>
                   <p className="text-muted">Model: X-200</p>
@@ -351,7 +355,7 @@ const Home = () => {
             </div>
             <div className="col-lg-3 col-md-6 col-sm-6">
               <div className="card my-2 shadow-0 border-0">
-                <a href="#" className="">
+                <NavLink to="" className="">
                   <div className="mask label-height position-absolute">
                     <div className="d-flex justify-content-start align-items-start h-100 m-2">
                       <h6>
@@ -362,15 +366,16 @@ const Home = () => {
                   <img
                     src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/2.webp"
                     className="card-img-top rounded-2 img-new-product"
+                    alt="product"
                   />
-                </a>
+                </NavLink>
                 <div className="card-body p-0 pt-2">
-                  <a
-                    href="#!"
+                  <NavLink
+                    to=""
                     className="btn btn-light border px-2 pt-2 float-end icon-hover"
                   >
                     <i className="fas fa-heart fa-lg px-1 text-secondary"></i>
-                  </a>
+                  </NavLink>
                   <h5 className="card-title">$590.00</h5>
                   <p className="card-text mb-0">Canon EOS professional</p>
                   <p className="text-muted">Capacity: 128GB</p>
@@ -379,19 +384,20 @@ const Home = () => {
             </div>
             <div className="col-lg-3 col-md-6 col-sm-6">
               <div className="card my-2 shadow-0 border-0">
-                <a href="#" className="">
+                <NavLink to="" className="">
                   <img
                     src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/3.webp"
                     className="card-img-top rounded-2 img-new-product"
+                    alt="product"
                   />
-                </a>
+                </NavLink>
                 <div className="card-body p-0 pt-2">
-                  <a
-                    href="#!"
+                  <NavLink
+                    to=""
                     className="btn btn-light border px-2 pt-2 float-end icon-hover"
                   >
                     <i className="fas fa-heart fa-lg px-1 text-secondary"></i>
-                  </a>
+                  </NavLink>
                   <h5 className="card-title">$29.95</h5>
                   <p className="card-text mb-0">Modern product name here</p>
                   <p className="text-muted">Sizes: S, M, XL</p>
@@ -400,19 +406,20 @@ const Home = () => {
             </div>
             <div className="col-lg-3 col-md-6 col-sm-6">
               <div className="card my-2 shadow-0 border-0">
-                <a href="#" className="">
+                <NavLink to="" className="">
                   <img
                     src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/4.webp"
                     className="card-img-top rounded-2 img-new-product"
+                    alt="product"
                   />
-                </a>
+                </NavLink>
                 <div className="card-body p-0 pt-2">
-                  <a
-                    href="#!"
+                  <NavLink
+                    to=""
                     className="btn btn-light border px-2 pt-2 float-end icon-hover"
                   >
                     <i className="fas fa-heart fa-lg px-1 text-secondary"></i>
-                  </a>
+                  </NavLink>
                   <h5 className="card-title">$1099.00</h5>
                   <p className="card-text mb-0">Apple iPhone 13 Pro max</p>
                   <p className="text-muted">Color: Black, Memory: 128GB</p>
@@ -421,19 +428,20 @@ const Home = () => {
             </div>
             <div className="col-lg-3 col-md-6 col-sm-6">
               <div className="card my-2 shadow-0 border-0">
-                <a href="#" className="">
+                <NavLink to="" className="">
                   <img
                     src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/5.webp"
                     className="card-img-top rounded-2 img-new-product"
+                    alt="product"
                   />
-                </a>
+                </NavLink>
                 <div className="card-body p-0 pt-2">
-                  <a
-                    href="#!"
+                  <NavLink
+                    to=""
                     className="btn btn-light border px-2 pt-2 float-end icon-hover"
                   >
                     <i className="fas fa-heart fa-lg px-1 text-secondary"></i>
-                  </a>
+                  </NavLink>
                   <h5 className="card-title">$29.95</h5>
                   <p className="card-text mb-0">Modern product name here</p>
                   <p className="text-muted">Sizes: S, M, XL</p>
@@ -442,19 +450,20 @@ const Home = () => {
             </div>
             <div className="col-lg-3 col-md-6 col-sm-6">
               <div className="card my-2 shadow-0 border-0">
-                <a href="#" className="">
+                <NavLink to="" className="">
                   <img
                     src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/6.webp"
                     className="card-img-top rounded-2 img-new-product"
+                    alt="product"
                   />
-                </a>
+                </NavLink>
                 <div className="card-body p-0 pt-2">
-                  <a
-                    href="#!"
+                  <NavLink
+                    to=""
                     className="btn btn-light border px-2 pt-2 float-end icon-hover"
                   >
                     <i className="fas fa-heart fa-lg px-1 text-secondary"></i>
-                  </a>
+                  </NavLink>
                   <h5 className="card-title">$29.95</h5>
                   <p className="card-text mb-0">Modern product name here</p>
                   <p className="text-muted">Model: X-200</p>
@@ -463,19 +472,20 @@ const Home = () => {
             </div>
             <div className="col-lg-3 col-md-6 col-sm-6">
               <div className="card my-2 shadow-0 border-0">
-                <a href="#" className="">
+                <NavLink to="" className="">
                   <img
                     src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp"
                     className="card-img-top rounded-2 img-new-product"
+                    alt="product"
                   />
-                </a>
+                </NavLink>
                 <div className="card-body p-0 pt-2">
-                  <a
-                    href="#!"
+                  <NavLink
+                    to=""
                     className="btn btn-light border px-2 pt-2 float-end icon-hover"
                   >
                     <i className="fas fa-heart fa-lg px-1 text-secondary"></i>
-                  </a>
+                  </NavLink>
                   <h5 className="card-title">$29.95</h5>
                   <p className="card-text mb-0">Modern product name here</p>
                   <p className="text-muted">Sizes: S, M, XL</p>
@@ -484,19 +494,20 @@ const Home = () => {
             </div>
             <div className="col-lg-3 col-md-6 col-sm-6">
               <div className="card my-2 shadow-0 border-0">
-                <a href="#" className="">
+                <NavLink to="" className="">
                   <img
                     src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/8.webp"
                     className="card-img-top rounded-2 img-new-product"
+                    alt="product"
                   />
-                </a>
+                </NavLink>
                 <div className="card-body p-0 pt-2">
-                  <a
-                    href="#!"
+                  <NavLink
+                    to=""
                     className="btn btn-light border px-2 pt-2 float-end icon-hover"
                   >
                     <i className="fas fa-heart fa-lg px-1 text-secondary"></i>
-                  </a>
+                  </NavLink>
                   <h5 className="card-title">$29.95</h5>
                   <p className="card-text mb-0">Modern product name here</p>
                   <p className="text-muted">Material: Jeans</p>
@@ -507,6 +518,175 @@ const Home = () => {
         </div>
       </section>
       {/* Products */}
+
+      {/* Feature */}
+      <section className="">
+        <div className="container">
+          <div className="row gy-4">
+            <div className="col-lg-6">
+              <div className="card-banner bg-gray h-100 feature-div">
+                <div className="p-3 p-lg-5 max-width-70">
+                  <h3 className="text-dark">
+                    Best products & brands in our store at 80% off
+                  </h3>
+                  <p>That's true but not always</p>
+                  <button className="btn btn-warning shadow-0">
+                    {" "}
+                    Claim offer{" "}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-6">
+              <div className="row mb-3 mb-sm-4 g-3 g-sm-4">
+                <div className="col-6 d-flex">
+                  <div className="card w-100 bg-primary min-height-200">
+                    <div className="card-body">
+                      <h5 className="text-white">Gaming toolset</h5>
+                      <p className="text-white-50">
+                        Technology for cyber sport
+                      </p>
+                      <NavLink className="btn btn-outline-light btn-sm" to="">
+                        Learn more
+                      </NavLink>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-6 d-flex">
+                  <div className="card w-100 bg-primary min-height-200">
+                    <div className="card-body">
+                      <h5 className="text-white">Quality sound</h5>
+                      <p className="text-white-50">All you need for music</p>
+                      <NavLink className="btn btn-outline-light btn-sm" to="">
+                        Learn more
+                      </NavLink>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* row.// */}
+
+              <div className="card bg-success min-height-200">
+                <div className="card-body">
+                  <h5 className="text-white">Buy 2 items, With special gift</h5>
+                  <p className="text-white-50 max-width-400">
+                    Buy one, get one free marketing strategy helps your business
+                    improves the brand by sharing the profits
+                  </p>
+                  <NavLink className="btn btn-outline-light btn-sm" to="">
+                    Learn more
+                  </NavLink>
+                </div>
+              </div>
+            </div>
+            {/* col.// */}
+          </div>
+          {/* row.// */}
+        </div>
+        {/* container end.// */}
+      </section>
+      {/* Feature */}
+
+      {/* <!-- Recommended --> */}
+      <section>
+        <div className="container my-5">
+          <header className="mb-4">
+            <h3>Recommended</h3>
+          </header>
+
+          <div className="row">
+            <div className="col-lg-3 col-md-6 col-sm-6">
+              <div className="card my-2 shadow-0 border-0">
+                <NavLink to="" className="">
+                  <img
+                    src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/9.webp"
+                    className="card-img-top rounded-2 img-new-product"
+                    alt="product"
+                  />
+                </NavLink>
+                <div className="card-body p-0 pt-3">
+                  <NavLink
+                    to=""
+                    className="btn btn-light border px-2 pt-2 float-end icon-hover"
+                  >
+                    <i className="fas fa-heart fa-lg px-1 text-secondary"></i>
+                  </NavLink>
+                  <h5 className="card-title">$17.00</h5>
+                  <p className="card-text mb-0">Blue jeans shorts for men</p>
+                  <p className="text-muted">Sizes: S, M, XL</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-3 col-md-6 col-sm-6">
+              <div className="card my-2 shadow-0 border-0">
+                <NavLink to="" className="">
+                  <img
+                    src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/10.webp"
+                    className="card-img-top rounded-2 img-new-product"
+                    alt="product"
+                  />
+                </NavLink>
+                <div className="card-body p-0 pt-2">
+                  <NavLink
+                    to=""
+                    className="btn btn-light border px-2 pt-2 float-end icon-hover"
+                  >
+                    <i className="fas fa-heart fa-lg px-1 text-secondary"></i>
+                  </NavLink>
+                  <h5 className="card-title">$9.50</h5>
+                  <p className="card-text mb-0">Slim fit T-shirt for men</p>
+                  <p className="text-muted">Sizes: S, M, XL</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-3 col-md-6 col-sm-6">
+              <div className="card my-2 shadow-0 border-0">
+                <NavLink to="" className="">
+                  <img
+                    src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/11.webp"
+                    className="card-img-top rounded-2 img-new-product"
+                    alt="product"
+                  />
+                </NavLink>
+                <div className="card-body p-0 pt-2">
+                  <NavLink
+                    to=""
+                    className="btn btn-light border px-2 pt-2 float-end icon-hover"
+                  >
+                    <i className="fas fa-heart fa-lg px-1 text-secondary"></i>
+                  </NavLink>
+                  <h5 className="card-title">$29.95</h5>
+                  <p className="card-text mb-0">Modern product name here</p>
+                  <p className="text-muted">Sizes: S, M, XL</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-lg-3 col-md-6 col-sm-6">
+              <div className="card my-2 shadow-0 border-0">
+                <NavLink to="" className="">
+                  <img
+                    src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/12.webp"
+                    className="card-img-top rounded-2 img-new-product"
+                    alt="product"
+                  />
+                </NavLink>
+                <div className="card-body p-0 pt-2">
+                  <NavLink
+                    to=""
+                    className="btn btn-light border px-2 pt-2 float-end icon-hover"
+                  >
+                    <i className="fas fa-heart fa-lg px-1 text-secondary"></i>
+                  </NavLink>
+                  <h5 className="card-title">$29.95</h5>
+                  <p className="card-text mb-0">Modern product name here</p>
+                  <p className="text-muted">Material: Jeans</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* <!-- Recommended --> */}
     </>
   );
 };

@@ -1,6 +1,7 @@
-import { NavLink, useNavigate, Outlet } from "react-router-dom";
+import React from "react";
+import { NavLink, Outlet } from "react-router-dom";
 import { NavDropdown } from "react-bootstrap";
-import logo from "../assets/icons/cat.png";
+import logo from "../../assets/icons/cat.png";
 
 const Header = () => {
   return (
@@ -57,14 +58,14 @@ const Header = () => {
               {/* Right elements */}
               <div className="col-lg-5 col-md-12 col-12">
                 <div className="input-group float-center">
-                  <div class="input-group">
+                  <div className="input-group">
                     <input
                       type="text"
-                      class="form-control"
+                      className="form-control"
                       placeholder="Search"
                     />
                     <button
-                      class="btn btn-primary shadow-0"
+                      className="btn btn-primary shadow-0"
                       type="button"
                       id="button-addon2"
                     >
@@ -104,8 +105,8 @@ const Header = () => {
               {/* Left links */}
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <NavLink to="/categories" className={"nav-link"}>
-                    Categories
+                  <NavLink to="/products" className={"nav-link"}>
+                    Products
                   </NavLink>
                 </li>
                 <li className="nav-item">
@@ -165,6 +166,7 @@ const Header = () => {
         </nav>
         {/* Navbar */}
       </header>
+
       <Outlet />
     </>
   );
