@@ -43,7 +43,7 @@ const Header = () => {
                     <p className="d-none d-md-block mb-0">Wishlist</p>
                   </NavLink>
                   <NavLink
-                    to="/signin"
+                    to="/shopping-cart"
                     className={
                       "border rounded py-1 px-3 nav-link d-flex align-items-center"
                     }
@@ -110,8 +110,8 @@ const Header = () => {
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to="/hotoffers" className={"nav-link"}>
-                    Hot offers
+                  <NavLink to="/shopping-cart" className={"nav-link"}>
+                    My Cart
                   </NavLink>
                 </li>
                 <li className="nav-item">

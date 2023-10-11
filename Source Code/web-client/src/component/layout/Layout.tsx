@@ -6,14 +6,16 @@ import Footer from "./Footer";
 function Layout() {
   return (
     <>
-      {/* page header */}
-      <Header />
+      <div className="bg-light">
+        {/* page header */}
+        <Header />
 
-      {/* page content */}
-      <Outlet />
+        {/* page content */}
+        <Outlet />
 
-      {/* page footer */}
-      <Footer />
+        {/* page footer */}
+        <Footer />
+      </div>
     </>
   );
 }

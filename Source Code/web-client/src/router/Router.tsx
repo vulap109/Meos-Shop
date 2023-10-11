@@ -3,6 +3,8 @@ import Home from "../component/homePage/Home";
 import ProductList from "../component/productListPage/ProductList";
 import Login from "../component/loginPage/Login";
 import Layout from "../component/layout/Layout";
+import ShoppingCart from "../component/cart/ShoppingCart";
+import CheckOut from "../component/checkOutPage/CheckOut";
 
 export const router = createBrowserRouter([
   {
@@ -25,6 +27,14 @@ export const router = createBrowserRouter([
       {
         path: "products",
         element: <ProductList />,
+      },
+      {
+        path: "shopping-cart",
+        element: <ShoppingCart />,
+      },
+      {
+        path: "check-out",
+        element: <CheckOut />,
       },
     ],
   },
