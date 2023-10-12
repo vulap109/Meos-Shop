@@ -5,6 +5,7 @@ import Login from "../component/loginPage/Login";
 import Layout from "../component/layout/Layout";
 import ShoppingCart from "../component/cart/ShoppingCart";
 import CheckOut from "../component/checkOutPage/CheckOut";
+import ProductDetail from "../component/productDetailPage/ProductDetail";
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
       {
         path: "check-out",
         element: <CheckOut />,
+      },
+      {
+        path: "product-detail",
+        element: <ProductDetail />,
       },
     ],
   },

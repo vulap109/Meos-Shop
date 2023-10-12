@@ -115,8 +115,8 @@ const Header = () => {
                   </NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink to="/gift" className={"nav-link"}>
-                    Gift boxes
+                  <NavLink to="/product-detail" className={"nav-link"}>
+                    Product details
                   </NavLink>
                 </li>
                 <li className="nav-item">

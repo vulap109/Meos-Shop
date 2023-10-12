@@ -193,6 +193,7 @@ const ShoppingCart = () => {
               </div>
             </div>
             {/* cart */}
+
             {/* summary */}
             <div className="col-lg-3">
               <div className="card mb-3 border shadow-0">
