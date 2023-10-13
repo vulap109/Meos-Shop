@@ -47,9 +47,9 @@ const ProductItem = ({ data }: productItemProps) => {
             )}
           </div>
           <div className="border-top border-2 d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-            <NavLink to="/" className="btn btn-outline-primary w-100">
-              Add to cart
-            </NavLink>
+            <button className="btn btn-outline-primary w-100">
+              <i className="fa-solid fa-cart-shopping me-2"></i> Add to cart
+            </button>
             <HeartButton />
           </div>
         </div>

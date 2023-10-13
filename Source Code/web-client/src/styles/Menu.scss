@@ -1,0 +1,14 @@
+.dropdown-menu {
+  animation: 0.5s slidedown;
+}
+@keyframes slidedown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(0.2%);
+  }
+}
+.navbar-collapse {
+  animation: 0.5s slidedown;
+}

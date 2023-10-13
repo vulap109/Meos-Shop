@@ -1,10 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 
 const HeartButton = () => {
+  const [like, setLike] = useState(false);
+
   return (
-    <button type="button" className="btn btn-outline-primary mx-2">
-      <i className="fa-solid fa-heart text-secondary"></i>
-    </button>
+    <>
+      {like ? (
+        <button
+          type="button"
+          className="btn btn-outline-danger mx-2"
+          onClick={() => setLike(!like)}
+        >
+          <i className="fa-solid fa-heart"></i>
+        </button>
+      ) : (
+        <button
+          type="button"
+          className="btn btn-outline-secondary mx-2"
+          onClick={() => setLike(!like)}
+        >
+          <i className="fa-solid fa-heart"></i>
+        </button>
+      )}
+    </>
   );
 };
 

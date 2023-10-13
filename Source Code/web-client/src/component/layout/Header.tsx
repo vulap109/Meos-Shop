@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { NavDropdown } from "react-bootstrap";
+import { Collapse, NavDropdown } from "react-bootstrap";
 import logo from "../../assets/icons/cat.png";
+import "../../styles/Menu.scss";
 
 const Header = () => {
+  const [open, setOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    // close navbar collapse
+    const closeCollapse = (e: MouseEvent) => {
+      if (!buttonRef.current?.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+
+    document.body.addEventListener("mousedown", closeCollapse);
+
+    return () => {
+      document.removeEventListener("mousedown", closeCollapse);
+    };
+    // close navbar collapse
+  }, []);
+
   return (
     <>
       {/* Main Navigation */}
@@ -13,15 +33,45 @@ const Header = () => {
           <div className="container">
             <div className="row gy-3 align-items-center">
               {/* Left elements */}
-              <div className="col-lg-2 col-sm-4 col-4">
+              <div className="col-lg-2 col-sm-4 d-flex flex-row">
+                {/* logo */}
                 <NavLink to="/" className={"nav-link"}>
                   <img src={logo} height={35} alt="logo" className="pe-2" />
                   Meoww
                 </NavLink>
+                <button
+                  ref={buttonRef}
+                  className="btn btn-outline-primary ms-3"
+                  onClick={() => setOpen(!open)}
+                >
+                  <i className="fas fa-bars"></i>
+                </button>
+                {/* button menu */}
               </div>
               {/* Left elements */}
 
               {/* Center elements  */}
+              <div className="col-lg-5 col-md-12 col-12">
+                <div className="input-group float-center">
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="Search"
+                    />
+                    <button
+                      className="btn btn-primary shadow-0"
+                      type="button"
+                      id="button-addon2"
+                    >
+                      <i className="fas fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              {/* Center elements */}
+
+              {/* Right elements */}
               <div className="order-lg-last col-lg-5 col-sm-8 col-8">
                 <div className="d-flex float-end">
                   <NavLink
@@ -53,27 +103,6 @@ const Header = () => {
                   </NavLink>
                 </div>
               </div>
-              {/* Center elements */}
-
-              {/* Right elements */}
-              <div className="col-lg-5 col-md-12 col-12">
-                <div className="input-group float-center">
-                  <div className="input-group">
-                    <input
-                      type="text"
-                      className="form-control"
-                      placeholder="Search"
-                    />
-                    <button
-                      className="btn btn-primary shadow-0"
-                      type="button"
-                      id="button-addon2"
-                    >
-                      <i className="fas fa-search"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
               {/* Right elements */}
             </div>
           </div>
@@ -81,89 +110,70 @@ const Header = () => {
         {/* Jumbotron */}
 
         {/* Navbar */}
-        <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-          {/* Container wrapper */}
-          <div className="container justify-content-center justify-content-md-between">
-            {/* Toggle button */}
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-mdb-toggle="collapse"
-              data-mdb-target="#navbarLeftAlignExample"
-              aria-controls="navbarLeftAlignExample"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <i className="fas fa-bars"></i>
-            </button>
+        <Collapse in={open} className="position-fixed z-3 w-100 h-100">
+          <div
+            id="example-collapse-text"
+            style={{ backgroundColor: "rgba(220, 220, 220, 0.42)" }}
+          >
+            <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+              {/* Container wrapper */}
+              <div className="container justify-content-center justify-content-md-between">
+                {/* Toggle button */}
 
-            {/* Collapsible wrapper */}
-            <div
-              className="collapse navbar-collapse"
-              id="navbarLeftAlignExample"
-            >
-              {/* Left links */}
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <NavLink to="/products" className={"nav-link"}>
-                    Products
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink to="/shopping-cart" className={"nav-link"}>
-                    My Cart
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink to="/product-detail" className={"nav-link"}>
-                    Product details
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink to="/projects" className={"nav-link"}>
-                    Projects
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink to="/menuitem" className={"nav-link"}>
-                    Menu item
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink to="/menuname" className={"nav-link"}>
-                    Menu name
-                  </NavLink>
-                </li>
-                {/* Navbar dropdown */}
-                <li className="nav-item dropdown">
-                  {/* <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-                    Others
-                  </a>
-                  Dropdown menu
-                  <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li>
-                      <a className="dropdown-item" href="#">Action</a>
+                {/* Collapsible wrapper */}
+                <div
+                  className="collapse navbar-collapse"
+                  id="navbarLeftAlignExample"
+                >
+                  {/* Left links */}
+                  <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li className="nav-item">
+                      <NavLink to="/products" className={"nav-link"}>
+                        Products
+                      </NavLink>
                     </li>
-                    <li>
-                      <a className="dropdown-item" href="#">Another action</a>
+                    <li className="nav-item">
+                      <NavLink to="/shopping-cart" className={"nav-link"}>
+                        My Cart
+                      </NavLink>
                     </li>
-                    <li><hr className="dropdown-divider" /></li>
-                    <li>
-                      <a className="dropdown-item" href="#">Something else here</a>
+                    <li className="nav-item">
+                      <NavLink to="/product-detail" className={"nav-link"}>
+                        Product details
+                      </NavLink>
                     </li>
-                  </ul> */}
-                  <NavDropdown title="Other" id="basic-nav-dropdown">
-                    <NavDropdown.Item>Logout</NavDropdown.Item>
-                    <NavDropdown.Item>Logout2</NavDropdown.Item>
-                    <NavDropdown.Item>Logout3</NavDropdown.Item>
-                  </NavDropdown>
-                </li>
-              </ul>
-              {/* Left links */}
-            </div>
+                    <li className="nav-item">
+                      <NavLink to="/projects" className={"nav-link"}>
+                        Projects
+                      </NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink to="/menuitem" className={"nav-link"}>
+                        Menu item
+                      </NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink to="/menuname" className={"nav-link"}>
+                        Menu name
+                      </NavLink>
+                    </li>
+                    {/* Navbar dropdown */}
+                    <li className="nav-item dropdown">
+                      <NavDropdown title="Other" id="basic-nav-dropdown">
+                        <NavDropdown.Item>Logout</NavDropdown.Item>
+                        <NavDropdown.Item>Logout2</NavDropdown.Item>
+                        <NavDropdown.Item>Logout3</NavDropdown.Item>
+                      </NavDropdown>
+                    </li>
+                  </ul>
+                  {/* Left links */}
+                </div>
+              </div>
+              {/* Container wrapper */}
+            </nav>
           </div>
-          {/* Container wrapper */}
-        </nav>
+        </Collapse>
+
         {/* Navbar */}
       </header>
     </>
