@@ -1,22 +1,54 @@
 import React, { useState } from "react";
-import { Carousel } from "react-bootstrap";
+import { Carousel, Tab, Tabs } from "react-bootstrap";
 import HeaderTitle from "../HeaderTitle";
+import { NavLink } from "react-router-dom";
 
 const ProductDetail = () => {
-  const item = {
-    label: "New",
-    img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp",
-    title: "Gaming Headset with Mic",
-    describe: "",
-    price: "$18.95",
-    priceAf: "$16.95",
-    disscount: "18%",
-  };
-  const [index, setIndex] = useState(0);
+  const [indexImg, setIndexImg] = useState(0);
+  const [similarProduct, setSimilarProduct] = useState([
+    {
+      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/11.webp",
+      title: "Winter jacket for men and lady",
+      details: "Yellow, Jeans",
+      price: "$14.99",
+    },
+    {
+      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/12.webp",
+      title: "Mens T-shirt Cotton Base",
+      details: "Blue, Medium",
+      price: "$14.99",
+    },
+    {
+      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/13.webp",
+      title: "Blazer Suit Dress Jacket for Men",
+      details: "XL size, Jeans, Blue",
+      price: "$14.99",
+    },
+    {
+      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/9.webp",
+      title: "Men's Denim Jeans Shorts",
+      details: "Yellow, Jeans",
+      price: "$14.99",
+    },
+  ]);
+  const [carouselItem, setCarouselItem] = useState([
+    {
+      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/5.webp",
+    },
+    {
+      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/6.webp",
+    },
+    {
+      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp",
+    },
+    {
+      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/8.webp",
+    },
+  ]);
 
   const handleSelect = (i: number) => {
     console.log("check selected image index: ", i);
-    setIndex(i);
+    setIndexImg(i);
   };
 
   return (
@@ -33,66 +65,43 @@ const ProductDetail = () => {
                     {/* product picture */}
                     <Carousel
                       data-bs-theme="dark"
-                      activeIndex={index}
+                      activeIndex={indexImg}
                       onSelect={(index) => handleSelect(index)}
                       indicators={false}
                       interval={null}
                     >
-                      <Carousel.Item>
-                        <img
-                          src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/5.webp"
-                          className="card-img-top rounded-2"
-                          alt="product"
-                        />
-                      </Carousel.Item>
-                      <Carousel.Item>
-                        <img
-                          src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/6.webp"
-                          className="card-img-top rounded-2"
-                          alt="product"
-                        />
-                      </Carousel.Item>
-                      <Carousel.Item>
-                        <img
-                          src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp"
-                          className="card-img-top rounded-2"
-                          alt="product"
-                        />
-                      </Carousel.Item>
+                      {carouselItem.map((item, index) => (
+                        <Carousel.Item key={`carousel${index}`}>
+                          <img
+                            src={item.img}
+                            className="card-img-top rounded-2"
+                            alt="product"
+                          />
+                        </Carousel.Item>
+                      ))}
                     </Carousel>
                     {/* product picture */}
 
                     {/* product thumb */}
                     <div className="mx-3">
                       <div className="row">
-                        <div className="col border border-danger card px-0 mx-1">
-                          <img
-                            src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp"
-                            className="card-img-top rounded-2"
-                            alt="product"
-                          />
-                        </div>
-                        <div className="col border card px-0 mx-1">
-                          <img
-                            src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp"
-                            className="card-img-top rounded-2"
-                            alt="product"
-                          />
-                        </div>
-                        <div className="col border card px-0 mx-1">
-                          <img
-                            src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp"
-                            className="card-img-top rounded-2"
-                            alt="product"
-                          />
-                        </div>
-                        <div className="col border card px-0 mx-1">
-                          <img
-                            src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp"
-                            className="card-img-top rounded-2"
-                            alt="product"
-                          />
-                        </div>
+                        {carouselItem.map((item, index) => (
+                          <button
+                            className={
+                              indexImg === index
+                                ? "col border border-danger card px-0 mx-1"
+                                : "col border card px-0 mx-1"
+                            }
+                            key={`thumb${index}`}
+                            onClick={() => setIndexImg(index)}
+                          >
+                            <img
+                              src={item.img}
+                              className="card-img-top rounded-2"
+                              alt="product"
+                            />
+                          </button>
+                        ))}
                       </div>
                     </div>
                     {/* product thumb */}
@@ -210,6 +219,70 @@ const ProductDetail = () => {
                 </div>
               </div>
               {/* summary */}
+            </div>
+          </div>
+
+          <div className="row pt-3">
+            {/* details product */}
+            <div className="col-lg-8">
+              <div className="card border p-3">
+                <Tabs
+                  defaultActiveKey="home"
+                  id="uncontrolled-tab-example"
+                  className="mb-3"
+                >
+                  <Tab eventKey="home" title="Mô tả">
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                      Aliquid, necessitatibus vitae quibusdam atque nihil quos
+                      praesentium qui fugiat incidunt illo esse, suscipit saepe
+                      ipsum molestiae iusto sapiente repellat quam dolorem!
+                    </p>
+                  </Tab>
+                  <Tab eventKey="details" title="Chi tiết">
+                    <p>
+                      Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+                      Neque, esse? Architecto, excepturi accusantium at dolor
+                      exercitationem voluptas dolore modi vitae minus ipsam
+                      velit harum voluptates, mollitia itaque facere temporibus
+                      magni.
+                    </p>
+                  </Tab>
+                  <Tab eventKey="comment" title="Bình luận">
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Consequatur in aliquam doloremque quam facere minus,
+                      incidunt at, consequuntur nesciunt tenetur labore dolorum
+                      totam obcaecati explicabo natus nemo cum deleniti modi!
+                    </p>
+                  </Tab>
+                </Tabs>
+              </div>
+            </div>
+
+            {/* similar product */}
+            <div className="col-lg-4">
+              <div className="card border p-3">
+                <h5>Sản phẩm liên quan</h5>
+                {similarProduct.map((item, index) => (
+                  <div className="row" key={`similar${index}`}>
+                    <div className="me-lg-5">
+                      <NavLink to="/" className="d-flex nav-link">
+                        <img
+                          src={item.img}
+                          className="border rounded me-3 img-product"
+                          alt="product"
+                        />
+                        <div className="">
+                          <span>{item.title}</span>
+                          <p className="text-muted">{item.details}</p>
+                          <p className="fw-bold">{item.price}</p>
+                        </div>
+                      </NavLink>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

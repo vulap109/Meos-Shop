@@ -16,10 +16,10 @@ const Header = () => {
       }
     };
 
-    document.body.addEventListener("mousedown", closeCollapse);
+    document.body.addEventListener("click", closeCollapse);
 
     return () => {
-      document.removeEventListener("mousedown", closeCollapse);
+      document.removeEventListener("click", closeCollapse);
     };
     // close navbar collapse
   }, []);
@@ -27,13 +27,13 @@ const Header = () => {
   return (
     <>
       {/* Main Navigation */}
-      <header>
+      <header className="header-position">
         {/* Jumbotron */}
-        <div className="p-3 text-center bg-white border-bottom">
+        <div className="p-3 text-center bg-white border-bottom position-fixed z-3 w-100">
           <div className="container">
             <div className="row gy-3 align-items-center">
               {/* Left elements */}
-              <div className="col-lg-2 col-sm-4 d-flex flex-row">
+              <div className="col-lg-3 col-sm-6 d-flex flex-row">
                 {/* logo */}
                 <NavLink to="/" className={"nav-link"}>
                   <img src={logo} height={35} alt="logo" className="pe-2" />
@@ -44,14 +44,17 @@ const Header = () => {
                   className="btn btn-outline-primary ms-3"
                   onClick={() => setOpen(!open)}
                 >
-                  <i className="fas fa-bars"></i>
+                  <div className="row align-items-center">
+                    <i className="fas fa-bars w-auto pe-0"></i>{" "}
+                    <span className="w-auto ">Danh mục</span>
+                  </div>
                 </button>
                 {/* button menu */}
               </div>
               {/* Left elements */}
 
               {/* Center elements  */}
-              <div className="col-lg-5 col-md-12 col-12">
+              <div className="col-lg-4 col-md-12 col-12">
                 <div className="input-group float-center">
                   <div className="input-group">
                     <input
@@ -73,9 +76,9 @@ const Header = () => {
 
               {/* Right elements */}
               <div className="order-lg-last col-lg-5 col-sm-8 col-8">
-                <div className="d-flex float-end">
+                <div className="d-flex float-lg-end">
                   <NavLink
-                    to="/signin"
+                    to="/account"
                     className={
                       "nav-link me-1 border rounded py-1 px-3 nav-link d-flex align-items-center"
                     }
@@ -110,10 +113,13 @@ const Header = () => {
         {/* Jumbotron */}
 
         {/* Navbar */}
-        <Collapse in={open} className="position-fixed z-3 w-100 h-100">
+        <Collapse
+          in={open}
+          className="position-fixed z-3 w-100 h-100 collapse-position"
+        >
           <div
             id="example-collapse-text"
-            style={{ backgroundColor: "rgba(220, 220, 220, 0.42)" }}
+            style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
           >
             <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
               {/* Container wrapper */}
@@ -121,53 +127,49 @@ const Header = () => {
                 {/* Toggle button */}
 
                 {/* Collapsible wrapper */}
-                <div
-                  className="collapse navbar-collapse"
-                  id="navbarLeftAlignExample"
-                >
-                  {/* Left links */}
-                  <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li className="nav-item">
-                      <NavLink to="/products" className={"nav-link"}>
-                        Products
-                      </NavLink>
-                    </li>
-                    <li className="nav-item">
-                      <NavLink to="/shopping-cart" className={"nav-link"}>
-                        My Cart
-                      </NavLink>
-                    </li>
-                    <li className="nav-item">
-                      <NavLink to="/product-detail" className={"nav-link"}>
-                        Product details
-                      </NavLink>
-                    </li>
-                    <li className="nav-item">
-                      <NavLink to="/projects" className={"nav-link"}>
-                        Projects
-                      </NavLink>
-                    </li>
-                    <li className="nav-item">
-                      <NavLink to="/menuitem" className={"nav-link"}>
-                        Menu item
-                      </NavLink>
-                    </li>
-                    <li className="nav-item">
-                      <NavLink to="/menuname" className={"nav-link"}>
-                        Menu name
-                      </NavLink>
-                    </li>
-                    {/* Navbar dropdown */}
-                    <li className="nav-item dropdown">
-                      <NavDropdown title="Other" id="basic-nav-dropdown">
-                        <NavDropdown.Item>Logout</NavDropdown.Item>
-                        <NavDropdown.Item>Logout2</NavDropdown.Item>
-                        <NavDropdown.Item>Logout3</NavDropdown.Item>
-                      </NavDropdown>
-                    </li>
-                  </ul>
-                  {/* Left links */}
-                </div>
+
+                {/* Left links */}
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li className="nav-item">
+                    <NavLink to="/products" className={"nav-link"}>
+                      Products
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/shopping-cart" className={"nav-link"}>
+                      My Cart
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/product-detail" className={"nav-link"}>
+                      Product details
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/projects" className={"nav-link"}>
+                      Projects
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/menuitem" className={"nav-link"}>
+                      Menu item
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink to="/menuname" className={"nav-link"}>
+                      Menu name
+                    </NavLink>
+                  </li>
+                  {/* Navbar dropdown */}
+                  <li className="nav-item dropdown">
+                    <NavDropdown title="Other" id="basic-nav-dropdown">
+                      <NavDropdown.Item>Logout</NavDropdown.Item>
+                      <NavDropdown.Item>Logout2</NavDropdown.Item>
+                      <NavDropdown.Item>Logout3</NavDropdown.Item>
+                    </NavDropdown>
+                  </li>
+                </ul>
+                {/* Left links */}
               </div>
               {/* Container wrapper */}
             </nav>

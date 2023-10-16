@@ -12,3 +12,50 @@
 .navbar-collapse {
   animation: 0.5s slidedown;
 }
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .header-position {
+    height: 175px;
+  }
+  .collapse-position {
+    top: 175px;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .header-position {
+    height: 175px;
+  }
+  .collapse-position {
+    top: 175px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+// @media only screen and (min-width: 768px) {
+//   .header-position {
+//     height: 175px;
+//   }
+// }
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) { 
+  .header-position {
+    height: 92px;
+  }
+  .collapse-position {
+    top: 92px;
+  }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .header-position {
+    height: 71px;
+  }
+  .collapse-position {
+    top: 71px;
+  }
+}
