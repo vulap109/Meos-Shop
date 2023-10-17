@@ -398,7 +398,11 @@ const Home = () => {
 
           <div className="row">
             {newProduct.map((items, index) => (
-              <ProductItem data={items} key={`productItem${index}`} />
+              <ProductItem
+                data={items}
+                isWishList={false}
+                key={`productItem${index}`}
+              />
             ))}
           </div>
         </div>

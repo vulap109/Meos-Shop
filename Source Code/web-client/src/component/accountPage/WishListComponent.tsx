@@ -1,8 +1,8 @@
 import React from "react";
-import ProductItem from "./customComponent/ProductItem";
+import ProductItem from "../customComponent/ProductItem";
 
-const RecommendedItems = () => {
-  const Recommended = [
+const WishListComponent = () => {
+  const wishlist = [
     {
       label: "New",
       img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp",
@@ -41,26 +41,20 @@ const RecommendedItems = () => {
     },
   ];
   return (
-    // Recommended
-    <section>
-      <div className="container my-5">
-        <header className="mb-4">
-          <h3>Recommended items</h3>
-        </header>
-
-        <div className="row">
-          {Recommended.map((items, index) => (
-            <ProductItem
-              data={items}
-              isWishList={false}
-              key={`productItem${index}`}
-            />
-          ))}
-        </div>
+    <>
+      <h4>Danh sách yêu thích</h4>
+      <hr />
+      <div className="row">
+        {wishlist.map((items, index) => (
+          <ProductItem
+            data={items}
+            isWishList={true}
+            key={`productItem${index}`}
+          />
+        ))}
       </div>
-    </section>
-    // <!-- Recommended -->
+    </>
   );
 };
 
-export default RecommendedItems;
+export default WishListComponent;

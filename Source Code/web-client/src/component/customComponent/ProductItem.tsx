@@ -14,11 +14,12 @@ interface productItemProps {
     priceAf: string;
     disscount: string;
   };
+  isWishList: boolean;
 }
-const ProductItem = ({ data }: productItemProps) => {
+const ProductItem = ({ data, isWishList }: productItemProps) => {
   return (
     <div className="col-lg-3 col-md-6 col-sm-6">
-      <div className="card px-4 border shadow-sm mb-4 product-hover">
+      <div className="card px-2 border shadow-sm mb-4 product-hover">
         {data.label && <LabelProduct label={data.label} />}
         <NavLink to="/">
           <img
@@ -27,7 +28,7 @@ const ProductItem = ({ data }: productItemProps) => {
             alt="product"
           />
         </NavLink>
-        <div className="card-body d-flex flex-column pt-3 border-top">
+        <div className="card-body d-flex flex-column pt-3 p-0 border-top">
           <NavLink to="/" className="nav-link">
             {data.title}
           </NavLink>
@@ -46,12 +47,15 @@ const ProductItem = ({ data }: productItemProps) => {
               </span>
             )}
           </div>
-          <div className="border-top border-2 d-flex align-items-end pt-3 px-0 pb-0 mt-auto">
-            <button className="btn btn-outline-primary w-100">
-              <i className="fa-solid fa-cart-shopping me-2"></i> Add to cart
-            </button>
-            <HeartButton />
-          </div>
+
+          {!isWishList && (
+            <div className="border-top border-2 d-flex align-items-end py-3 px-0 mt-auto">
+              <button className="btn btn-outline-primary w-100">
+                <i className="fa-solid fa-cart-shopping me-2"></i> Add to cart
+              </button>
+              <HeartButton />
+            </div>
+          )}
         </div>
       </div>
     </div>
