@@ -1,8 +1,15 @@
+import { useState } from "react";
+import { Button, Modal } from "react-bootstrap";
 import { NavLink, Outlet } from "react-router-dom";
+import questionIcon from "../../assets/icons/question-mark.png";
 
 const AccountInfo = () => {
+  const [showModal, setShowModal] = useState(false);
+  const handleClose = () => setShowModal(false);
+  const handleSignout = () => setShowModal(true);
+
   return (
-    <section className="bg-light my-5">
+    <section className="bg-light my-3" style={{ minHeight: "545px" }}>
       <div className="container">
         <div className="row">
           <div className="col-lg-3">
@@ -32,9 +39,12 @@ const AccountInfo = () => {
                 >
                   Sản phẩm đã thích
                 </NavLink>
-                <NavLink className="nav-link my-0 py-2 ps-3" to="/4" end>
+                <button
+                  className="nav-link my-0 py-2 ps-3 text-start"
+                  onClick={handleSignout}
+                >
                   Đăng xuất
-                </NavLink>
+                </button>
               </nav>
             </div>
           </div>
@@ -45,6 +55,29 @@ const AccountInfo = () => {
           </div>
         </div>
       </div>
+      <Modal show={showModal} onHide={handleClose}>
+        <Modal.Body className="justify-content-center d-flex">
+          <div className="d-flex flex-column">
+            <div className="d-flex justify-content-center pb-3">
+              <img
+                src={questionIcon}
+                alt="questionIcon"
+                height={100}
+                width={100}
+              />
+            </div>
+            <h4>Bạn có muốn đăng xuất?</h4>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" className="col" onClick={handleClose}>
+            Không
+          </Button>
+          <Button variant="danger" className="col" onClick={handleClose}>
+            <i className="fa-solid fa-arrow-right-from-bracket pe-3"></i>Đồng ý
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </section>
   );
 };

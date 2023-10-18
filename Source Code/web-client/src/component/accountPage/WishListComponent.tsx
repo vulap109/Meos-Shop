@@ -46,11 +46,13 @@ const WishListComponent = () => {
       <hr />
       <div className="row">
         {wishlist.map((items, index) => (
-          <ProductItem
-            data={items}
-            isWishList={true}
-            key={`productItem${index}`}
-          />
+          <div className="col-lg-3 col-md-6 col-sm-6">
+            <ProductItem
+              data={items}
+              isWishList={true}
+              key={`productItem${index}`}
+            />
+          </div>
         ))}
       </div>
     </>

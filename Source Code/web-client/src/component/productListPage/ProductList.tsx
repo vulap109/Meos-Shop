@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Accordion, Button, Collapse } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import HeaderTitle from "../HeaderTitle";
+import HeaderTitle from "../layout/HeaderTitle";
 import ProductListView from "./ProductListView";
 import ProductGridView from "./ProductGridView";
 
@@ -17,7 +17,7 @@ const ProductList = () => {
       <HeaderTitle />
       {/* sidebar + content */}
       <section>
-        <div className="container">
+        <div className="container mt-3">
           <div className="row">
             {/* sidebar */}
             <div className="col-lg-3">

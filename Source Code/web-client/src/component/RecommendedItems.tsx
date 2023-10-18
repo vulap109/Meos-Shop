@@ -1,5 +1,6 @@
 import React from "react";
 import ProductItem from "./customComponent/ProductItem";
+import "../styles/Home.scss";
 
 const RecommendedItems = () => {
   const Recommended = [
@@ -39,22 +40,33 @@ const RecommendedItems = () => {
       priceAf: "",
       disscount: "",
     },
+    {
+      label: "",
+      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/11.webp",
+      title: "Mens T-shirt Cotton Base Layer Slim fit",
+      describe: "",
+      price: "$13.95",
+      priceAf: "",
+      disscount: "",
+    },
   ];
   return (
     // Recommended
     <section>
-      <div className="container my-5">
-        <header className="mb-4">
+      <div className="container my-3">
+        <header className="py-2">
           <h3>Recommended items</h3>
         </header>
 
         <div className="row">
           {Recommended.map((items, index) => (
-            <ProductItem
-              data={items}
-              isWishList={false}
-              key={`productItem${index}`}
-            />
+            <div className="col-lg-3 col-md-4 col-6 product-space">
+              <ProductItem
+                data={items}
+                isWishList={false}
+                key={`productItem${index}`}
+              />
+            </div>
           ))}
         </div>
       </div>

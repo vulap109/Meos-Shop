@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Carousel, Tab, Tabs } from "react-bootstrap";
-import HeaderTitle from "../HeaderTitle";
+import HeaderTitle from "../layout/HeaderTitle";
 import { NavLink } from "react-router-dom";
 
 const ProductDetail = () => {
@@ -54,7 +54,7 @@ const ProductDetail = () => {
   return (
     <>
       <HeaderTitle />
-      <section className="bg-light my-5">
+      <section className="bg-light mb-4 mt-3">
         <div className="container">
           <div className="card border">
             <div className="row">

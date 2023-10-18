@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <>
       {/* Footer */}
-      <footer className="text-center text-lg-start text-muted bg-primary mt-3">
+      <footer className="text-center text-lg-start text-muted bg-primary">
         {/* Section: Links  */}
         <section className="">
           <div className="container text-center text-md-start pt-4 pb-4">
@@ -14,10 +14,7 @@ const Footer = () => {
               {/* Grid column */}
               <div className="col-12 col-lg-3 col-sm-12 mb-2">
                 {/* Content */}
-                <NavLink
-                  to="https://mdbootstrap.com/"
-                  className="text-white nav-link"
-                >
+                <NavLink to="/" className="text-white nav-link">
                   <h2>Meo's shop</h2>
                 </NavLink>
                 <p className="mt-1 text-white">© 2023 Copyright: Meo'shop</p>

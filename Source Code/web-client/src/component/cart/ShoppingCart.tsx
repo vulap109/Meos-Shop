@@ -13,7 +13,7 @@ const ShoppingCart = () => {
   return (
     <>
       {/* cart + summary */}
-      <section className="bg-light my-5">
+      <section className="bg-light my-3">
         <div className="container">
           <div className="row">
             {/* cart */}

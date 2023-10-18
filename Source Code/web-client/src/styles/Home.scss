@@ -1,3 +1,10 @@
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 1200px) { 
+  .product-space {
+    width: 20%;
+  }
+}
+
 .intro-container{
   height: 350px;
   .intro-content {

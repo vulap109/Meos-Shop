@@ -398,11 +398,13 @@ const Home = () => {
 
           <div className="row">
             {newProduct.map((items, index) => (
-              <ProductItem
-                data={items}
-                isWishList={false}
-                key={`productItem${index}`}
-              />
+              <div className="col-lg-3 col-md-4 col-6 product-space">
+                <ProductItem
+                  data={items}
+                  isWishList={false}
+                  key={`productItem${index}`}
+                />
+              </div>
             ))}
           </div>
         </div>
