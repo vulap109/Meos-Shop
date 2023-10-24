@@ -431,6 +431,8 @@ button.list-group-item-primary.active {
 .menu.bg-primary .menu-horizontal-next:focus {
   color: #fff;
 }
+.menu-link:hover 
+{ background-color: rgba(20, 30, 41, 0.3);}
 .menu.bg-primary .menu-link.active,
 .menu.bg-primary .menu-horizontal-prev.active,
 .menu.bg-primary .menu-horizontal-next.active {

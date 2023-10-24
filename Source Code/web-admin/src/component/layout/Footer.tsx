@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -6,47 +7,26 @@ const Footer = () => {
       <footer className="content-footer footer bg-footer-theme">
         <div className="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
           <div className="mb-2 mb-md-0">
-            ©<script>document.write(new Date().getFullYear());</script>, made
-            with ❤️ by
-            <a
-              href="https://themeselection.com"
-              target="_blank"
-              className="footer-link fw-bolder"
-            >
-              ThemeSelection
-            </a>
+            ©2023, made with ❤️ by
+            <NavLink to="/" target="_blank" className="footer-link fw-bolder">
+              LapVQ
+            </NavLink>
           </div>
           <div>
-            <a
-              href="https://themeselection.com/license/"
-              className="footer-link me-4"
-              target="_blank"
-            >
+            <NavLink to="/" className="footer-link me-4" target="_blank">
               License
-            </a>
-            <a
-              href="https://themeselection.com/"
-              target="_blank"
-              className="footer-link me-4"
-            >
+            </NavLink>
+            <NavLink to="/" target="_blank" className="footer-link me-4">
               More Themes
-            </a>
+            </NavLink>
 
-            <a
-              href="https://themeselection.com/demo/sneat-bootstrap-html-admin-template/documentation/"
-              target="_blank"
-              className="footer-link me-4"
-            >
+            <NavLink to="/" target="_blank" className="footer-link me-4">
               Documentation
-            </a>
+            </NavLink>
 
-            <a
-              href="https://github.com/themeselection/sneat-html-admin-template-free/issues"
-              target="_blank"
-              className="footer-link me-4"
-            >
+            <NavLink to="/" target="_blank" className="footer-link me-4">
               Support
-            </a>
+            </NavLink>
           </div>
         </div>
       </footer>

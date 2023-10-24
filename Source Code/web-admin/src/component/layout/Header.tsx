@@ -1,19 +1,41 @@
 import React from "react";
+import { Dropdown } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
+import avatar from "../../assets/images/neon-pink.png";
+
+type CustomToggleProps = {
+  children?: React.ReactNode;
+  onClick: (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {};
+};
+const CustomToggle = React.forwardRef(
+  (props: CustomToggleProps, ref: React.Ref<HTMLAnchorElement>) => (
+    <a
+      href="/#"
+      ref={ref}
+      onClick={(e) => {
+        e.preventDefault();
+        props.onClick(e);
+      }}
+    >
+      {props.children}
+    </a>
+  )
+);
 
 const Header = () => {
   return (
     <>
       <div className="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-        <a className="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+        <NavLink className="nav-item nav-link px-0 me-xl-4" to="/">
           <i className="fa-solid fa-bars"></i>
-        </a>
+        </NavLink>
       </div>
       <div
-        className="navbar-nav-right d-flex align-items-center"
+        className="navbar-nav-right d-flex align-items-center justify-content-between"
         id="navbar-collapse"
       >
         {/* <!-- Search --> */}
-        <div className="navbar-nav align-items-center">
+        <div className="navbar-nav align-items-center justify-content-between">
           <div className="nav-item d-flex align-items-center">
             <i className="fa-solid fa-magnifying-glass"></i>
             <input
@@ -26,95 +48,36 @@ const Header = () => {
         </div>
         {/* <!-- /Search --> */}
 
-        <ul className="navbar-nav flex-row align-items-center ms-auto">
-          {/* <!-- Place this tag where you want the button to render. --> */}
-          <li className="nav-item lh-1 me-3">
-            <a
-              className="github-button"
-              href="https://github.com/themeselection/sneat-html-admin-template-free"
-              data-icon="octicon-star"
-              data-size="large"
-              data-show-count="true"
-              aria-label="Star themeselection/sneat-html-admin-template-free on GitHub"
-            >
-              Star
-            </a>
-          </li>
+        <div className="d-flex align-items-center">
+          <Dropdown className="me-3">
+            <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+              <i className="fa-regular fa-bell fs-3"></i>
+            </Dropdown.Toggle>
 
-          {/* <!-- User --> */}
-          <li className="nav-item navbar-dropdown dropdown-user dropdown">
-            <a
-              className="nav-link dropdown-toggle hide-arrow"
-              href="javascript:void(0);"
-              data-bs-toggle="dropdown"
-            >
-              <div className="avatar avatar-online">
-                <img
-                  src="../assets/img/avatars/1.png"
-                  alt="ads"
-                  className="w-px-40 h-auto rounded-circle"
-                />
-              </div>
-            </a>
-            <ul className="dropdown-menu dropdown-menu-end">
-              <li>
-                <a className="dropdown-item" href="#">
-                  <div className="d-flex">
-                    <div className="flex-shrink-0 me-3">
-                      <div className="avatar avatar-online">
-                        <img
-                          src="../assets/img/avatars/1.png"
-                          alt="ads"
-                          className="w-px-40 h-auto rounded-circle"
-                        />
-                      </div>
-                    </div>
-                    <div className="flex-grow-1">
-                      <span className="fw-semibold d-block">John Doe</span>
-                      <small className="text-muted">Admin</small>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <div className="dropdown-divider"></div>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  <i className="bx bx-user me-2"></i>
-                  <span className="align-middle">My Profile</span>
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  <i className="bx bx-cog me-2"></i>
-                  <span className="align-middle">Settings</span>
-                </a>
-              </li>
-              <li>
-                <a className="dropdown-item" href="#">
-                  <span className="d-flex align-items-center align-middle">
-                    <i className="flex-shrink-0 bx bx-credit-card me-2"></i>
-                    <span className="flex-grow-1 align-middle">Billing</span>
-                    <span className="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">
-                      4
-                    </span>
-                  </span>
-                </a>
-              </li>
-              <li>
-                <div className="dropdown-divider"></div>
-              </li>
-              <li>
-                <a className="dropdown-item" href="auth-login-basic.html">
-                  <i className="bx bx-power-off me-2"></i>
-                  <span className="align-middle">Log Out</span>
-                </a>
-              </li>
-            </ul>
-          </li>
-          {/* <!--/ User --> */}
-        </ul>
+            <Dropdown.Menu>
+              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+              <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+              <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          <Dropdown className="">
+            <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+              <img
+                src={avatar}
+                height={30}
+                width={30}
+                alt="avatar"
+                className="rounded-circle"
+              />
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+              <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+              <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
       </div>
     </>
   );

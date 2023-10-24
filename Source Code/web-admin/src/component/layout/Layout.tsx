@@ -10,6 +10,7 @@ import "../../styles/demo.css";
 // Vendors CSS
 import "../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css";
 import "../../assets/vendor/libs/apex-charts/apex-charts.css";
+import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
@@ -41,22 +42,18 @@ const Layout = () => {
 
               <div className="container-xxl flex-grow-1 container-p-y">
                 {/* outlet */}
+                <Outlet />
               </div>
               {/* <!-- / Content --> */}
 
               {/* <!-- Footer --> */}
               <Footer />
               {/* <!-- / Footer --> */}
-
-              <div className="content-backdrop fade"></div>
             </div>
             {/* <!-- Content wrapper --> */}
           </div>
           {/* <!-- / Layout page --> */}
         </div>
-
-        {/* <!-- Overlay --> */}
-        <div className="layout-overlay layout-menu-toggle"></div>
       </div>
       {/* <!-- / Layout wrapper --> */}
     </>

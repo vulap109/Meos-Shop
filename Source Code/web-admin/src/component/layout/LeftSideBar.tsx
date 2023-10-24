@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/sidebar.scss";
+import { NavLink } from "react-router-dom";
 
 const LeftSideBar = () => {
   return (
@@ -9,7 +9,7 @@ const LeftSideBar = () => {
         className="layout-menu menu-vertical menu bg-menu-theme"
       >
         <div className="app-brand demo">
-          <a href="index.html" className="app-brand-link">
+          <NavLink to="/admin" className="app-brand-link">
             <span className="app-brand-logo demo">
               <svg
                 width="25"
@@ -87,76 +87,74 @@ const LeftSideBar = () => {
               </svg>
             </span>
             <span className="app-brand-text demo menu-text fw-bolder ms-2">
-              Sneat
+              Administrator
             </span>
-          </a>
+          </NavLink>
 
-          <a
-            href="javascript:void(0);"
+          {/* <NavLink
+            to="/admin"
             className="layout-menu-toggle menu-link text-large ms-auto d-block"
           >
-            <i className="bx bx-chevron-left bx-sm align-middle"></i>
-          </a>
+            <i className="fa-solid fa-circle-chevron-left"></i>
+          </NavLink> */}
         </div>
 
         <div className="menu-inner-shadow"></div>
 
         <ul className="menu-inner py-1">
-          {/* <!-- Dashboard --> */}
           <li className="menu-item active">
-            <a href="index.html" className="menu-link">
+            <NavLink to="/admin" className="menu-link nav-link">
               <i className="fa-solid fa-igloo pe-3"></i>
               <div data-i18n="Analytics">Dashboard</div>
-            </a>
+            </NavLink>
           </li>
 
           <li className="menu-header small text-uppercase">
             <span className="menu-header-text">Manage product</span>
           </li>
           <li className="menu-item">
-            <a href="javascript:void(0);" className="menu-link">
+            <NavLink to="/admin/products" className="menu-link nav-link">
               <i className="fa-solid fa-box-archive pe-3"></i>
-              <div data-i18n="Layouts">Product</div>
-            </a>
+              <div data-i18n="product">Product</div>
+            </NavLink>
           </li>
 
           <li className="menu-item">
-            <a href="javascript:void(0);" className="menu-link">
+            <NavLink to="/admin/categories" className="menu-link">
               <i className="fa-solid fa-list pe-3"></i>
               <div data-i18n="Layouts">Categories</div>
-            </a>
+            </NavLink>
           </li>
 
           <li className="menu-item">
-            <a href="javascript:void(0);" className="menu-link">
+            <NavLink to="/admin/order" className="menu-link">
               <i className="fa-solid fa-list-check pe-3"></i>
               <div data-i18n="Layouts">Order</div>
-            </a>
+            </NavLink>
           </li>
 
           <li className="menu-item">
-            <a href="javascript:void(0);" className="menu-link">
+            <NavLink to="/admin/users" className="menu-link">
               <i className="fa-solid fa-user-shield pe-3"></i>
-              <div data-i18n="Layouts">Admin</div>
-            </a>
+              <div data-i18n="Layouts">Users</div>
+            </NavLink>
           </li>
 
           <li className="menu-item">
-            <a href="javascript:void(0);" className="menu-link">
+            <NavLink to="/admin/setting" className="menu-link">
               <i className="fa-solid fa-gear pe-3"></i>
               <div data-i18n="Layouts">Setting</div>
-            </a>
+            </NavLink>
           </li>
 
           <li className="menu-item">
-            <a href="javascript:void(0);" className="menu-link">
+            <NavLink to="/admin" className="menu-link">
               <i className="fa-solid fa-arrow-right-from-bracket pe-3"></i>
               <div data-i18n="Layouts">Sign out</div>
-            </a>
+            </NavLink>
           </li>
         </ul>
       </aside>
-      {/* <!-- / Menu --> */}
     </>
   );
 };
