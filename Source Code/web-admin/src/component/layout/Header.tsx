@@ -1,7 +1,7 @@
 import React from "react";
 import { Dropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import avatar from "../../assets/images/neon-pink.png";
+import avatar from "../../assets/images/favicon.png";
 
 type CustomToggleProps = {
   children?: React.ReactNode;
