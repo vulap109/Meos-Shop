@@ -3,7 +3,6 @@ import { NavLink, useLocation } from "react-router-dom";
 
 const LeftSideBar = () => {
   const location = useLocation();
-  console.log(location);
 
   return (
     <>
@@ -157,13 +156,13 @@ const LeftSideBar = () => {
 
           <li
             className={
-              (location.pathname.includes("/users") ? "active" : "") +
+              (location.pathname.includes("/admin-account") ? "active" : "") +
               " menu-item"
             }
           >
-            <NavLink to="/users" className="menu-link">
+            <NavLink to="/admin-account" className="menu-link">
               <i className="fa-solid fa-user-shield pe-3"></i>
-              <div data-i18n="Layouts">Users</div>
+              <div data-i18n="Layouts">Admins</div>
             </NavLink>
           </li>
 

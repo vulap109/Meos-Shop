@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
+interface listCategoriesType {
+  productName: string;
+  parentCategoty: string;
+  properties: propertiesType;
+}
+interface propertiesType {
+  nameProp: string;
+  option: string;
+}
 const ListCategories = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -31,6 +40,10 @@ const ListCategories = () => {
       ],
     },
   ];
+  const categories = ["Áo khoác", "Áo Phông", "Quần", "Quần đùi"];
+  const [categoryName, setCategoryName] = useState("");
+  const [parentCategoty, setParentCategoty] = useState("");
+  const [properties, setProperties] = useState<propertiesType[]>();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -38,6 +51,17 @@ const ListCategories = () => {
   const handleEditCategory = () => {
     navigate("/categories/edit-category");
   };
+  const handleAddProperties = () => {
+    let propTMP: propertiesType[] = Object.assign([], properties);
+    propTMP?.push({ nameProp: "", option: "" });
+    setProperties(propTMP);
+  };
+  const removeProperty = (index: number) => {
+    let propRemove: propertiesType[] = Object.assign([], properties);
+    propRemove.splice(index, 1);
+    setProperties(propRemove);
+  };
+
   return (
     <>
       <div className="d-flex flex-column text-dark">
@@ -75,10 +99,46 @@ const ListCategories = () => {
             Thuộc tính
           </label>
           <div>
-            <button type="button" className="btn btn-outline-secondary">
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={handleAddProperties}
+            >
               <i className="fa-solid fa-plus"></i> Thêm thuộc tính
             </button>
           </div>
+          {properties &&
+            properties.map((p, index) => (
+              <div className="row mt-2" key={`prop${index}`}>
+                <div className="col-sm-5 mb-sm-0 mb-2">
+                  <input
+                    type="text"
+                    className="form-control text-dark"
+                    id="categoryName"
+                    placeholder="Tên loại sản phẩm"
+                    value={p.nameProp}
+                  />
+                </div>
+                <div className="col-sm-5">
+                  <input
+                    type="text"
+                    className="form-control text-dark"
+                    id="categoryName"
+                    placeholder="Tên loại sản phẩm"
+                    value={p.option}
+                  />
+                </div>
+                <div className="col-sm-2">
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => removeProperty(index)}
+                  >
+                    <i className="fa-regular fa-trash-can pe-2"></i> Xóa
+                  </button>
+                </div>
+              </div>
+            ))}
         </div>
 
         <div>

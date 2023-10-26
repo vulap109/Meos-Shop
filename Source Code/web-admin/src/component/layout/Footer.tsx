@@ -8,7 +8,11 @@ const Footer = () => {
         <div className="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
           <div className="mb-2 mb-md-0">
             ©2023, made with ❤️ by
-            <NavLink to="/" target="_blank" className="footer-link fw-bolder">
+            <NavLink
+              to="/"
+              target="_blank"
+              className="footer-link fw-bolder ps-2"
+            >
               LapVQ
             </NavLink>
           </div>

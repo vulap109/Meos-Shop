@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface listCategoriesType {
   productName: string;
@@ -16,12 +17,14 @@ const EditCategory = () => {
     properties: [
       { nameProp: "color", option: "red,black,blue" },
       { nameProp: "size", option: "s,m,l" },
+      { nameProp: "", option: "" },
     ],
   };
   const categories = ["Áo khoác", "Áo Phông", "Quần", "Quần đùi"];
   const [categoryName, setCategoryName] = useState("");
   const [parentCategoty, setParentCategoty] = useState("");
   const [properties, setProperties] = useState<propertiesType[]>();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setCategoryName(listCategories.name);
@@ -30,10 +33,20 @@ const EditCategory = () => {
   }, []);
 
   const handleAddProperties = () => {
-    let propTMP = properties;
+    let propTMP: propertiesType[] = Object.assign([], properties);
     propTMP?.push({ nameProp: "", option: "" });
     console.log("add properties: ", propTMP);
     setProperties(propTMP);
+  };
+  const removeProperty = (index: number) => {
+    let propRemove: propertiesType[] = Object.assign([], properties);
+    // let propAfterRemove = propRemove.filter((p) => p.nameProp !== name);
+    propRemove.splice(index, 1);
+    console.log("remove pop: ", propRemove, index);
+    setProperties(propRemove);
+  };
+  const handleBackToCategories = () => {
+    navigate("/categories");
   };
 
   return (
@@ -91,7 +104,7 @@ const EditCategory = () => {
           {properties &&
             properties.map((p, index) => (
               <div className="row mt-2" key={`prop${index}`}>
-                <div className="col-sm-6 mb-sm-0 mb-2">
+                <div className="col-sm-5 mb-sm-0 mb-2">
                   <input
                     type="text"
                     className="form-control text-dark"
@@ -100,7 +113,7 @@ const EditCategory = () => {
                     value={p.nameProp}
                   />
                 </div>
-                <div className="col-sm-6">
+                <div className="col-sm-5">
                   <input
                     type="text"
                     className="form-control text-dark"
@@ -109,13 +122,29 @@ const EditCategory = () => {
                     value={p.option}
                   />
                 </div>
+                <div className="col-sm-2">
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => removeProperty(index)}
+                  >
+                    <i className="fa-regular fa-trash-can pe-2"></i> Xóa
+                  </button>
+                </div>
               </div>
             ))}
         </div>
 
         <div>
-          <button type="button" className="btn btn-primary">
+          <button type="button" className="btn btn-primary me-3">
             <i className="fa-regular fa-floppy-disk pe-2"></i> Lưu
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={handleBackToCategories}
+          >
+            <i className="fa-solid fa-ban pe-2"></i> Hủy
           </button>
         </div>
       </div>

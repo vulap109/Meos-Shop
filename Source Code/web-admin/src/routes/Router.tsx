@@ -2,14 +2,14 @@ import { createBrowserRouter } from "react-router-dom";
 import Layout from "../component/layout/Layout";
 import Home from "../component/Home";
 import Categories from "../component/categoryScreen/Categories";
-import Users from "../component/Users";
-import Setting from "../component/Setting";
-import Order from "../component/Order";
+import Setting from "../component/settingScreen.tsx/Setting";
+import Order from "../component/orderScreen/Order";
 import ListProducts from "../component/productScreen/ListProducts";
 import Products from "../component/productScreen/Products";
 import AddNewProduct from "../component/productScreen/AddNewProduct";
 import ListCategories from "../component/categoryScreen/ListCategories";
 import EditCategory from "../component/categoryScreen/EditCategory";
+import Admins from "../component/adminScreen/Admins";
 
 export const router = createBrowserRouter([
   {
@@ -53,8 +53,8 @@ export const router = createBrowserRouter([
         element: <Order />,
       },
       {
-        path: "users",
-        element: <Users />,
+        path: "admin-account",
+        element: <Admins />,
       },
       {
         path: "setting",
