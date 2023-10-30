@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { fetchAllCategories, saveCategory } from "../../service/productService";
 
 interface listCategoriesType {
   productName: string;
@@ -11,39 +12,34 @@ interface propertiesType {
   nameProp: string;
   option: string;
 }
+interface parentCategoriesType {
+  id: number;
+  categoryName: string;
+  parent: string;
+}
 const ListCategories = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
-  const listCategories = [
-    {
-      name: "Áo khoác",
-      parentCategoty: "",
-      properties: [
-        { nameProp: "color", option: "red,black,blue" },
-        { nameProp: "size", option: "s,m,l" },
-      ],
-    },
-    {
-      name: "Áo khoác ",
-      parentCategoty: "Áo",
-      properties: [
-        { nameProp: "color", option: "red,black,blue" },
-        { nameProp: "size", option: "s,m,l" },
-      ],
-    },
-    {
-      name: "Áo khoác",
-      parentCategoty: "",
-      properties: [
-        { nameProp: "color", option: "red,black,blue" },
-        { nameProp: "size", option: "s,m,l" },
-      ],
-    },
-  ];
-  const categories = ["Áo khoác", "Áo Phông", "Quần", "Quần đùi"];
+  const [listCategories, setListCategories] = useState<
+    parentCategoriesType[] | null
+  >();
+  const [properties, setProperties] = useState<propertiesType[]>();
   const [categoryName, setCategoryName] = useState("");
   const [parentCategoty, setParentCategoty] = useState("");
-  const [properties, setProperties] = useState<propertiesType[]>();
+
+  // start code
+  useEffect(() => {
+    getCategoryLists();
+  }, []);
+  const getCategoryLists = async () => {
+    let { data } = await fetchAllCategories();
+    console.log("category list: ", data);
+    if (data.result) {
+      setListCategories(data.data);
+    } else {
+      setListCategories(null);
+    }
+  };
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -61,6 +57,30 @@ const ListCategories = () => {
     propRemove.splice(index, 1);
     setProperties(propRemove);
   };
+  const handleChangePropName = (index: number, value: string) => {
+    let propChange: propertiesType[] = Object.assign([], properties);
+    propChange[index].nameProp = value;
+    console.log("change properties: ", propChange);
+    setProperties(propChange);
+  };
+  const handleChangeOption = (index: number, value: string) => {
+    let propChange: propertiesType[] = Object.assign([], properties);
+    propChange[index].option = value;
+    setProperties(propChange);
+  };
+  const handleSaveCategory = async () => {
+    let dataApi = {
+      categoryName,
+      parent: parentCategoty,
+      properties: properties ? JSON.stringify(properties) : "",
+    };
+    let { data } = await saveCategory(dataApi);
+    console.log("data save: ", data);
+
+    if (data.result) {
+      getCategoryLists();
+    }
+  };
 
   return (
     <>
@@ -76,7 +96,9 @@ const ListCategories = () => {
                 type="text"
                 className="form-control text-dark"
                 id="categoryName"
-                placeholder="Tên loại sản phẩm"
+                placeholder="Tên phân loại sản phẩm"
+                value={categoryName}
+                onChange={(e) => setCategoryName(e.target.value)}
               />
             </div>
             <div className="col-sm-6">
@@ -84,11 +106,16 @@ const ListCategories = () => {
                 className="form-select text-dark col-sm-6"
                 aria-label="Default select example"
                 defaultValue="default"
+                onChange={(e) => setParentCategoty(e.target.value)}
+                value={parentCategoty}
               >
                 <option value="default">No parent category</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
+                {listCategories &&
+                  listCategories.map((pa) => (
+                    <option value={pa.categoryName} key={`cat${pa.id}`}>
+                      {pa.categoryName}
+                    </option>
+                  ))}
               </select>
             </div>
           </div>
@@ -115,8 +142,11 @@ const ListCategories = () => {
                     type="text"
                     className="form-control text-dark"
                     id="categoryName"
-                    placeholder="Tên loại sản phẩm"
+                    placeholder="Tên thuộc tính"
                     value={p.nameProp}
+                    onChange={(e) =>
+                      handleChangePropName(index, e.target.value)
+                    }
                   />
                 </div>
                 <div className="col-sm-5">
@@ -124,8 +154,9 @@ const ListCategories = () => {
                     type="text"
                     className="form-control text-dark"
                     id="categoryName"
-                    placeholder="Tên loại sản phẩm"
+                    placeholder="Tên lựa chọn"
                     value={p.option}
+                    onChange={(e) => handleChangeOption(index, e.target.value)}
                   />
                 </div>
                 <div className="col-sm-2">
@@ -142,7 +173,11 @@ const ListCategories = () => {
         </div>
 
         <div>
-          <button type="button" className="btn btn-primary">
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={handleSaveCategory}
+          >
             <i className="fa-regular fa-floppy-disk pe-2"></i> Lưu
           </button>
         </div>
@@ -166,8 +201,8 @@ const ListCategories = () => {
               {listCategories &&
                 listCategories.map((cate, index) => (
                   <tr key={`product${index}`}>
-                    <td>{cate.name}</td>
-                    <td>{cate.parentCategoty}</td>
+                    <td>{cate.categoryName}</td>
+                    <td>{cate.parent}</td>
                     <td>
                       <button
                         type="button"
@@ -193,7 +228,9 @@ const ListCategories = () => {
           <Modal.Header closeButton>
             <Modal.Title>Cảnh báo!</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Bạn có thực sự muốn xóa loại sản phẩm này?</Modal.Body>
+          <Modal.Body>
+            Bạn có thực sự muốn xóa phân loại sản phẩm này?
+          </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
               Hủy
