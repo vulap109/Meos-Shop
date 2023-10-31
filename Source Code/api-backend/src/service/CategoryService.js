@@ -1,10 +1,10 @@
 import db from "../models";
 
-const findAllProducts = async () => {
+const findAllCategories = async () => {
   try {
     let data = [];
-    data = await db.Product.findAll({
-      attributes: { exclude: ["createdAt", "updatedAt", "CategoryId"] },
+    data = await db.Category.findAll({
+      attributes: { exclude: ["createdAt", "updatedAt"] },
     });
     if (data) {
       return {
@@ -27,14 +27,14 @@ const findAllProducts = async () => {
   }
 };
 
-const findProductById = async (id) => {
+const findCategories = async (id) => {
   try {
     let data = [];
-    data = await db.Product.findOne({
+    data = await db.Category.findOne({
       attributes: { exclude: ["createdAt", "updatedAt"] },
       where: { id: id },
     });
-    console.log("check data product by id", data);
+    console.log("check data by id", data);
     if (data) {
       return {
         result: true,
@@ -56,26 +56,23 @@ const findProductById = async (id) => {
   }
 };
 
-const createProduct = async (rawData) => {
+const createCategory = async (rawData) => {
   try {
     let data = [];
-    data = await db.Product.create({
-      productName: rawData.productName,
+    data = await db.Category.create({
+      categoryName: rawData.categoryName,
+      parent: rawData.parent,
       properties: rawData.properties,
-      images: rawData.images,
-      description: rawData.description,
-      price: rawData.price,
-      categoryId: rawData.categoryId,
     });
     if (data.id) {
       return {
         result: true,
-        message: `Save product success with id: ${data.id}`,
+        message: `Save category success with id: ${data.id}`,
       };
     } else {
       return {
         result: false,
-        message: "Save product faild.",
+        message: "Save category faild.",
       };
     }
   } catch (error) {
@@ -87,17 +84,14 @@ const createProduct = async (rawData) => {
     };
   }
 };
-const updateProduct = async (rawData) => {
+const updateCategory = async (rawData) => {
   try {
     let data = [];
-    data = await db.Product.update(
+    data = await db.Category.update(
       {
-        productName: rawData.productName,
+        categoryName: rawData.categoryName,
+        parent: rawData.parent,
         properties: rawData.properties,
-        images: rawData.images,
-        description: rawData.description,
-        price: rawData.price,
-        categoryId: rawData.categoryId,
       },
       {
         where: {
@@ -108,12 +102,12 @@ const updateProduct = async (rawData) => {
     if (data) {
       return {
         result: true,
-        message: `Save product successfully.`,
+        message: `Save category successfully.`,
       };
     } else {
       return {
         result: false,
-        message: "Save product faild.",
+        message: "Save category faild.",
       };
     }
   } catch (error) {
@@ -127,8 +121,8 @@ const updateProduct = async (rawData) => {
 };
 
 module.exports = {
-  findAllProducts,
-  createProduct,
-  findProductById,
-  updateProduct,
+  findAllCategories,
+  createCategory,
+  findCategories,
+  updateCategory,
 };

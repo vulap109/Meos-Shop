@@ -1,11 +1,11 @@
-import productService from "../service/ProductService";
+import categoryService from "../service/CategoryService";
 
-const getAllProducts = async (req, res) => {
+const getAllCategories = async (req, res) => {
   try {
-    let productList = {};
-    productList = await productService.findAllProducts();
-    if (productList) {
-      return res.status(200).json(productList);
+    let categoryList = {};
+    categoryList = await categoryService.findAllCategories();
+    if (categoryList) {
+      return res.status(200).json(categoryList);
     } else {
       return res.status(200).json({
         result: false,
@@ -21,12 +21,12 @@ const getAllProducts = async (req, res) => {
   }
 };
 
-const getProductById = async (req, res) => {
+const getCategoryById = async (req, res) => {
   try {
-    let productList = {};
-    productList = await productService.findProductById(req.params.id);
-    if (productList) {
-      return res.status(200).json(productList);
+    let categoryList = {};
+    categoryList = await categoryService.findCategories(req.params.id);
+    if (categoryList) {
+      return res.status(200).json(categoryList);
     }
     return res.status(200).json({
       result: false,
@@ -40,15 +40,16 @@ const getProductById = async (req, res) => {
     });
   }
 };
-const saveProduct = async (req, res) => {
+
+const saveCategory = async (req, res) => {
   try {
-    if (req.body.productName && req.body.price) {
-      let save = await productService.createProduct(req.body);
+    if (req.body.categoryName) {
+      let save = await categoryService.createCategory(req.body);
       return res.status(200).json(save);
     }
     return res.status(200).json({
       result: false,
-      message: "Can not save product without name and price.",
+      message: "Can not save category without category name.",
     });
   } catch (error) {
     // return case error
@@ -61,7 +62,7 @@ const saveProduct = async (req, res) => {
 const editCategory = async (req, res) => {
   try {
     if (req.body.categoryName) {
-      let save = await productService.updateCategory(req.body);
+      let save = await categoryService.updateCategory(req.body);
       return res.status(200).json(save);
     }
     return res.status(200).json({
@@ -78,8 +79,8 @@ const editCategory = async (req, res) => {
 };
 
 module.exports = {
-  getAllProducts,
-  saveProduct,
-  getProductById,
+  getAllCategories,
+  saveCategory,
+  getCategoryById,
   editCategory,
 };

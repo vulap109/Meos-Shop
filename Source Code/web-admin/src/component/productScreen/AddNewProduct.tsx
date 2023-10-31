@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../styles/product.scss";
 
+interface listCategoriesType {
+  id: number;
+  categoryName: string;
+  parent: string;
+  properties: propertiesType;
+}
+interface propertiesType {
+  nameProp: string;
+  option: string;
+}
 const AddNewProduct = () => {
   const imgProduct = [1, 2, 3, 4, 5];
+  const [productName, setProductName] = useState("");
+  const [categorySelected, setCategorySelected] = useState("");
+  const [listCategories, setListCategories] = useState<listCategoriesType[]>();
 
   return (
     <>
@@ -17,19 +30,31 @@ const AddNewProduct = () => {
             className="form-control"
             id="productName"
             placeholder="Tên sản phẩm"
+            value={productName}
+            onChange={(e) => setProductName(e.target.value)}
           />
         </div>
         <div className="mb-3">
           <label htmlFor="category" className="form-label">
             Loại sản phẩm
           </label>
-          <input
-            type="text"
-            className="form-control"
-            id="category"
-            placeholder="Tên sản phẩm"
-          />
+          <select
+            className="form-select text-dark col-sm-6"
+            aria-label="Default select example"
+            onChange={(e) => setCategorySelected(e.target.value)}
+            value={categorySelected}
+            defaultValue="default"
+          >
+            <option value="default">No parent category</option>
+            {listCategories &&
+              listCategories.map((pa) => (
+                <option value={pa.categoryName} key={`cat${pa.id}`}>
+                  {pa.categoryName}
+                </option>
+              ))}
+          </select>
         </div>
+
         <div className="mb-3">
           <label htmlFor="color" className="form-label">
             Màu sắc

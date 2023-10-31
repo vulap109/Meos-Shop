@@ -1,31 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { fetchAllCategories, saveCategory } from "../../service/productService";
+import {
+  fetchAllCategories,
+  saveCategory,
+} from "../../service/categoryService";
+import CustomModal from "../custom/CustomModal";
 
 interface listCategoriesType {
-  productName: string;
-  parentCategoty: string;
-  properties: propertiesType;
+  id: number;
+  categoryName: string;
+  parent: string;
 }
 interface propertiesType {
   nameProp: string;
   option: string;
 }
-interface parentCategoriesType {
-  id: number;
-  categoryName: string;
-  parent: string;
-}
 const ListCategories = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [listCategories, setListCategories] = useState<
-    parentCategoriesType[] | null
+    listCategoriesType[] | null
   >();
   const [properties, setProperties] = useState<propertiesType[]>();
   const [categoryName, setCategoryName] = useState("");
   const [parentCategoty, setParentCategoty] = useState("");
+  const [messageModal, setMessageModal] = useState("");
+  const [confirmation, setConfirmation] = useState(true);
 
   // start code
   useEffect(() => {
@@ -33,7 +33,6 @@ const ListCategories = () => {
   }, []);
   const getCategoryLists = async () => {
     let { data } = await fetchAllCategories();
-    console.log("category list: ", data);
     if (data.result) {
       setListCategories(data.data);
     } else {
@@ -42,10 +41,14 @@ const ListCategories = () => {
   };
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (message: string, confirmation: boolean) => {
+    setShow(true);
+    setMessageModal(message);
+    setConfirmation(confirmation);
+  };
 
-  const handleEditCategory = () => {
-    navigate("/categories/edit-category");
+  const handleEditCategory = (id: number) => {
+    navigate("/categories/edit-category/" + id);
   };
   const handleAddProperties = () => {
     let propTMP: propertiesType[] = Object.assign([], properties);
@@ -60,7 +63,6 @@ const ListCategories = () => {
   const handleChangePropName = (index: number, value: string) => {
     let propChange: propertiesType[] = Object.assign([], properties);
     propChange[index].nameProp = value;
-    console.log("change properties: ", propChange);
     setProperties(propChange);
   };
   const handleChangeOption = (index: number, value: string) => {
@@ -72,13 +74,15 @@ const ListCategories = () => {
     let dataApi = {
       categoryName,
       parent: parentCategoty,
-      properties: properties ? JSON.stringify(properties) : "",
+      properties: JSON.stringify(properties),
     };
     let { data } = await saveCategory(dataApi);
     console.log("data save: ", data);
 
     if (data.result) {
       getCategoryLists();
+    } else {
+      handleShow(data.message, false);
     }
   };
 
@@ -206,17 +210,22 @@ const ListCategories = () => {
                     <td>
                       <button
                         type="button"
-                        className="btn btn-danger me-2"
-                        onClick={handleShow}
+                        className="btn btn-info me-2"
+                        onClick={() => handleEditCategory(cate.id)}
                       >
-                        <i className="fa-regular fa-trash-can pe-2"></i>Xóa
+                        <i className="fa-solid fa-pen pe-2"></i>Sửa
                       </button>
                       <button
                         type="button"
-                        className="btn btn-info"
-                        onClick={handleEditCategory}
+                        className="btn btn-danger"
+                        onClick={() =>
+                          handleShow(
+                            "Bạn có chắc chắn muốn xóa phân loại này?",
+                            true
+                          )
+                        }
                       >
-                        <i className="fa-solid fa-pen pe-2"></i>Sửa
+                        <i className="fa-regular fa-trash-can pe-2"></i>Xóa
                       </button>
                     </td>
                   </tr>
@@ -224,22 +233,15 @@ const ListCategories = () => {
             </tbody>
           </table>
         </div>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Cảnh báo!</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            Bạn có thực sự muốn xóa phân loại sản phẩm này?
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Hủy
-            </Button>
-            <Button variant="danger" onClick={handleClose}>
-              Xóa
-            </Button>
-          </Modal.Footer>
-        </Modal>
+
+        {/* modal confirm delete category */}
+        <CustomModal
+          isOpen={show}
+          handleClose={handleClose}
+          confirmation={confirmation}
+          message={messageModal}
+          handleSuccess={handleClose}
+        />
       </div>
     </>
   );
