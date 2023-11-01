@@ -32,6 +32,7 @@ const EditCategory = () => {
 
   useEffect(() => {
     getCategoryLists();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getCategoryLists = async () => {

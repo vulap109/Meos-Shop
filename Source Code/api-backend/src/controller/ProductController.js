@@ -58,15 +58,15 @@ const saveProduct = async (req, res) => {
     });
   }
 };
-const editCategory = async (req, res) => {
+const editProduct = async (req, res) => {
   try {
-    if (req.body.categoryName) {
-      let save = await productService.updateCategory(req.body);
+    if (req.body.productName && req.body.price) {
+      let save = await productService.updateProduct(req.body);
       return res.status(200).json(save);
     }
     return res.status(200).json({
       result: false,
-      message: "Can not save category without category name.",
+      message: "Can not save category without name and price.",
     });
   } catch (error) {
     // return case error
@@ -81,5 +81,5 @@ module.exports = {
   getAllProducts,
   saveProduct,
   getProductById,
-  editCategory,
+  editProduct,
 };

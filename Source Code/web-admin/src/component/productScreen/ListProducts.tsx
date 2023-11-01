@@ -1,55 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { fetchAllProducts } from "../../service/productService";
 
 const ListProducts = () => {
-  const listProducts = [
-    {
-      name: "Áo khoác blue",
-      price: "250.000",
-      describe: "áo khoác làm từ lông cừu, ...",
-    },
-    {
-      name: "Áo khoác blue",
-      price: "250.000",
-      describe: "áo khoác làm từ lông cừu, ...",
-    },
-    {
-      name: "Áo khoác blue",
-      price: "250.000",
-      describe: "áo khoác làm từ lông cừu, ...",
-    },
-    {
-      name: "Áo khoác blue",
-      price: "250.000",
-      describe: "áo khoác làm từ lông cừu, ...",
-    },
-    {
-      name: "Áo khoác blue",
-      price: "250.000",
-      describe: "áo khoác làm từ lông cừu, ...",
-    },
-    {
-      name: "Áo khoác blue",
-      price: "250.000",
-      describe: "áo khoác làm từ lông cừu, ...",
-    },
-    {
-      name: "Áo khoác blue",
-      price: "250.000",
-      describe: "áo khoác làm từ lông cừu, ...",
-    },
-  ];
+  const [listProducts, setListProducts] = useState<any | null>();
 
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
 
+  useEffect(() => {
+    getProducts();
+  }, []);
+  const getProducts = async () => {
+    let { data } = await fetchAllProducts();
+    if (data.result) {
+      setListProducts(data.data);
+    } else {
+      setListProducts(null);
+    }
+  };
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   const handleAddItem = () => {
     navigate("/products/add-new-product");
   };
+  const handleEditProduct = (id: number) => {
+    navigate("/products/edit-product/" + id);
+  };
+
   return (
     <>
       <div className="d-flex flex-column">
@@ -68,7 +48,7 @@ const ListProducts = () => {
             <thead>
               <tr>
                 <th scope="col" className="text-dark fs-6">
-                  STT
+                  ID
                 </th>
                 <th scope="col" className="text-dark fs-6">
                   Tên sản phẩm
@@ -86,22 +66,26 @@ const ListProducts = () => {
             </thead>
             <tbody>
               {listProducts &&
-                listProducts.map((product, index) => (
-                  <tr key={`product${index}`}>
-                    <th scope="row">{index + 1}</th>
-                    <td>{product.name}</td>
+                listProducts.map((product: any) => (
+                  <tr key={`product${product.id}`}>
+                    <th scope="row">{product.id}</th>
+                    <td>{product.productName}</td>
                     <td>{product.price} đ</td>
-                    <td>{product.describe}</td>
+                    <td>{product.description}</td>
                     <td>
                       <button
                         type="button"
-                        className="btn btn-danger me-2"
+                        className="btn btn-info me-2"
+                        onClick={() => handleEditProduct(product.id)}
+                      >
+                        <i className="fa-solid fa-pen pe-2"></i>Sửa
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-danger"
                         onClick={handleShow}
                       >
                         <i className="fa-regular fa-trash-can pe-2"></i>Xóa
-                      </button>
-                      <button type="button" className="btn btn-info">
-                        <i className="fa-solid fa-pen pe-2"></i>Sửa
                       </button>
                     </td>
                   </tr>

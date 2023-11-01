@@ -6,4 +6,9 @@ export const API = {
     createCategory: "admin/save-category",
     updateCategory: "admin/update-category",
   },
+  product: {
+    createProduct: "admin/save-product",
+    getProducts: "/admin/get-products",
+    updateProduct: "/admin/update-product",
+  },
 };

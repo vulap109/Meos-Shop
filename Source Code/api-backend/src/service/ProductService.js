@@ -33,6 +33,10 @@ const findProductById = async (id) => {
     data = await db.Product.findOne({
       attributes: { exclude: ["createdAt", "updatedAt"] },
       where: { id: id },
+      include: {
+        model: db.Category,
+        attributes: ["properties"],
+      },
     });
     console.log("check data product by id", data);
     if (data) {

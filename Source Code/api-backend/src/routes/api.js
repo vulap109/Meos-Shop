@@ -21,7 +21,9 @@ const initApiRoutes = (app) => {
 
   // product API
   router.get("/admin/get-products", productController.getAllProducts);
+  router.get("/admin/get-products/:id", productController.getProductById);
   router.post("/admin/save-product", productController.saveProduct);
+  router.post("/admin/update-product", productController.editProduct);
 
   return app.use("/api", router);
 };
