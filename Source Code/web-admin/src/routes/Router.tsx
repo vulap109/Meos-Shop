@@ -10,6 +10,9 @@ import AddNewProduct from "../component/productScreen/AddNewProduct";
 import ListCategories from "../component/categoryScreen/ListCategories";
 import EditCategory from "../component/categoryScreen/EditCategory";
 import Admins from "../component/adminScreen/Admins";
+import SignIn from "../component/authScreen/SignIn";
+import SignUp from "../component/authScreen/SignUp";
+import ForgotPassword from "../component/authScreen/ForgotPassword";
 
 export const router = createBrowserRouter([
   {
@@ -67,7 +70,15 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "signin",
-    element: <Home />,
+    path: "sign-in",
+    element: <SignIn />,
+  },
+  {
+    path: "sign-up",
+    element: <SignUp />,
+  },
+  {
+    path: "forgot-password",
+    element: <ForgotPassword />,
   },
 ]);

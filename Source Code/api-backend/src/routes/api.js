@@ -2,6 +2,7 @@ import express from "express";
 import homeController from "../controller/HomeController";
 import productController from "../controller/ProductController";
 import categoryController from "../controller/CategoryController";
+import authController from "../controller/AuthController";
 
 const router = express.Router();
 
@@ -24,6 +25,10 @@ const initApiRoutes = (app) => {
   router.get("/admin/get-products/:id", productController.getProductById);
   router.post("/admin/save-product", productController.saveProduct);
   router.post("/admin/update-product", productController.editProduct);
+
+  // auth API
+  router.post("/admin/register-user", authController.createUser);
+  router.post("/admin/login", authController.loginAPI);
 
   return app.use("/api", router);
 };

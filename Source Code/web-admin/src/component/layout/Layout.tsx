@@ -1,4 +1,5 @@
 import React from "react";
+import { Outlet } from "react-router-dom";
 import LeftSideBar from "./LeftSideBar";
 import Header from "./Header";
 import Footer from "./Footer";
@@ -10,7 +11,6 @@ import "../../styles/demo.css";
 // Vendors CSS
 import "../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css";
 import "../../assets/vendor/libs/apex-charts/apex-charts.css";
-import { Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (

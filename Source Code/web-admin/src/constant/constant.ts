@@ -11,4 +11,8 @@ export const API = {
     getProducts: "/admin/get-products",
     updateProduct: "/admin/update-product",
   },
+  auth: {
+    registerUser: "admin/register-user",
+    signinUser: "admin/login",
+  },
 };
