@@ -32,7 +32,7 @@ const loginAPI = async (req, res) => {
 
     // call service login
     let data = await authService.loginUser(req.body);
-    res.cookie("access_token", data.access_token, {
+    res.cookie("access_token", data?.access_token, {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
     });

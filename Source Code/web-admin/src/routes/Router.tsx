@@ -13,6 +13,9 @@ import Admins from "../component/adminScreen/Admins";
 import SignIn from "../component/authScreen/SignIn";
 import SignUp from "../component/authScreen/SignUp";
 import ForgotPassword from "../component/authScreen/ForgotPassword";
+import NotFound from "../component/errorScreen/NotFound";
+import Unauthorized from "../component/errorScreen/Unauthorized";
+import UnderMaintenance from "../component/errorScreen/UnderMaintenance";
 
 export const router = createBrowserRouter([
   {
@@ -80,5 +83,17 @@ export const router = createBrowserRouter([
   {
     path: "forgot-password",
     element: <ForgotPassword />,
+  },
+  {
+    path: "404",
+    element: <NotFound />,
+  },
+  {
+    path: "401",
+    element: <Unauthorized />,
+  },
+  {
+    path: "500",
+    element: <UnderMaintenance />,
   },
 ]);

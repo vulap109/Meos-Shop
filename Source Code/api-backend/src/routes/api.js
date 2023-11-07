@@ -3,6 +3,7 @@ import homeController from "../controller/HomeController";
 import productController from "../controller/ProductController";
 import categoryController from "../controller/CategoryController";
 import authController from "../controller/AuthController";
+import { checkUserJWT, checkPermission } from "../middleWare/JWTAction";
 
 const router = express.Router();
 
@@ -11,6 +12,8 @@ const router = express.Router();
  * @param {*} app : express app
  */
 const initApiRoutes = (app) => {
+  router.all("*", checkUserJWT, checkPermission);
+
   router.get("/first-api", homeController.testAPI);
   router.get("/admin/home", homeController.dashboardAdmin);
 

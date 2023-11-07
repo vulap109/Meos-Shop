@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/product.scss";
-import { listCategoriesType, propertiesType } from "../../constant/customType";
+import { listCategoriesType, propertiesType } from "../../config/customType";
 import { fetchAllCategories } from "../../service/categoryService";
 import {
   fetchProductById,

@@ -1,5 +1,5 @@
 import axios from "./my-axios";
-import { API } from "../constant/constant";
+import { API } from "../config/constant";
 
 const saveProduct = (dataProd: any) => {
   return axios.post(API.product.createProduct, dataProd);

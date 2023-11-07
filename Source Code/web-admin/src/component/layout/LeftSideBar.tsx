@@ -1,8 +1,13 @@
 import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 const LeftSideBar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleSignout = () => {
+    navigate("/sign-in");
+  };
 
   return (
     <>
@@ -179,10 +184,15 @@ const LeftSideBar = () => {
           </li>
 
           <li className="menu-item">
-            <NavLink to="" className="menu-link">
-              <i className="fa-solid fa-arrow-right-from-bracket pe-3"></i>
-              <div data-i18n="Layouts">Sign out</div>
-            </NavLink>
+            <div className="menu-link d-flex">
+              <button
+                onClick={handleSignout}
+                className="btn d-flex flex-row align-items-center p-0 w-100"
+              >
+                <i className="fa-solid fa-arrow-right-from-bracket pe-3"></i>
+                <div data-i18n="Layouts">Sign out</div>
+              </button>
+            </div>
           </li>
         </ul>
       </aside>

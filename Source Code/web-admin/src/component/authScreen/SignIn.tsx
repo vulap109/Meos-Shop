@@ -22,7 +22,7 @@ const SignIn = () => {
     console.log("check signin user ", data);
 
     if (data.result) {
-      // navigate("/sign-in");
+      navigate("/home");
     } else {
       alert(data.message);
     }

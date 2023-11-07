@@ -93,6 +93,8 @@ const checkHashPassword = (inputPass, hashPass) => {
 // login user service
 const loginUser = async (rawData) => {
   try {
+    a = 1;
+    console.log(a);
     let user = await db.User.findOne({
       where: {
         [Op.or]: [{ email: rawData.account }, { userName: rawData.account }],
@@ -110,6 +112,8 @@ const loginUser = async (rawData) => {
           result: true,
           message: "Login success!",
           access_token: token,
+          email: user.email,
+          userName: user.userName,
         };
       }
       console.log(">>> check login user:", user.get({ plain: true }));
@@ -128,5 +132,39 @@ const loginUser = async (rawData) => {
     };
   }
 };
+const getRoles = async (email, userName) => {
+  try {
+    let roles = await db.User.findOne({
+      include: {
+        model: db.Group,
+        include: {
+          model: db.Role,
+        },
+      },
+      where: {
+        [Op.or]: [{ email: email }, { userName: userName }],
+      },
+    });
 
-module.exports = { createUserService, loginUser };
+    if (roles) {
+      return {
+        result: true,
+        roles: roles,
+      };
+    }
+    // default return falled
+    return {
+      result: false,
+      message: "your Email/Username or Password is incorrect!",
+    };
+  } catch (error) {
+    // return error
+    console.log("error service login", error);
+    return {
+      result: false,
+      message: "something wrong in service ...",
+    };
+  }
+};
+
+module.exports = { createUserService, loginUser, getRoles };
