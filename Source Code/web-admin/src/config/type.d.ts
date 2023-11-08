@@ -1,11 +1,15 @@
-interface IArticle {
-  id: number;
-  title: string;
-  body: string;
+interface IUser {
+  email: string;
+  userName: string;
+  auth: boolean;
+  token: string;
 }
 
-type StateType = {
-  articles: IArticle[];
+type AuthState = {
+  user: IUser;
+  isLoading: boolean;
+  isLoginError: boolean;
+  message: string;
 };
 
 type ActionType = {
@@ -14,3 +18,7 @@ type ActionType = {
 };
 
 type DispatchType = (args: ActionType) => ActionType;
+
+type state = {
+  authState: AuthState;
+};

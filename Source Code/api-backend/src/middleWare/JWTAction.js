@@ -1,5 +1,6 @@
-import jwt from "jsonwebtoken";
 require("dotenv").config();
+import jwt from "jsonwebtoken";
+import { getRoles } from "../service/AuthService";
 
 const nonSecurePath = ["/admin/login", "/admin/register-user"];
 const createJWT = (data) => {
@@ -23,45 +24,63 @@ const verifyToken = (token) => {
   return verify;
 };
 
+// check user is logedin
 const checkUserJWT = (req, res, next) => {
   if (nonSecurePath.includes(req.path)) return next();
 
-  let cookies = req.cookies;
-  if (cookies && cookies.access_token) {
-    let decode = verifyToken(cookies.access_token);
-    if (decode) {
-      // set user for next function
-      req.user = decode;
-      next();
+  try {
+    let cookies = req.cookies;
+    if (cookies && cookies.access_token) {
+      let decode = verifyToken(cookies.access_token);
+      if (decode) {
+        // set user for next function
+        req.user = decode;
+        next();
+      }
+    } else {
+      return res.status(401).json({
+        result: false,
+        message: "Unauthoried",
+      });
     }
+  } catch (error) {
+    console.log("Error checkUserJWT: ", error);
+    return res.status(401).json({
+      result: false,
+      message: "Unauthoried",
+    });
   }
-  return res.status(401).json({
-    result: false,
-    message: "Unauthoried",
-  });
 };
 
+// check permission of user
 const checkPermission = async (req, res, next) => {
   if (nonSecurePath.includes(req.path)) return next();
 
-  if (req.user) {
-    let email = req.user.email;
-    let userName = req.user.userName;
-    let currentURL = req.path;
-    let roles = await getRoles(email, userName);
-    if (roles.result) {
-      let access = roles.some((item) => item.url === currentURL);
-      if (access) next();
+  try {
+    if (req.user) {
+      let email = req.user.email;
+      let userName = req.user.userName;
+      let currentURL = req.path;
+      let roles = await getRoles(email, userName);
+
+      if (roles.result) {
+        let access = roles.roles.some((item) => {
+          return item.description == currentURL;
+        });
+        if (access) return next();
+      }
     }
     return res.status(403).json({
       result: false,
       message: "you don't have permission to access!",
     });
+  } catch (error) {
+    console.log("Error checkPermission: ", error);
+    return res.status(403).json({
+      result: false,
+      message: "you don't have permission to access!",
+    });
   }
-  return res.status(401).json({
-    result: false,
-    message: "Unauthoried",
-  });
 };
 
 module.exports = {

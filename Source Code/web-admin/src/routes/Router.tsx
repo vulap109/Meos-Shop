@@ -1,5 +1,4 @@
 import { createBrowserRouter } from "react-router-dom";
-import Layout from "../component/layout/Layout";
 import Home from "../component/Home";
 import Categories from "../component/categoryScreen/Categories";
 import Setting from "../component/settingScreen.tsx/Setting";
@@ -16,11 +15,12 @@ import ForgotPassword from "../component/authScreen/ForgotPassword";
 import NotFound from "../component/errorScreen/NotFound";
 import Unauthorized from "../component/errorScreen/Unauthorized";
 import UnderMaintenance from "../component/errorScreen/UnderMaintenance";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <PrivateRoute />,
     children: [
       {
         index: true,

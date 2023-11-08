@@ -93,8 +93,6 @@ const checkHashPassword = (inputPass, hashPass) => {
 // login user service
 const loginUser = async (rawData) => {
   try {
-    a = 1;
-    console.log(a);
     let user = await db.User.findOne({
       where: {
         [Op.or]: [{ email: rawData.account }, { userName: rawData.account }],
@@ -132,24 +130,32 @@ const loginUser = async (rawData) => {
     };
   }
 };
+
+// get url user have permission to access
 const getRoles = async (email, userName) => {
   try {
-    let roles = await db.User.findOne({
+    let group = await db.User.findOne({
       include: {
+        attribute: ["groupName"],
         model: db.Group,
-        include: {
-          model: db.Role,
-        },
       },
       where: {
         [Op.or]: [{ email: email }, { userName: userName }],
+      },
+    });
+    let roles = await db.Group.findOne({
+      include: {
+        model: db.Role,
+      },
+      where: {
+        id: group.groupId,
       },
     });
 
     if (roles) {
       return {
         result: true,
-        roles: roles,
+        roles: roles.Roles,
       };
     }
     // default return falled
@@ -159,7 +165,7 @@ const getRoles = async (email, userName) => {
     };
   } catch (error) {
     // return error
-    console.log("error service login", error);
+    console.log("error service get roles ", error);
     return {
       result: false,
       message: "something wrong in service ...",
@@ -167,4 +173,4 @@ const getRoles = async (email, userName) => {
   }
 };
 
-module.exports = { createUserService, loginUser, getRoles };
+export { createUserService, loginUser, getRoles };

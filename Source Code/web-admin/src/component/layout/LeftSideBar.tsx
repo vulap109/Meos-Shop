@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { Dispatch } from "redux";
+import { signOutAction } from "../../redux/auth/authAction";
 
 const LeftSideBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch: Dispatch<any> = useDispatch();
+  const auth = useSelector((state: state) => state.authState.user.auth);
+
+  useEffect(() => {
+    if (!auth) navigate("/sign-in");
+  }, [auth]);
 
   const handleSignout = () => {
-    navigate("/sign-in");
+    dispatch(signOutAction());
   };
 
   return (

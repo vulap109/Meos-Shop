@@ -14,7 +14,7 @@ const ListProducts = () => {
   }, []);
   const getProducts = async () => {
     let { data } = await fetchAllProducts();
-    if (data.result) {
+    if (data && data.result) {
       setListProducts(data.data);
     } else {
       setListProducts(null);

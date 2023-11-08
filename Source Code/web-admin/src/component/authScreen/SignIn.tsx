@@ -1,31 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
 import "../../assets/vendor/css/pages/page-auth.css";
-import { signinUser } from "../../service/authService";
+import { signInAction, signOutAction } from "../../redux/auth/authAction";
+import CustomModal from "../custom/CustomModal";
 
 const SignIn = () => {
   const [isShowPass, setIsShowPass] = useState(false);
   const [account, setAccount] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const dispatch: Dispatch<any> = useDispatch();
+  const auth = useSelector((state: state) => state.authState.user.auth);
+  const { isLoginError, message } = useSelector(
+    (state: state) => state.authState
+  );
+
+  const [show, setShow] = useState(false);
+  const [messageModal, setMessageModal] = useState("");
+
+  useEffect(() => {
+    if (auth) navigate("/");
+  }, [auth]);
+  useEffect(() => {
+    if (isLoginError) {
+      handleShow(message);
+    }
+  }, [isLoginError, message]);
 
   const showPassword = () => {
     setIsShowPass(!isShowPass);
   };
 
   const handleSignin = async () => {
-    let dataLogin = {
-      account,
-      password,
-    };
-    let { data } = await signinUser(dataLogin);
-    console.log("check signin user ", data);
-
-    if (data.result) {
-      navigate("/home");
+    if (account.trim() && password) {
+      dispatch(signInAction(account.trim(), password));
     } else {
-      alert(data.message);
+      handleShow("Account and password is required!");
     }
+  };
+  const handleClose = () => {
+    setShow(false);
+    dispatch(signOutAction());
+  };
+  const handleShow = (message: string) => {
+    setShow(true);
+    setMessageModal(message);
   };
 
   return (
@@ -218,6 +239,13 @@ const SignIn = () => {
       </div>
 
       {/* <!-- / Content --> */}
+      {/* modal confirm delete category */}
+      <CustomModal
+        isOpen={show}
+        handleClose={handleClose}
+        message={messageModal}
+        handleSuccess={handleClose}
+      />
     </div>
   );
 };

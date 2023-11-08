@@ -21,8 +21,17 @@ instance.interceptors.response.use(
     let res = {};
 
     switch (status) {
+      case 400:
+        console.log("400");
+        break;
       case 401:
         console.log("401");
+        break;
+      case 403:
+        console.log("403");
+        break;
+      case 404:
+        console.log("404");
         break;
 
       default:

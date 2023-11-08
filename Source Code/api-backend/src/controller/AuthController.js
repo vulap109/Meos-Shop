@@ -1,9 +1,9 @@
-import authService from "../service/AuthService";
+import { createUserService, loginUser } from "../service/AuthService";
 
 const createUser = async (req, res) => {
   try {
     if (req.body.email && req.body.userName && req.body.password) {
-      let save = await authService.createUserService(req.body);
+      let save = await createUserService(req.body);
       return res.status(200).json(save);
     }
     return res.status(200).json({
@@ -31,7 +31,7 @@ const loginAPI = async (req, res) => {
     }
 
     // call service login
-    let data = await authService.loginUser(req.body);
+    let data = await loginUser(req.body);
     res.cookie("access_token", data?.access_token, {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
