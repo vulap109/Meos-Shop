@@ -27,7 +27,11 @@ const verifyToken = (token) => {
 
 // check user is logedin
 const checkUserJWT = (req, res, next) => {
-  const nonSecurePathJWT = ["/admin/login", "/admin/register-user"];
+  const nonSecurePathJWT = [
+    "/admin/login",
+    "/admin/logout",
+    "/admin/register-user",
+  ];
   if (nonSecurePathJWT.includes(req.path)) return next();
 
   try {
@@ -58,6 +62,7 @@ const checkUserJWT = (req, res, next) => {
 const checkPermission = async (req, res, next) => {
   const nonSecurePathPermission = [
     "/admin/login",
+    "/admin/logout",
     "/admin/register-user",
     "/admin/get-info-account",
   ];

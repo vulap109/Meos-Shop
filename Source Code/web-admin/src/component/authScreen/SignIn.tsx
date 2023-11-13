@@ -13,9 +13,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();
   const auth = useSelector((state: state) => state.authState.user.auth);
-  const { isLoginError, message } = useSelector(
-    (state: state) => state.authState
-  );
+  const { isError, message } = useSelector((state: state) => state.authState);
 
   const [show, setShow] = useState(false);
   const [messageModal, setMessageModal] = useState("");
@@ -24,10 +22,10 @@ const SignIn = () => {
     if (auth) navigate("/");
   }, [auth]);
   useEffect(() => {
-    if (isLoginError) {
+    if (isError) {
       handleShow(message);
     }
-  }, [isLoginError, message]);
+  }, [isError, message]);
 
   const showPassword = () => {
     setIsShowPass(!isShowPass);

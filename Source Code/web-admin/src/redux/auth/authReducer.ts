@@ -3,6 +3,7 @@ import {
   SIGN_IN_ERROR,
   SIGN_IN_SUCCESS,
   SIGN_OUT,
+  SIGN_OUT_ERROR,
 } from "./authAction";
 
 const INITIAL_STATE = {
@@ -13,7 +14,7 @@ const INITIAL_STATE = {
     token: "",
   },
   isLoading: true,
-  isLoginError: false,
+  isError: false,
   message: "",
 };
 
@@ -34,7 +35,7 @@ const authReducer = (state: AuthState = INITIAL_STATE, action: ActionType) => {
           token: action.payload.token,
         },
         isLoading: false,
-        isLoginError: false,
+        isError: false,
       };
     case SIGN_IN_ERROR:
       return {
@@ -46,7 +47,7 @@ const authReducer = (state: AuthState = INITIAL_STATE, action: ActionType) => {
           token: "",
         },
         isLoading: false,
-        isLoginError: true,
+        isError: true,
         message: action.payload.message,
       };
     case SIGN_OUT:
@@ -59,8 +60,15 @@ const authReducer = (state: AuthState = INITIAL_STATE, action: ActionType) => {
           token: "",
         },
         isLoading: false,
-        isLoginError: false,
+        isError: false,
         message: "",
+      };
+    case SIGN_OUT_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        message: action.payload.message,
       };
 
     default:

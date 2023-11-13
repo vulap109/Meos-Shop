@@ -33,6 +33,7 @@ const initApiRoutes = (app) => {
   router.post("/admin/register-user", authController.createUser);
   router.post("/admin/login", authController.loginAPI);
   router.get("/admin/get-info-account", authController.getAccount);
+  router.get("/admin/logout", authController.logoutAPI);
 
   return app.use("/api", router);
 };

@@ -15,5 +15,6 @@ export const API = {
     registerUser: "admin/register-user",
     signinUser: "admin/login",
     getInfoAccount: "admin/get-info-account",
+    signoutUser: "admin/logout",
   },
 };

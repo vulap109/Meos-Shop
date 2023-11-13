@@ -8,7 +8,7 @@ interface IUser {
 type AuthState = {
   user: IUser;
   isLoading: boolean;
-  isLoginError: boolean;
+  isError: boolean;
   message: string;
 };
 

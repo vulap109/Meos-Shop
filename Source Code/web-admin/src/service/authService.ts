@@ -10,5 +10,8 @@ const signinUser = (user: any) => {
 const getInfoAccount = () => {
   return axios.get(API.auth.getInfoAccount);
 };
+const signoutUser = () => {
+  return axios.get(API.auth.signoutUser);
+};
 
-export { registerUser, signinUser, getInfoAccount };
+export { registerUser, signinUser, getInfoAccount, signoutUser };

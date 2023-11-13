@@ -59,5 +59,24 @@ const getAccount = async (req, res) => {
     userName: req.user.userName,
   });
 };
+const logoutAPI = async (req, res) => {
+  try {
+    // clear cookie in browser
+    res.clearCookie("access_token");
 
-module.exports = { createUser, loginAPI, getAccount };
+    // return logout success
+    return res.status(200).json({
+      result: true,
+      message: "Sign out successfully!",
+    });
+  } catch (error) {
+    console.log(">>> error login API ", error);
+    // return case error
+    return res.status(500).json({
+      result: false,
+      message: "error form server",
+    });
+  }
+};
+
+module.exports = { createUser, loginAPI, getAccount, logoutAPI };
