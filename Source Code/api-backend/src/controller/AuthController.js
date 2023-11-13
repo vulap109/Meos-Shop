@@ -48,4 +48,16 @@ const loginAPI = async (req, res) => {
   }
 };
 
-module.exports = { createUser, loginAPI };
+const getAccount = async (req, res) => {
+  console.log("check account ", req.user);
+
+  return res.status(200).json({
+    result: true,
+    message: "Login success!",
+    access_token: req.access_token,
+    email: req.user.email,
+    userName: req.user.userName,
+  });
+};
+
+module.exports = { createUser, loginAPI, getAccount };

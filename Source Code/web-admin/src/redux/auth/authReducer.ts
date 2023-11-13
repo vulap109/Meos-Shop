@@ -12,7 +12,7 @@ const INITIAL_STATE = {
     auth: false,
     token: "",
   },
-  isLoading: false,
+  isLoading: true,
   isLoginError: false,
   message: "",
 };

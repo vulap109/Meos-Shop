@@ -2,11 +2,12 @@ require("dotenv").config();
 import jwt from "jsonwebtoken";
 import { getRoles } from "../service/AuthService";
 
-const nonSecurePath = ["/admin/login", "/admin/register-user"];
 const createJWT = (data) => {
   let token = null;
   try {
-    token = jwt.sign(data, process.env.JWT_SECRET_KEY);
+    token = jwt.sign(data, process.env.JWT_SECRET_KEY, {
+      expiresIn: process.env.JWT_EXPRIES_IN,
+    });
   } catch (error) {
     console.log("Error createJWT: ", error);
   }
@@ -26,7 +27,8 @@ const verifyToken = (token) => {
 
 // check user is logedin
 const checkUserJWT = (req, res, next) => {
-  if (nonSecurePath.includes(req.path)) return next();
+  const nonSecurePathJWT = ["/admin/login", "/admin/register-user"];
+  if (nonSecurePathJWT.includes(req.path)) return next();
 
   try {
     let cookies = req.cookies;
@@ -35,26 +37,31 @@ const checkUserJWT = (req, res, next) => {
       if (decode) {
         // set user for next function
         req.user = decode;
-        next();
+        req.access_token = cookies.access_token;
+        return next();
       }
-    } else {
-      return res.status(401).json({
-        result: false,
-        message: "Unauthoried",
-      });
     }
+    return res.status(401).json({
+      result: false,
+      message: "Unauthoried, please sign in ...",
+    });
   } catch (error) {
     console.log("Error checkUserJWT: ", error);
     return res.status(401).json({
       result: false,
-      message: "Unauthoried",
+      message: "Unauthoried, please sign in ...",
     });
   }
 };
 
 // check permission of user
 const checkPermission = async (req, res, next) => {
-  if (nonSecurePath.includes(req.path)) return next();
+  const nonSecurePathPermission = [
+    "/admin/login",
+    "/admin/register-user",
+    "/admin/get-info-account",
+  ];
+  if (nonSecurePathPermission.includes(req.path)) return next();
 
   try {
     if (req.user) {

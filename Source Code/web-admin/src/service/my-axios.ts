@@ -26,6 +26,7 @@ instance.interceptors.response.use(
         break;
       case 401:
         console.log("401");
+        // window.location.replace("/sign-in");
         break;
       case 403:
         console.log("403");

@@ -143,13 +143,13 @@ const SignIn = () => {
                         </g>
                       </svg>
                     </span>
-                    <span className="app-brand-text demo text-body fw-bolder">
-                      Sneat
+                    <span className="app-brand-text text-body fw-bolder fs-2">
+                      Meo
                     </span>
                   </NavLink>
                 </div>
                 {/* <!-- /Logo --> */}
-                <h4 className="mb-2">Welcome to Sneat! 👋</h4>
+                <h4 className="mb-2">Welcome to Meo admin! 👋</h4>
                 <p className="mb-4">
                   Please sign-in to your account and start the adventure
                 </p>
