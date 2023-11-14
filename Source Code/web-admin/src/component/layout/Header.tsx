@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dropdown } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
 import avatar from "../../assets/images/favicon.png";
+import { signOutAction } from "../../redux/auth/authAction";
+import {
+  closeModalAction,
+  openModalAction,
+} from "../../redux/modal/modalAction";
 
 type CustomToggleProps = {
   children?: React.ReactNode;
@@ -23,6 +30,21 @@ const CustomToggle = React.forwardRef(
 );
 
 const Header = () => {
+  const { user } = useSelector((state: state) => state.authState);
+  const dispatch: Dispatch<any> = useDispatch();
+
+  // handle confirm user to sign out
+  const handleConfirmSignout = () => {
+    // open the modal
+    dispatch(openModalAction("Are you sure to sign out?", closeMsg));
+  };
+  const closeMsg = () => {
+    // close the modal
+    dispatch(closeModalAction());
+    // sign out user
+    dispatch(signOutAction());
+  };
+
   return (
     <>
       <div className="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
@@ -49,18 +71,12 @@ const Header = () => {
         {/* <!-- /Search --> */}
 
         <div className="d-flex align-items-center">
-          <Dropdown className="me-3">
-            <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
-              <i className="fa-regular fa-bell fs-3"></i>
-            </Dropdown.Toggle>
+          <div>
+            <span className="text-dark me-3">Wellcome {user.userName} !</span>
+          </div>
 
-            <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-              <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-              <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-          <Dropdown className="">
+          {/* avatar user */}
+          <Dropdown className="me-3">
             <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
               <img
                 src={avatar}
@@ -69,6 +85,20 @@ const Header = () => {
                 alt="avatar"
                 className="rounded-circle"
               />
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <Dropdown.Item>Change password</Dropdown.Item>
+              <Dropdown.Item onClick={handleConfirmSignout}>
+                Sign out
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+
+          {/* notification */}
+          <Dropdown>
+            <Dropdown.Toggle as={CustomToggle} id="dropdown-custom-components">
+              <i className="fa-regular fa-bell fs-3"></i>
             </Dropdown.Toggle>
 
             <Dropdown.Menu>

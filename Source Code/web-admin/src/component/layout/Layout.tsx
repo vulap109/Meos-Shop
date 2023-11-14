@@ -11,8 +11,13 @@ import "../../styles/demo.css";
 // Vendors CSS
 import "../../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css";
 import "../../assets/vendor/libs/apex-charts/apex-charts.css";
+import CustomModal from "../custom/CustomModal";
+import { useSelector } from "react-redux";
 
 const Layout = () => {
+  const { modalOpen, message, confirmation, handleClose, handleSuccess } =
+    useSelector((state: state) => state.modalState);
+
   return (
     <>
       {/* <!-- Layout wrapper --> */}
@@ -56,6 +61,15 @@ const Layout = () => {
         </div>
       </div>
       {/* <!-- / Layout wrapper --> */}
+
+      {/* modal confirm delete category */}
+      <CustomModal
+        isOpen={modalOpen}
+        handleClose={handleClose}
+        confirmation={confirmation}
+        message={message}
+        handleSuccess={handleSuccess}
+      />
     </>
   );
 };

@@ -8,10 +8,21 @@ import {
   updateProduct,
 } from "../../service/productService";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import CustomModal from "../custom/CustomModal";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "redux";
+import {
+  closeModalAction,
+  openModalAction,
+} from "../../redux/modal/modalAction";
+import productImg from "../../assets/images/product/head-phone.webp";
 
 const AddNewProduct = () => {
   const imgProduct = [1, 2, 3, 4, 5];
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const params = useParams();
+  const dispatch: Dispatch<any> = useDispatch();
 
   const [propertiesToFill, setPropertiesToFill] = useState<
     propertiesType[] | null
@@ -24,13 +35,7 @@ const AddNewProduct = () => {
   const [productProperties, setProductProperties] = useState();
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [show, setShow] = useState(false);
-  const [messageModal, setMessageModal] = useState("");
-  const [confirmation, setConfirmation] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const params = useParams();
 
   useEffect(() => {
     getCategoryLists();
@@ -59,7 +64,7 @@ const AddNewProduct = () => {
           setProperties(data.data.Category.properties);
         }
       } else {
-        navigate("/products");
+        dispatch(openModalAction(data.message, closeMsg));
       }
     }
   };
@@ -126,20 +131,25 @@ const AddNewProduct = () => {
     } else {
       res = await saveProduct(dataSave);
     }
-
     console.log("data save: ", res);
 
     if (res.data.result) {
-      navigate("/products");
+      dispatch(openModalAction("Save product success!", closeMsg));
     } else {
-      handleShow(res.data.message, false);
+      // if user do not have permission then redirect to product lists
+      if (res && res.status === 403) {
+        dispatch(openModalAction(res.data.message, closeMsg));
+      } else {
+        dispatch(
+          openModalAction(res.data.message, () => dispatch(closeModalAction()))
+        );
+      }
     }
   };
-  const handleClose = () => setShow(false);
-  const handleShow = (message: string, confirmation: boolean) => {
-    setShow(true);
-    setMessageModal(message);
-    setConfirmation(confirmation);
+  // close modal message
+  const closeMsg = () => {
+    dispatch(closeModalAction());
+    navigate("/products");
   };
   const handleCancel = () => {
     navigate("/products");
@@ -218,9 +228,8 @@ const AddNewProduct = () => {
                   key={`img${item}`}
                 >
                   <img
-                    src="https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/10.webp"
+                    src={productImg}
                     alt="item"
-                    height={130}
                     className="img-product-border"
                   />
                 </div>
@@ -279,13 +288,6 @@ const AddNewProduct = () => {
           </button>
         </div>
       </div>
-      {/* modal confirm delete category */}
-      <CustomModal
-        isOpen={show}
-        handleClose={handleClose}
-        confirmation={confirmation}
-        message={messageModal}
-      />
     </>
   );
 };

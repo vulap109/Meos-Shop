@@ -1,21 +1,34 @@
+import { MODAL_CLOSE, MODAL_OPEN } from "./modalAction";
+
 const INITIAL_STATE = {
-  isOpen: false,
+  modalOpen: false,
   title: "",
   message: "",
-  confirm: false,
+  confirmation: false,
 };
 
-const authReducer = (state = INITIAL_STATE, action: ActionType) => {
+const modalReducer = (state = INITIAL_STATE, action: ActionType) => {
   switch (action.type) {
-    // case IS_LOADING:
-    //   return {
-    //     ...state,
-    //     isLoading: true,
-    //   };
+    case MODAL_OPEN:
+      return {
+        ...state,
+        modalOpen: true,
+        message: action.payload.message,
+        confirmation: action.payload.confirmation,
+        handleSuccess: action.payload.handleSuccess,
+        handleClose: action.payload.handleClose,
+      };
+
+    case MODAL_CLOSE:
+      return {
+        ...state,
+        modalOpen: false,
+        message: "",
+      };
 
     default:
       return state;
   }
 };
 
-export default authReducer;
+export default modalReducer;

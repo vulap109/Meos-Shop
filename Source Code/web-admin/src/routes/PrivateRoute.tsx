@@ -23,9 +23,10 @@ const PrivateRoute = () => {
           userName: data.userName,
         },
       });
-    } else {
-      dispatch({ type: "SIGN_IN_ERROR", payload: { message: data.message } });
     }
+    // else {
+    //   dispatch({ type: "SIGN_IN_ERROR", payload: { message: data.message } });
+    // }
   };
   useEffect(() => {
     getAccount();

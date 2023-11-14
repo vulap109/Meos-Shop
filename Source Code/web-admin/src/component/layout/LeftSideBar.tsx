@@ -1,22 +1,8 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { Dispatch } from "redux";
-import { signOutAction } from "../../redux/auth/authAction";
+import React from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
 const LeftSideBar = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const dispatch: Dispatch<any> = useDispatch();
-  const auth = useSelector((state: state) => state.authState.user.auth);
-
-  useEffect(() => {
-    if (!auth) navigate("/sign-in");
-  }, [auth]);
-
-  const handleSignout = () => {
-    dispatch(signOutAction());
-  };
 
   return (
     <>
@@ -190,18 +176,6 @@ const LeftSideBar = () => {
               <i className="fa-solid fa-gear pe-3"></i>
               <div data-i18n="Layouts">Setting</div>
             </NavLink>
-          </li>
-
-          <li className="menu-item">
-            <div className="menu-link d-flex">
-              <button
-                onClick={handleSignout}
-                className="btn d-flex flex-row align-items-center p-0 w-100"
-              >
-                <i className="fa-solid fa-arrow-right-from-bracket pe-3"></i>
-                <div data-i18n="Layouts">Sign out</div>
-              </button>
-            </div>
           </li>
         </ul>
       </aside>

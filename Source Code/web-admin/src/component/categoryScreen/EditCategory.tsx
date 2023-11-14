@@ -4,7 +4,12 @@ import {
   fetchAllCategories,
   updateCategory,
 } from "../../service/categoryService";
-import CustomModal from "../custom/CustomModal";
+import { Dispatch } from "redux";
+import { useDispatch } from "react-redux";
+import {
+  closeModalAction,
+  openModalAction,
+} from "../../redux/modal/modalAction";
 
 interface listCategoriesType {
   id: number;
@@ -17,18 +22,16 @@ interface propertiesType {
   option: string;
 }
 const EditCategory = () => {
+  const navigate = useNavigate();
+  const params = useParams();
+  const dispatch: Dispatch<any> = useDispatch();
+
   const [listCategories, setListCategories] = useState<
     listCategoriesType[] | null
   >();
   const [categoryName, setCategoryName] = useState("");
   const [parentCategoty, setParentCategoty] = useState("");
   const [properties, setProperties] = useState<propertiesType[]>();
-
-  const [show, setShow] = useState(false);
-  const [messageModal, setMessageModal] = useState("");
-  const [confirmation, setConfirmation] = useState(true);
-  const navigate = useNavigate();
-  const params = useParams();
 
   useEffect(() => {
     getCategoryLists();
@@ -92,14 +95,11 @@ const EditCategory = () => {
     if (data.result) {
       handleBackToCategories();
     } else {
-      handleShow(data.message, false);
+      dispatch(openModalAction(data.message, closeMsg));
     }
   };
-  const handleClose = () => setShow(false);
-  const handleShow = (message: string, confirmation: boolean) => {
-    setShow(true);
-    setMessageModal(message);
-    setConfirmation(confirmation);
+  const closeMsg = () => {
+    dispatch(closeModalAction());
   };
 
   return (
@@ -209,14 +209,6 @@ const EditCategory = () => {
           </button>
         </div>
       </div>
-      {/* modal confirm delete category */}
-      <CustomModal
-        isOpen={show}
-        handleClose={handleClose}
-        confirmation={confirmation}
-        message={messageModal}
-        handleSuccess={handleClose}
-      />
     </div>
   );
 };

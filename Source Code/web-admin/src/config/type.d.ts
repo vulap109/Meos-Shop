@@ -21,4 +21,14 @@ type DispatchType = (args: ActionType) => ActionType;
 
 type state = {
   authState: AuthState;
+  modalState: ModalState;
+};
+
+type ModalState = {
+  modalOpen: boolean;
+  title: string;
+  message: string;
+  confirmation: boolean;
+  handleSuccess: () => void;
+  handleClose: () => void;
 };

@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Dispatch } from "redux";
+import { useDispatch } from "react-redux";
 import {
   fetchAllCategories,
   saveCategory,
 } from "../../service/categoryService";
-import CustomModal from "../custom/CustomModal";
+
+import {
+  closeModalAction,
+  openModalAction,
+} from "../../redux/modal/modalAction";
 
 interface listCategoriesType {
   id: number;
@@ -17,15 +23,13 @@ interface propertiesType {
 }
 const ListCategories = () => {
   const navigate = useNavigate();
-  const [show, setShow] = useState(false);
+  const dispatch: Dispatch<any> = useDispatch();
   const [listCategories, setListCategories] = useState<
     listCategoriesType[] | null
   >();
   const [properties, setProperties] = useState<propertiesType[]>();
   const [categoryName, setCategoryName] = useState("");
   const [parentCategoty, setParentCategoty] = useState("");
-  const [messageModal, setMessageModal] = useState("");
-  const [confirmation, setConfirmation] = useState(true);
 
   // start code
   useEffect(() => {
@@ -38,13 +42,6 @@ const ListCategories = () => {
     } else {
       setListCategories(null);
     }
-  };
-
-  const handleClose = () => setShow(false);
-  const handleShow = (message: string, confirmation: boolean) => {
-    setShow(true);
-    setMessageModal(message);
-    setConfirmation(confirmation);
   };
 
   const handleEditCategory = (id: number) => {
@@ -82,9 +79,10 @@ const ListCategories = () => {
     if (data.result) {
       getCategoryLists();
     } else {
-      handleShow(data.message, false);
+      dispatch(openModalAction(data.message, closeMsg));
     }
   };
+  const closeMsg = () => dispatch(closeModalAction());
 
   return (
     <>
@@ -219,9 +217,13 @@ const ListCategories = () => {
                         type="button"
                         className="btn btn-danger"
                         onClick={() =>
-                          handleShow(
-                            "Bạn có chắc chắn muốn xóa phân loại này?",
-                            true
+                          dispatch(
+                            openModalAction(
+                              "Bạn có chắc chắn muốn xóa phân loại này?",
+                              closeMsg,
+                              true,
+                              closeMsg
+                            )
                           )
                         }
                       >
@@ -233,15 +235,6 @@ const ListCategories = () => {
             </tbody>
           </table>
         </div>
-
-        {/* modal confirm delete category */}
-        <CustomModal
-          isOpen={show}
-          handleClose={handleClose}
-          confirmation={confirmation}
-          message={messageModal}
-          handleSuccess={handleClose}
-        />
       </div>
     </>
   );

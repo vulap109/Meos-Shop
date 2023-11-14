@@ -8,8 +8,8 @@ export const API = {
   },
   product: {
     createProduct: "admin/save-product",
-    getProducts: "/admin/get-products",
-    updateProduct: "/admin/update-product",
+    getProducts: "admin/get-products",
+    updateProduct: "admin/update-product",
   },
   auth: {
     registerUser: "admin/register-user",

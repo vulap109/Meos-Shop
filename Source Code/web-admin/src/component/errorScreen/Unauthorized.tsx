@@ -9,7 +9,7 @@ const Unauthorized = () => {
       <div className="container-xxl container-p-y">
         <div className="misc-wrapper">
           <h2 className="mb-2 mx-2">401</h2>
-          <p className="mb-4 mx-2">You don't have permission!</p>
+          <p className="mb-4 mx-2">You are unauthorized, please sign in ...</p>
           <NavLink to="/sign-in" className="btn btn-primary">
             Sign in now
           </NavLink>
