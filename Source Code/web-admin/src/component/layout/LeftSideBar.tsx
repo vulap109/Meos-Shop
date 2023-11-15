@@ -116,7 +116,7 @@ const LeftSideBar = () => {
           </li>
 
           <li className="menu-header small text-uppercase">
-            <span className="menu-header-text">Manage product</span>
+            <span className="menu-header-text">Product Manage</span>
           </li>
           <li
             className={
@@ -154,18 +154,37 @@ const LeftSideBar = () => {
             </NavLink>
           </li>
 
+          <li className="menu-header small text-uppercase">
+            <span className="menu-header-text">Admin Manage</span>
+          </li>
           <li
             className={
-              (location.pathname.includes("/admin-account") ? "active" : "") +
-              " menu-item"
+              (location.pathname.includes("/admin-list-group")
+                ? "active"
+                : "") + " menu-item"
             }
           >
-            <NavLink to="/admin-account" className="menu-link">
+            <NavLink to="/admin-list-group" className="menu-link">
               <i className="fa-solid fa-user-shield pe-3"></i>
-              <div data-i18n="Layouts">Admins</div>
+              <div data-i18n="Layouts">Groups</div>
+            </NavLink>
+          </li>
+          <li
+            className={
+              (location.pathname.includes("/admin-group-role")
+                ? "active"
+                : "") + " menu-item"
+            }
+          >
+            <NavLink to="/admin-group-role" className="menu-link">
+              <i className="fa-solid fa-user-shield pe-3"></i>
+              <div data-i18n="Layouts">Group Role</div>
             </NavLink>
           </li>
 
+          <li className="menu-header small text-uppercase">
+            <span className="menu-header-text">Setting Manage</span>
+          </li>
           <li
             className={
               (location.pathname.includes("/setting") ? "active" : "") +

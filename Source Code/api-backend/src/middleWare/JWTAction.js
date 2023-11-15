@@ -77,7 +77,9 @@ const checkPermission = async (req, res, next) => {
 
       if (roles.result) {
         let access = roles.roles.some((item) => {
-          return item.description == currentURL;
+          // console.log("check permission ", item.description, currentURL);
+          // return item.description == currentURL;
+          return currentURL.includes(item.description);
         });
         if (access) return next();
       }

@@ -136,7 +136,7 @@ const getRoles = async (email, userName) => {
   try {
     let group = await db.User.findOne({
       include: {
-        attribute: ["groupName"],
+        attributes: ["groupName"],
         model: db.Group,
       },
       where: {

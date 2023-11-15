@@ -17,4 +17,12 @@ export const API = {
     getInfoAccount: "admin/get-info-account",
     signoutUser: "admin/logout",
   },
+  user: {
+    createGroup: "admin/create-group",
+    getUsers: "admin/get-users",
+    getGroups: "admin/get-groups",
+    getRoles: "admin/get-roles",
+    updateUser: "admin/update-user",
+    getGroupRole: "admin/get-group-role/",
+  },
 };

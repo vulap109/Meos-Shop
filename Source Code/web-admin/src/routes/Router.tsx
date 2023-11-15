@@ -16,6 +16,7 @@ import NotFound from "../component/errorScreen/NotFound";
 import Unauthorized from "../component/errorScreen/Unauthorized";
 import UnderMaintenance from "../component/errorScreen/UnderMaintenance";
 import PrivateRoute from "./PrivateRoute";
+import GroupRole from "../component/adminScreen/GroupRole";
 
 export const router = createBrowserRouter([
   {
@@ -63,8 +64,12 @@ export const router = createBrowserRouter([
         element: <Order />,
       },
       {
-        path: "admin-account",
+        path: "admin-list-group",
         element: <Admins />,
+      },
+      {
+        path: "admin-group-role",
+        element: <GroupRole />,
       },
       {
         path: "setting",

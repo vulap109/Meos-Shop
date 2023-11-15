@@ -32,3 +32,25 @@ type ModalState = {
   handleSuccess: () => void;
   handleClose: () => void;
 };
+
+type listUser = {
+  id: number;
+  email: string;
+  fullName: string;
+  groupId: number;
+  phone: string;
+  userName: string;
+  changeFlg: boolean;
+  Group: listGroup;
+};
+
+type listGroup = {
+  id: number;
+  groupName: string;
+};
+
+type role = {
+  id: number;
+  roleName: string;
+  description: string;
+};

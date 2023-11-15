@@ -3,6 +3,7 @@ import homeController from "../controller/HomeController";
 import productController from "../controller/ProductController";
 import categoryController from "../controller/CategoryController";
 import authController from "../controller/AuthController";
+import userController from "../controller/UserController";
 import { checkUserJWT, checkPermission } from "../middleWare/JWTAction";
 
 const router = express.Router();
@@ -34,6 +35,14 @@ const initApiRoutes = (app) => {
   router.post("/admin/login", authController.loginAPI);
   router.get("/admin/get-info-account", authController.getAccount);
   router.get("/admin/logout", authController.logoutAPI);
+
+  // user-group-role API
+  router.get("/admin/get-users", userController.getAllUsers);
+  router.post("/admin/create-group", userController.createGroup);
+  router.get("/admin/get-groups", userController.getAllGroups);
+  router.get("/admin/get-roles", userController.getAllRoles);
+  router.post("/admin/update-user", userController.updateUser);
+  router.get("/admin/get-group-role/:groupid", userController.getGroupRole);
 
   return app.use("/api", router);
 };
