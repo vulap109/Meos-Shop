@@ -191,6 +191,51 @@ const findGroupRole = async (id) => {
     };
   }
 };
+const saveGroupRoleService = async (rawData) => {
+  try {
+    let checkGroup = await checkGroupId(rawData.groupId);
+    if (!checkGroup) {
+      return {
+        result: false,
+        message: "This group doesn't exits!",
+      };
+    }
+    let data = [];
+    await db.GroupRole.destroy({
+      where: { groupId: +rawData.groupId },
+    });
+    data = await db.GroupRole.bulkCreate(rawData.groupRoles);
+    if (data) {
+      return {
+        result: true,
+        message: `Save group with role success`,
+      };
+    } else {
+      return {
+        result: false,
+        message: "Save group with role faild.",
+      };
+    }
+  } catch (error) {
+    // return error if ORM create user has catch
+    console.log("error service", error);
+    return {
+      result: false,
+      message: "Some error occupied with service!",
+    };
+  }
+};
+// check group name is exits
+const checkGroupId = async (id) => {
+  let group = await db.Group.findOne({
+    where: { id },
+  });
+  if (group) {
+    // if has one return true
+    return true;
+  }
+  return false;
+};
 
 module.exports = {
   findAllUsers,
@@ -199,4 +244,5 @@ module.exports = {
   createGroupService,
   updateUserService,
   findGroupRole,
+  saveGroupRoleService,
 };

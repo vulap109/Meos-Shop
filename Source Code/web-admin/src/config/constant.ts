@@ -24,5 +24,6 @@ export const API = {
     getRoles: "admin/get-roles",
     updateUser: "admin/update-user",
     getGroupRole: "admin/get-group-role/",
+    saveGroupRole: "admin/save-group-role",
   },
 };

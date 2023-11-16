@@ -19,6 +19,9 @@ const updateUser = (data: any) => {
 const getGroupRole = (id: string) => {
   return axios.get(API.user.getGroupRole + id);
 };
+const saveGroupRole = (data: any) => {
+  return axios.post(API.user.saveGroupRole, data);
+};
 
 export {
   createGroup,
@@ -27,4 +30,5 @@ export {
   fetchAllRoles,
   updateUser,
   getGroupRole,
+  saveGroupRole,
 };

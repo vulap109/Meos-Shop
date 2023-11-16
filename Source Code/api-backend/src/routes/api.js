@@ -43,6 +43,7 @@ const initApiRoutes = (app) => {
   router.get("/admin/get-roles", userController.getAllRoles);
   router.post("/admin/update-user", userController.updateUser);
   router.get("/admin/get-group-role/:groupid", userController.getGroupRole);
+  router.post("/admin/save-group-role", userController.saveGroupRole);
 
   return app.use("/api", router);
 };

@@ -118,6 +118,18 @@ const getGroupRole = async (req, res) => {
     });
   }
 };
+const saveGroupRole = async (req, res) => {
+  try {
+    let save = await userService.saveGroupRoleService(req.body);
+    return res.status(200).json(save);
+  } catch (error) {
+    // return case error
+    return res.status(500).json({
+      result: false,
+      message: "Some error occupied with server!",
+    });
+  }
+};
 
 module.exports = {
   getAllUsers,
@@ -126,4 +138,5 @@ module.exports = {
   createGroup,
   updateUser,
   getGroupRole,
+  saveGroupRole,
 };

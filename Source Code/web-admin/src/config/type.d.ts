@@ -53,4 +53,5 @@ type role = {
   id: number;
   roleName: string;
   description: string;
+  active: boolean;
 };

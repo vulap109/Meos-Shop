@@ -24,6 +24,7 @@ const Admins = () => {
     fetchListUser();
     fetchListGroup();
   }, []);
+  // create group then save to DB
   const handleCreateGroup = async () => {
     if (groupName && description) {
       let dataGroup = {
@@ -45,6 +46,7 @@ const Admins = () => {
   const closeMsg = () => {
     dispatch(closeModalAction());
   };
+  // get list user display to table
   const fetchListUser = async () => {
     let { data } = await fetchAllUsers();
     if (data && data.result) {
@@ -60,6 +62,7 @@ const Admins = () => {
       dispatch(openModalAction(data.message, closeMsg));
     }
   };
+  // get list group
   const fetchListGroup = async () => {
     let { data } = await fetchAllGroups();
     if (data && data.result) {
@@ -70,7 +73,7 @@ const Admins = () => {
   };
   const handleDeleteUser = (id: number) => {};
   const handleSelectedGroup = (index: number, value: number) => {
-    const lstUserTmp: listUser[] = Object.assign([], listUser);
+    let lstUserTmp: listUser[] = Object.assign([], listUser);
 
     lstUserTmp[index].groupId = value;
     if (lstUserTmp[index].groupId !== lstUserTmp[index].Group?.id) {
