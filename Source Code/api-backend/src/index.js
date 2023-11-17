@@ -4,13 +4,16 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import configCors from "./configs/cors";
 import initApiRoutes from "./routes/api";
-import callConnection from "./configs/connectDB";
+// import callConnection from "./configs/connectDB";
 
 const app = express();
 const PORT = process.env.PORT || 8081;
 
 // CORS middleware
 configCors(app);
+
+// config static images folder to get images
+app.use("/images", express.static("public/images"));
 
 // config body-parser
 app.use(bodyParser.json());

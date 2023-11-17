@@ -5,6 +5,7 @@ import categoryController from "../controller/CategoryController";
 import authController from "../controller/AuthController";
 import userController from "../controller/UserController";
 import { checkUserJWT, checkPermission } from "../middleWare/JWTAction";
+import { upload } from "../middleWare/multerMW";
 
 const router = express.Router();
 
@@ -28,6 +29,11 @@ const initApiRoutes = (app) => {
   router.get("/admin/get-products", productController.getAllProducts);
   router.get("/admin/get-products/:id", productController.getProductById);
   router.post("/admin/save-product", productController.saveProduct);
+  router.post(
+    "/admin/upload-images",
+    upload.array("images"),
+    productController.uploadImg
+  );
   router.post("/admin/update-product", productController.editProduct);
 
   // auth API

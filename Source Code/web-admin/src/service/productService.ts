@@ -13,5 +13,14 @@ const fetchProductById = (id: string) => {
 const updateProduct = (dataProd: any) => {
   return axios.post(API.product.updateProduct, dataProd);
 };
+const uploadImagesAPI = (dataProd: any) => {
+  return axios.post(API.product.uploadImages, dataProd);
+};
 
-export { saveProduct, fetchAllProducts, fetchProductById, updateProduct };
+export {
+  saveProduct,
+  fetchAllProducts,
+  fetchProductById,
+  updateProduct,
+  uploadImagesAPI,
+};

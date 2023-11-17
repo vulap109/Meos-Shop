@@ -10,6 +10,7 @@ export const API = {
     createProduct: "admin/save-product",
     getProducts: "admin/get-products",
     updateProduct: "admin/update-product",
+    uploadImages: "admin/upload-images",
   },
   auth: {
     registerUser: "admin/register-user",

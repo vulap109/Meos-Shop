@@ -41,6 +41,7 @@ const ListCategories = () => {
       setListCategories(data.data);
     } else {
       setListCategories(null);
+      dispatch(openModalAction(data.message, closeMsg));
     }
   };
 
@@ -68,6 +69,10 @@ const ListCategories = () => {
     setProperties(propChange);
   };
   const handleSaveCategory = async () => {
+    if (!categoryName) {
+      dispatch(openModalAction("Category name is required!", closeMsg));
+      return;
+    }
     let dataApi = {
       categoryName,
       parent: parentCategoty,

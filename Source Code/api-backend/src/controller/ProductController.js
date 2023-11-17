@@ -76,10 +76,39 @@ const editProduct = async (req, res) => {
     });
   }
 };
+const uploadImg = async (req, res) => {
+  try {
+    const listFiles = [...req.files];
+    if (listFiles && listFiles.length > 0) {
+      let imagesURL = [];
+      listFiles.map((lf) =>
+        imagesURL.push({ src: "http://localhost:8080/images/" + lf.filename })
+      );
+      console.log(">>> check images ", imagesURL);
+      return res.status(200).json({
+        result: true,
+        message: "Upload images success!",
+        images: imagesURL,
+      });
+    }
+
+    return res.status(200).json({
+      result: false,
+      message: "Upload images failed!",
+    });
+  } catch (error) {
+    // return case error
+    return res.status(500).json({
+      result: false,
+      message: "Some error occupied with server!",
+    });
+  }
+};
 
 module.exports = {
   getAllProducts,
   saveProduct,
   getProductById,
   editProduct,
+  uploadImg,
 };
