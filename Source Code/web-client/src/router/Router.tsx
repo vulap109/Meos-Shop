@@ -6,11 +6,11 @@ import Layout from "../component/layout/Layout";
 import ShoppingCart from "../component/cart/ShoppingCart";
 import CheckOut from "../component/checkOutPage/CheckOut";
 import ProductDetail from "../component/productDetailPage/ProductDetail";
-import AccountInfo from "../component/accountPage/AccountInfo";
 import InfoComponent from "../component/accountPage/InfoComponent";
 import AddressComponent from "../component/accountPage/AddressComponent";
 import OrderComponent from "../component/accountPage/OrderComponent";
 import WishListComponent from "../component/accountPage/WishListComponent";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -39,7 +39,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "account",
-        element: <AccountInfo />,
+        element: <PrivateRoute />,
         children: [
           {
             index: true,

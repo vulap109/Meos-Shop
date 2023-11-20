@@ -4,7 +4,10 @@ export const API = {
   auth: {
     registerUser: "admin/register-user",
     signinUser: "admin/login",
-    getInfoAccount: "admin/get-info-account",
+    getInfoSignin: "client/get-info-sign-in",
     signoutUser: "admin/logout",
+  },
+  user: {
+    getInfoAccount: "client/get-info-account",
   },
 };

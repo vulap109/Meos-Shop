@@ -39,7 +39,15 @@ export const signOutAction = () => {
       });
     } else {
       dispatch({ type: "LOADING_STOP" });
-      // dispatch({ type: "MODAL_OPEN" });
+      dispatch({
+        type: "MODAL_OPEN",
+        payload: {
+          message: data.message,
+          confirmation: false,
+          handleClose: () => dispatch({ type: "MODAL_CLOSE" }),
+          handleSucces: () => {},
+        },
+      });
     }
   };
 };

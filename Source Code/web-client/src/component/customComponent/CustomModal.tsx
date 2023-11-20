@@ -1,5 +1,7 @@
 import React from "react";
 import { Button, Modal } from "react-bootstrap";
+import questionIcon from "../..//assets/icons/question-mark.png";
+import exclamationIcon from "../..//assets/icons/exclamation-mark.png";
 
 interface modalType {
   isOpen: boolean;
@@ -20,10 +22,19 @@ const CustomModal = ({
   return (
     <>
       <Modal show={isOpen} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>{title}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{message}</Modal.Body>
+        <Modal.Body>
+          <div className="d-flex flex-column">
+            <div className="d-flex justify-content-center pb-3">
+              <img
+                src={confirmation ? questionIcon : exclamationIcon}
+                alt="questionIcon"
+                height={100}
+                width={100}
+              />
+            </div>
+            <h4>{message}</h4>
+          </div>
+        </Modal.Body>
         <Modal.Footer>
           {confirmation ? (
             <>

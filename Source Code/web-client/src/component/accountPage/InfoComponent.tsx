@@ -1,19 +1,121 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getInfoUser } from "../../service/userService";
+import {
+  closeModalAction,
+  openModalAction,
+} from "../../redux/modal/modalAction";
+import { Dispatch } from "redux";
 
+type InfoAccount = {
+  email: string;
+  fullName: string;
+  phone: string;
+  userName: string;
+  dateOfBirth: string;
+};
 const InfoComponent = () => {
+  const { email } = useSelector((state: state) => state.authState.user);
+  const dispatch: Dispatch<any> = useDispatch();
   const [fullName, setFullName] = useState("");
   const [gender, setGender] = useState("");
   const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+  const [emailTxt, setEmailTxt] = useState("");
   const [dayOfBirth, setDayOfBirth] = useState<string>();
   const [monthOfBirth, setMonthOfBirth] = useState<string>();
   const [yearOfBirth, setYearOfBirth] = useState<string>();
+  const [dateOption, setDateOption] = useState<number[]>();
+  const [monthOption, setMonthOption] = useState<number[]>();
+  const [yearOption, setYearOption] = useState<number[]>();
+  const [dataOrigin, setDataOrigin] = useState<InfoAccount>();
+  const [dataSend, setDataSend] = useState<InfoAccount>();
+  const [showSaveBtn, setShowSaveBtn] = useState(true);
 
   const setlectedGender = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGender(e.target.value);
     console.log("gender: ", e.target.value);
   };
+  const getUserInfo = async () => {
+    if (email) {
+      let { data } = await getInfoUser(email);
+      if (data && data.result) {
+        console.log("chech data user ", data.data);
+        setDataOrigin(data.data);
+        setEmailTxt(data.data.email);
+        setFullName(data.data.fullName);
+        setPhone(data.data.phone);
+        if (data.data.dateOfBirth) {
+          const [day, month, year] = data.data.dateOfBirth.split("/");
+          setDayOfBirth(day);
+          setMonthOfBirth(month);
+          setYearOfBirth(year);
+        } else {
+          setDayOfBirth("");
+          setMonthOfBirth("");
+          setYearOfBirth("");
+        }
+      } else {
+        dispatch(openModalAction(data.message, closeMsg));
+      }
+    }
+  };
+  const closeMsg = () => {
+    // close the modal
+    dispatch(closeModalAction());
+  };
+  // generate date, month, year options
+  const genYearOptions = () => {
+    const datetime = new Date().getFullYear();
+    const years = Array.from(new Array(50), (val, index) => datetime - index);
+    const months = Array.from(new Array(12), (val, index) => 12 - index);
+    const dates = Array.from(new Array(31), (val, index) => 31 - index);
+    setYearOption(years);
+    setMonthOption(months);
+    setDateOption(dates);
+  };
 
+  useEffect(() => {
+    getUserInfo();
+    genYearOptions();
+  }, []);
+
+  const changeFullName = (value: string) => {
+    setFullName(value);
+    setShowSaveBtn(value === dataOrigin?.fullName);
+  };
+  const changeGender = (value: string) => {
+    setGender(value);
+    setShowSaveBtn(value === dataOrigin?.fullName);
+  };
+  const changePhone = (value: string) => {
+    setPhone(value);
+    setShowSaveBtn(value === dataOrigin?.phone);
+  };
+  const changeEmail = (value: string) => {
+    setEmailTxt(value);
+    setShowSaveBtn(value === dataOrigin?.email);
+  };
+  const changeDate = (value: string) => {
+    setDayOfBirth(value);
+    if (dataOrigin) {
+      const [day, month, year] = dataOrigin.dateOfBirth.split("/");
+      setShowSaveBtn(value === day);
+    }
+  };
+  const changeMonth = (value: string) => {
+    setMonthOfBirth(value);
+    if (dataOrigin) {
+      const [day, month, year] = dataOrigin.dateOfBirth.split("/");
+      setShowSaveBtn(value === month);
+    }
+  };
+  const changeYear = (value: string) => {
+    setYearOfBirth(value);
+    if (dataOrigin) {
+      const [day, month, year] = dataOrigin.dateOfBirth.split("/");
+      setShowSaveBtn(value === year);
+    }
+  };
   return (
     <>
       <h4>Thông tin tài khoản</h4>
@@ -24,7 +126,7 @@ const InfoComponent = () => {
             type="text"
             className="form-control mb-2"
             value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
+            onChange={(e) => changeFullName(e.target.value)}
           />
         </div>
       </div>
@@ -81,7 +183,7 @@ const InfoComponent = () => {
             type="text"
             className="form-control mb-2 col-5"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(e) => changePhone(e.target.value)}
           />
         </div>
       </div>
@@ -92,8 +194,8 @@ const InfoComponent = () => {
           <input
             type="text"
             className="form-control mb-2 col-5"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={emailTxt}
+            onChange={(e) => changeEmail(e.target.value)}
           />
         </div>
       </div>
@@ -107,14 +209,18 @@ const InfoComponent = () => {
             className="form-select col"
             aria-label="Default select example"
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setDayOfBirth(e.target.value)
+              changeDate(e.target.value)
             }
             value={dayOfBirth}
+            defaultValue=""
           >
-            <option selected>Ngày</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
+            <option value="">Ngày</option>
+            {dateOption &&
+              dateOption.map((value) => (
+                <option value={value} key={`op-date${value}`}>
+                  {value}
+                </option>
+              ))}
           </select>
 
           {/* month */}
@@ -122,14 +228,18 @@ const InfoComponent = () => {
             className="form-select ms-3 col"
             aria-label="Default select example"
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setMonthOfBirth(e.target.value)
+              changeMonth(e.target.value)
             }
             value={monthOfBirth}
+            defaultValue=""
           >
-            <option selected>Tháng</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
+            <option value="">Tháng</option>
+            {monthOption &&
+              monthOption.map((value) => (
+                <option value={value} key={`op-month${value}`}>
+                  {value}
+                </option>
+              ))}
           </select>
 
           {/* year */}
@@ -137,16 +247,25 @@ const InfoComponent = () => {
             className="form-select ms-3 col"
             aria-label="Default select example"
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setYearOfBirth(e.target.value)
+              changeYear(e.target.value)
             }
             value={yearOfBirth}
+            defaultValue=""
           >
-            <option selected>Năm</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
+            <option value="">Năm</option>
+            {yearOption &&
+              yearOption.map((value) => (
+                <option value={value} key={`op-year${value}`}>
+                  {value}
+                </option>
+              ))}
           </select>
         </div>
+      </div>
+      <div className="mt-3">
+        <button className="btn btn-warning" disabled={showSaveBtn}>
+          Lưu thông tin
+        </button>
       </div>
     </>
   );

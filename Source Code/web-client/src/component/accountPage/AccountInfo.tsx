@@ -2,11 +2,39 @@ import { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { NavLink, Outlet } from "react-router-dom";
 import questionIcon from "../../assets/icons/question-mark.png";
+import { Dispatch } from "redux";
+import { useDispatch } from "react-redux";
+import {
+  closeModalAction,
+  openModalAction,
+} from "../../redux/modal/modalAction";
+import { signOutAction } from "../../redux/auth/authAction";
 
 const AccountInfo = () => {
-  const [showModal, setShowModal] = useState(false);
-  const handleClose = () => setShowModal(false);
-  const handleSignout = () => setShowModal(true);
+  const dispatch: Dispatch<any> = useDispatch();
+  // const [showModal, setShowModal] = useState(false);
+  // const handleClose = () => setShowModal(false);
+  const handleConfirmSignout = () => {
+    // open the modal
+    dispatch(
+      openModalAction(
+        "Are you sure to sign out?",
+        closeMsg,
+        true,
+        handleSignout
+      )
+    );
+  };
+  const closeMsg = () => {
+    // close the modal
+    dispatch(closeModalAction());
+  };
+  const handleSignout = () => {
+    // close the modal
+    dispatch(closeModalAction());
+    // sign out user
+    dispatch(signOutAction());
+  };
 
   return (
     <section className="bg-light my-3" style={{ minHeight: "545px" }}>
@@ -41,7 +69,7 @@ const AccountInfo = () => {
                 </NavLink>
                 <button
                   className="nav-link my-0 py-2 ps-3 text-start"
-                  onClick={handleSignout}
+                  onClick={handleConfirmSignout}
                 >
                   Đăng xuất
                 </button>
@@ -55,29 +83,6 @@ const AccountInfo = () => {
           </div>
         </div>
       </div>
-      <Modal show={showModal} onHide={handleClose}>
-        <Modal.Body className="justify-content-center d-flex">
-          <div className="d-flex flex-column">
-            <div className="d-flex justify-content-center pb-3">
-              <img
-                src={questionIcon}
-                alt="questionIcon"
-                height={100}
-                width={100}
-              />
-            </div>
-            <h4>Bạn có muốn đăng xuất?</h4>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" className="col" onClick={handleClose}>
-            Không
-          </Button>
-          <Button variant="danger" className="col" onClick={handleClose}>
-            <i className="fa-solid fa-arrow-right-from-bracket pe-3"></i>Đồng ý
-          </Button>
-        </Modal.Footer>
-      </Modal>
     </section>
   );
 };

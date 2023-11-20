@@ -4,7 +4,12 @@ import productController from "../controller/ProductController";
 import categoryController from "../controller/CategoryController";
 import authController from "../controller/AuthController";
 import userController from "../controller/UserController";
-import { checkUserJWT, checkPermission } from "../middleWare/JWTAction";
+import accountController from "../controller/AccountController";
+import {
+  checkUserJWT,
+  checkPermission,
+  checkUserClientJWT,
+} from "../middleWare/JWTAction";
 import { upload } from "../middleWare/multerMW";
 
 const router = express.Router();
@@ -14,7 +19,7 @@ const router = express.Router();
  * @param {*} app : express app
  */
 const initApiRoutes = (app) => {
-  router.all("*", checkUserJWT, checkPermission);
+  router.all("/admin/*", checkUserJWT, checkPermission);
 
   router.get("/first-api", homeController.testAPI);
   router.get("/admin/home", homeController.dashboardAdmin);
@@ -50,6 +55,12 @@ const initApiRoutes = (app) => {
   router.post("/admin/update-user", userController.updateUser);
   router.get("/admin/get-group-role/:groupid", userController.getGroupRole);
   router.post("/admin/save-group-role", userController.saveGroupRole);
+
+  /// API for client
+  // auth API
+  router.all("/client/*", checkUserClientJWT);
+  router.get("/client/get-info-sign-in", authController.getAccount);
+  router.post("/client/get-info-account", accountController.getInfoAccount);
 
   return app.use("/api", router);
 };

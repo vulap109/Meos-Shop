@@ -3,10 +3,14 @@ import { NavLink } from "react-router-dom";
 import { Collapse, NavDropdown } from "react-bootstrap";
 import logo from "../../assets/icons/cat.png";
 import "../../styles/Menu.scss";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const { auth, userName } = useSelector(
+    (state: state) => state.authState.user
+  );
 
   useEffect(() => {
     // close navbar collapse
@@ -77,15 +81,30 @@ const Header = () => {
               {/* Right elements */}
               <div className="order-lg-last col-lg-5 col-sm-8 col-8">
                 <div className="d-flex float-lg-end">
-                  <NavLink
-                    to="/sign-in"
-                    className={
-                      "nav-link me-1 border rounded py-1 px-3 nav-link d-flex align-items-center"
-                    }
-                  >
-                    <i className="fas fa-user-alt m-1 me-md-2"></i>
-                    <p className="d-none d-md-block mb-0">Sign in</p>
-                  </NavLink>
+                  {auth ? (
+                    <NavLink
+                      to="/account"
+                      className={
+                        "nav-link me-1 border rounded py-1 px-3 nav-link d-flex align-items-center"
+                      }
+                    >
+                      <i className="fas fa-user-alt m-1 me-md-2"></i>
+                      <p className="d-none d-md-block mb-0">
+                        Wellcome {userName}
+                      </p>
+                    </NavLink>
+                  ) : (
+                    <NavLink
+                      to="/sign-in"
+                      className={
+                        "nav-link me-1 border rounded py-1 px-3 nav-link d-flex align-items-center"
+                      }
+                    >
+                      <i className="fas fa-user-alt m-1 me-md-2"></i>
+                      <p className="d-none d-md-block mb-0">Sign in</p>
+                    </NavLink>
+                  )}
+
                   <NavLink
                     to="/account/wishlist"
                     className={

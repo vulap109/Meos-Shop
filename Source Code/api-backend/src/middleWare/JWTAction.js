@@ -25,7 +25,7 @@ const verifyToken = (token) => {
   return verify;
 };
 
-// check user is logedin
+// check user is loged in admin page
 const checkUserJWT = (req, res, next) => {
   const nonSecurePathJWT = [
     "/admin/login",
@@ -52,6 +52,31 @@ const checkUserJWT = (req, res, next) => {
   } catch (error) {
     console.log("Error checkUserJWT: ", error);
     return res.status(401).json({
+      result: false,
+      message: "Unauthoried, please sign in ...",
+    });
+  }
+};
+// check user is loged in admin page
+const checkUserClientJWT = (req, res, next) => {
+  try {
+    let cookies = req.cookies;
+    if (cookies && cookies.access_token) {
+      let decode = verifyToken(cookies.access_token);
+      if (decode) {
+        // set user for next function
+        req.user = decode;
+        req.access_token = cookies.access_token;
+        return next();
+      }
+    }
+    return res.status(200).json({
+      result: false,
+      message: "Unauthoried, please sign in ...",
+    });
+  } catch (error) {
+    console.log("Error checkUserJWT: ", error);
+    return res.status(200).json({
       result: false,
       message: "Unauthoried, please sign in ...",
     });
@@ -101,4 +126,5 @@ module.exports = {
   createJWT,
   checkUserJWT,
   checkPermission,
+  checkUserClientJWT,
 };

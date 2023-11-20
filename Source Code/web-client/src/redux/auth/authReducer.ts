@@ -14,7 +14,7 @@ const INITIAL_STATE = {
     auth: false,
     token: "",
   },
-  isLoading: false,
+  isLoading: true,
 };
 
 const authReducer = (state: AuthState = INITIAL_STATE, action: ActionType) => {

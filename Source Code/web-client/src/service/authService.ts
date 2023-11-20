@@ -7,11 +7,11 @@ const registerUser = (user: any) => {
 const signinUser = (user: any) => {
   return axios.post(API.auth.signinUser, user);
 };
-const getInfoAccount = () => {
-  return axios.get(API.auth.getInfoAccount);
+const getInfoSignin = () => {
+  return axios.get(API.auth.getInfoSignin);
 };
 const signoutUser = () => {
   return axios.get(API.auth.signoutUser);
 };
 
-export { registerUser, signinUser, getInfoAccount, signoutUser };
+export { registerUser, signinUser, getInfoSignin, signoutUser };
