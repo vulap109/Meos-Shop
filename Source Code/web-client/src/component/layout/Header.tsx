@@ -78,7 +78,7 @@ const Header = () => {
               <div className="order-lg-last col-lg-5 col-sm-8 col-8">
                 <div className="d-flex float-lg-end">
                   <NavLink
-                    to="/account"
+                    to="/sign-in"
                     className={
                       "nav-link me-1 border rounded py-1 px-3 nav-link d-flex align-items-center"
                     }
@@ -87,7 +87,7 @@ const Header = () => {
                     <p className="d-none d-md-block mb-0">Sign in</p>
                   </NavLink>
                   <NavLink
-                    to="/signin"
+                    to="/account/wishlist"
                     className={
                       "nav-link me-1 border rounded py-1 px-3 nav-link d-flex align-items-center"
                     }

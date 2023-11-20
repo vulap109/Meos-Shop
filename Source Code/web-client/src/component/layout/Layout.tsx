@@ -4,13 +4,24 @@ import Header from "./Header";
 import Footer from "./Footer";
 import StickyBanner from "../banner/StickyBanner";
 import "../../styles/Banner.scss";
+import { useSelector } from "react-redux";
+import Loading from "../customComponent/Loading";
 
 function Layout() {
   const location = useLocation();
+  const { isLoading } = useSelector((state: state) => state.authState);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location.pathname]);
+
+  if (isLoading) {
+    return (
+      <div className="d-flex min-vh-100">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <>

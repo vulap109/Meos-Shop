@@ -60,7 +60,10 @@ const RecommendedItems = () => {
 
         <div className="row">
           {Recommended.map((items, index) => (
-            <div className="col-lg-3 col-md-4 col-6 product-space">
+            <div
+              className="col-lg-3 col-md-4 col-6 product-space"
+              key={`re${index}`}
+            >
               <ProductItem
                 data={items}
                 isWishList={false}
