@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
+import { useSelector } from "react-redux";
 
 interface citiesType {
   id: string;
@@ -19,6 +20,8 @@ interface wardsType {
 }
 
 const AddressComponent = () => {
+  const { userName } = useSelector((state: state) => state.authState.user);
+
   const [show, setShow] = useState(false);
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -29,6 +32,7 @@ const AddressComponent = () => {
   const [citiesData, setCitiesData] = useState<citiesType[]>();
   const [districtsData, setDistrictsData] = useState<districtsType[]>();
   const [wardsData, setWardsData] = useState<wardsType[]>();
+  const [defaultAddress, setDefaultAddress] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -112,6 +116,17 @@ const AddressComponent = () => {
   const handleSelectWard = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedWard(e.target.value);
     console.log("selected district: ", e.target.value);
+  };
+  const handleSaveAddress = () => {
+    let dataSend = {
+      userName,
+      fullName,
+      phone,
+      detailAddress: address,
+      address: selectedWard + ", " + selectedDistrict + ", " + selectedCity,
+      isDefault: defaultAddress ? 1 : 0,
+    };
+    console.log("check data send ", dataSend);
   };
 
   return (
@@ -264,11 +279,20 @@ const AddressComponent = () => {
             </div>
           </div>
           <div className="d-flex mt-3">
-            <button className="btn btn-primary">đặt mặc định</button>
+            <button
+              className="btn btn-primary"
+              onClick={() => setDefaultAddress(true)}
+            >
+              đặt mặc định
+            </button>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger" className="w-100" onClick={handleClose}>
+          <Button
+            variant="danger"
+            className="w-100"
+            onClick={handleSaveAddress}
+          >
             Save Changes
           </Button>
         </Modal.Footer>

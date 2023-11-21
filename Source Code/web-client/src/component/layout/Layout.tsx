@@ -20,7 +20,6 @@ function Layout() {
   // get info account if user is loged in, and set in redux
   const getAccount = async () => {
     let { data } = await getInfoSignin();
-    console.log("check get info account ", data);
     if (data && data.result && data.access_token) {
       dispatch({
         type: "SIGN_IN_SUCCESS",

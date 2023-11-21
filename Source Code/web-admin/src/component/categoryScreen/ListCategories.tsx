@@ -141,10 +141,23 @@ const ListCategories = () => {
               <i className="fa-solid fa-plus"></i> Thêm thuộc tính
             </button>
           </div>
+          <div className="row mt-2 d-none d-sm-flex">
+            <div className="col-sm-5">
+              <span className="text-secondary">Tên thuộc tính</span>
+            </div>
+            <div className="col-sm-5">
+              <span className="text-secondary">
+                VD: option 1||option 2||option 3
+              </span>
+            </div>
+          </div>
           {properties &&
             properties.map((p, index) => (
               <div className="row mt-2" key={`prop${index}`}>
                 <div className="col-sm-5 mb-sm-0 mb-2">
+                  <span className="text-secondary d-sm-none">
+                    Tên thuộc tính
+                  </span>
                   <input
                     type="text"
                     className="form-control text-dark"
@@ -156,7 +169,10 @@ const ListCategories = () => {
                     }
                   />
                 </div>
-                <div className="col-sm-5">
+                <div className="col-sm-5 mb-sm-0 mb-2">
+                  <span className="text-secondary d-sm-none">
+                    VD: option 1||option 2||option 3
+                  </span>
                   <input
                     type="text"
                     className="form-control text-dark"
@@ -166,7 +182,7 @@ const ListCategories = () => {
                     onChange={(e) => handleChangeOption(index, e.target.value)}
                   />
                 </div>
-                <div className="col-sm-2">
+                <div className="col-sm-2 align-items-end d-flex">
                   <button
                     type="button"
                     className="btn btn-danger"

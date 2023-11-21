@@ -57,10 +57,17 @@ const initApiRoutes = (app) => {
   router.post("/admin/save-group-role", userController.saveGroupRole);
 
   /// API for client
-  // auth API
   router.all("/client/*", checkUserClientJWT);
+
+  // auth API
   router.get("/client/get-info-sign-in", authController.getAccount);
+
+  // user API
   router.post("/client/get-info-account", accountController.getInfoAccount);
+  router.post(
+    "/client/update-info-account",
+    accountController.updateInfoAccount
+  );
 
   return app.use("/api", router);
 };

@@ -8,6 +8,9 @@ import {
   closeModalAction,
   openModalAction,
 } from "../../redux/modal/modalAction";
+// css file
+import "../../assets/vendor/css/page-auth.css";
+import "../../styles/Signin.scss";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -41,17 +44,20 @@ const Signin = () => {
   };
 
   return (
-    <div>
+    <div className="background-signin">
       {/* <!-- Content --> */}
       <div className="container-xxl">
         <div className="authentication-wrapper authentication-basic container-p-y">
           <div className="authentication-inner">
             {/* <!-- Register --> */}
-            <div className="card">
-              <div className="card-body">
+            <div className="card border-0">
+              <div className="card-body card-custom">
                 {/* <!-- Logo --> */}
-                <div className="app-brand justify-content-center">
-                  <NavLink to="/" className="app-brand-link gap-2">
+                <div className="app-brand d-flex justify-content-center">
+                  <NavLink
+                    to="/"
+                    className="nav-link gap-2 d-flex align-items-center"
+                  >
                     <span className="app-brand-logo demo">
                       <svg
                         width="25"
@@ -140,7 +146,7 @@ const Signin = () => {
                   </NavLink>
                 </div>
                 {/* <!-- /Logo --> */}
-                <h4 className="mb-2">Welcome to Meo admin! 👋</h4>
+                <h4 className="mb-2">Welcome to Meo shop! 👋</h4>
                 <p className="mb-4">
                   Please sign-in to your account and start the adventure
                 </p>

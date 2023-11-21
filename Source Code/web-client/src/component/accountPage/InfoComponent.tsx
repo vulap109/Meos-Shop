@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getInfoUser } from "../../service/userService";
+import { getInfoUser, updateInfoUser } from "../../service/userService";
 import {
   closeModalAction,
   openModalAction,
@@ -13,9 +13,10 @@ type InfoAccount = {
   phone: string;
   userName: string;
   dateOfBirth: string;
+  note: string;
 };
 const InfoComponent = () => {
-  const { email } = useSelector((state: state) => state.authState.user);
+  const { userName } = useSelector((state: state) => state.authState.user);
   const dispatch: Dispatch<any> = useDispatch();
   const [fullName, setFullName] = useState("");
   const [gender, setGender] = useState("");
@@ -28,22 +29,35 @@ const InfoComponent = () => {
   const [monthOption, setMonthOption] = useState<number[]>();
   const [yearOption, setYearOption] = useState<number[]>();
   const [dataOrigin, setDataOrigin] = useState<InfoAccount>();
-  const [dataSend, setDataSend] = useState<InfoAccount>();
   const [showSaveBtn, setShowSaveBtn] = useState(true);
 
-  const setlectedGender = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setGender(e.target.value);
-    console.log("gender: ", e.target.value);
-  };
+  useEffect(() => {
+    // generate date, month, year options
+    const genYearOptions = () => {
+      const datetime = new Date().getFullYear();
+      const years = Array.from(new Array(50), (val, index) => datetime - index);
+      const months = Array.from(new Array(12), (val, index) => 12 - index);
+      const dates = Array.from(new Array(31), (val, index) => 31 - index);
+      setYearOption(years);
+      setMonthOption(months);
+      setDateOption(dates);
+    };
+
+    getUserInfo();
+    genYearOptions();
+  }, []);
+
   const getUserInfo = async () => {
-    if (email) {
-      let { data } = await getInfoUser(email);
+    if (userName) {
+      let { data } = await getInfoUser(userName);
       if (data && data.result) {
+        setShowSaveBtn(true);
         console.log("chech data user ", data.data);
         setDataOrigin(data.data);
         setEmailTxt(data.data.email);
         setFullName(data.data.fullName);
         setPhone(data.data.phone);
+        setGender(data.data.note);
         if (data.data.dateOfBirth) {
           const [day, month, year] = data.data.dateOfBirth.split("/");
           setDayOfBirth(day);
@@ -63,29 +77,13 @@ const InfoComponent = () => {
     // close the modal
     dispatch(closeModalAction());
   };
-  // generate date, month, year options
-  const genYearOptions = () => {
-    const datetime = new Date().getFullYear();
-    const years = Array.from(new Array(50), (val, index) => datetime - index);
-    const months = Array.from(new Array(12), (val, index) => 12 - index);
-    const dates = Array.from(new Array(31), (val, index) => 31 - index);
-    setYearOption(years);
-    setMonthOption(months);
-    setDateOption(dates);
-  };
-
-  useEffect(() => {
-    getUserInfo();
-    genYearOptions();
-  }, []);
-
   const changeFullName = (value: string) => {
     setFullName(value);
     setShowSaveBtn(value === dataOrigin?.fullName);
   };
-  const changeGender = (value: string) => {
-    setGender(value);
-    setShowSaveBtn(value === dataOrigin?.fullName);
+  const changeGender = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGender(e.target.value);
+    setShowSaveBtn(e.target.value === dataOrigin?.note);
   };
   const changePhone = (value: string) => {
     setPhone(value);
@@ -98,22 +96,40 @@ const InfoComponent = () => {
   const changeDate = (value: string) => {
     setDayOfBirth(value);
     if (dataOrigin) {
-      const [day, month, year] = dataOrigin.dateOfBirth.split("/");
-      setShowSaveBtn(value === day);
+      const arrayDate = dataOrigin.dateOfBirth.split("/");
+      setShowSaveBtn(value === arrayDate[0]);
     }
   };
   const changeMonth = (value: string) => {
     setMonthOfBirth(value);
     if (dataOrigin) {
-      const [day, month, year] = dataOrigin.dateOfBirth.split("/");
-      setShowSaveBtn(value === month);
+      const arrayDate = dataOrigin.dateOfBirth.split("/");
+      setShowSaveBtn(value === arrayDate[1]);
     }
   };
   const changeYear = (value: string) => {
     setYearOfBirth(value);
     if (dataOrigin) {
-      const [day, month, year] = dataOrigin.dateOfBirth.split("/");
-      setShowSaveBtn(value === year);
+      const arrayDate = dataOrigin.dateOfBirth.split("/");
+      setShowSaveBtn(value === arrayDate[2]);
+    }
+  };
+  const handleUpdateInfo = async () => {
+    let dataSend = {
+      email: emailTxt,
+      fullName: fullName,
+      phone: phone,
+      userName: dataOrigin?.userName,
+      dateOfBirth: dayOfBirth + "/" + monthOfBirth + "/" + yearOfBirth,
+      note: gender,
+    };
+    console.log("check data ", dataSend);
+    let { data } = await updateInfoUser(dataSend);
+    if (data && data.result) {
+      getUserInfo();
+      dispatch(openModalAction(data.message, closeMsg));
+    } else {
+      dispatch(openModalAction(data.message, closeMsg));
     }
   };
   return (
@@ -134,7 +150,7 @@ const InfoComponent = () => {
         <p className="mb-2 col-sm-4 col-5 col-lg-2 col-md-3 fw-bold">
           Giới tính:
         </p>
-        <div onChange={setlectedGender}>
+        <div onChange={changeGender}>
           <div className="form-check form-check-inline">
             <input
               className="form-check-input"
@@ -142,6 +158,7 @@ const InfoComponent = () => {
               name="inlineRadioOptions"
               id="inlineRadio1"
               value="male"
+              checked={gender === "male"}
             />
             <label className="form-check-label" htmlFor="inlineRadio1">
               Nam
@@ -154,6 +171,7 @@ const InfoComponent = () => {
               name="inlineRadioOptions"
               id="inlineRadio2"
               value="female"
+              checked={gender === "female"}
             />
             <label className="form-check-label" htmlFor="inlineRadio2">
               Nữ
@@ -166,6 +184,7 @@ const InfoComponent = () => {
               name="inlineRadioOptions"
               id="inlineRadio3"
               value="orther"
+              checked={gender === "orther"}
             />
             <label className="form-check-label" htmlFor="inlineRadio3">
               Khác
@@ -263,7 +282,11 @@ const InfoComponent = () => {
         </div>
       </div>
       <div className="mt-3">
-        <button className="btn btn-warning" disabled={showSaveBtn}>
+        <button
+          className="btn btn-warning"
+          disabled={showSaveBtn}
+          onClick={handleUpdateInfo}
+        >
           Lưu thông tin
         </button>
       </div>

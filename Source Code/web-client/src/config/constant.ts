@@ -9,5 +9,6 @@ export const API = {
   },
   user: {
     getInfoAccount: "client/get-info-account",
+    updateInfoAccount: "client/update-info-account",
   },
 };

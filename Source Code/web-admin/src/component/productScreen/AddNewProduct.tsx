@@ -90,7 +90,7 @@ const AddNewProduct = () => {
       let productp: any = Object.assign({}, productProperties);
       if (catProperties) {
         catProperties.map((cp: propertiesType) => {
-          cp.option = cp.option.toString().split(",");
+          cp.option = cp.option.toString().split("||");
           productp[cp.nameProp] = cp.option[0];
           return cp;
         });
@@ -197,7 +197,7 @@ const AddNewProduct = () => {
       );
       return true;
     }
-    if (fileUpload && fileUpload.length > 0) {
+    if (!fileUpload || (fileUpload && fileUpload.length < 0)) {
       dispatch(
         openModalAction("you need one or more image to this product!", () =>
           dispatch(closeModalAction())
@@ -226,6 +226,7 @@ const AddNewProduct = () => {
   const uploadImages = async (e: React.FormEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement & { files: FileList };
     console.log("check upload img ", target.files);
+    // check file is images
     setFileUpload(target.files);
 
     // let dataPreview:any[] = [];
@@ -332,6 +333,7 @@ const AddNewProduct = () => {
                 multiple
                 className="d-none"
                 onChange={uploadImages}
+                accept="image/*"
               />
             </label>
           </div>
