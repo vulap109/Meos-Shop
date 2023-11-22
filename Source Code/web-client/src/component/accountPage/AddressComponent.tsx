@@ -2,7 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAddress, saveAddress } from "../../service/userService";
+import { Dispatch } from "redux";
+import {
+  closeModalAction,
+  openModalAction,
+} from "../../redux/modal/modalAction";
 
 interface citiesType {
   id: string;
@@ -18,9 +24,17 @@ interface wardsType {
   id: string;
   name: string;
 }
+type address = {
+  fullName: string;
+  phone: string;
+  address: string;
+  detailAddress: string;
+  isDefault: boolean;
+};
 
 const AddressComponent = () => {
   const { userName } = useSelector((state: state) => state.authState.user);
+  const dispatch: Dispatch<any> = useDispatch();
 
   const [show, setShow] = useState(false);
   const [fullName, setFullName] = useState("");
@@ -33,6 +47,7 @@ const AddressComponent = () => {
   const [districtsData, setDistrictsData] = useState<districtsType[]>();
   const [wardsData, setWardsData] = useState<wardsType[]>();
   const [defaultAddress, setDefaultAddress] = useState(false);
+  const [listAddress, setListAddress] = useState<address[]>();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -46,6 +61,7 @@ const AddressComponent = () => {
       getCitiesData(res.data);
     };
     getAddressData();
+    getListAddress();
   }, []);
 
   const getCitiesData = (data: any) => {
@@ -117,7 +133,7 @@ const AddressComponent = () => {
     setSelectedWard(e.target.value);
     console.log("selected district: ", e.target.value);
   };
-  const handleSaveAddress = () => {
+  const handleSaveAddress = async () => {
     let dataSend = {
       userName,
       fullName,
@@ -127,6 +143,35 @@ const AddressComponent = () => {
       isDefault: defaultAddress ? 1 : 0,
     };
     console.log("check data send ", dataSend);
+    let { data } = await saveAddress(dataSend);
+    console.log("check save address ", data);
+
+    if (data && data.result) {
+      setFullName("");
+      setAddres("");
+      setPhone("");
+      setSelectedWard("");
+      setSelectedDistrict("");
+      setSelectedCity("");
+      handleClose();
+      getListAddress();
+    } else {
+      dispatch(openModalAction(data.message, closeMsg));
+    }
+  };
+  const closeMsg = () => {
+    // close the modal
+    dispatch(closeModalAction());
+  };
+  const getListAddress = async () => {
+    let { data } = await getAddress(userName);
+    console.log("data list addess ", data);
+    if (data && data.result) {
+      console.log("data list addess ", data.data);
+      setListAddress(data.data);
+    } else {
+      dispatch(openModalAction(data.message, closeMsg));
+    }
   };
 
   return (
@@ -135,55 +180,33 @@ const AddressComponent = () => {
       <hr />
       <div className="row">
         {/* address 1 */}
-        <div className="col-md-6 pt-2">
-          <button className="btn p-0 w-100" onClick={handleShow}>
-            <div className="card p-2">
-              <div className="d-flex flex-row align-items-center">
-                <span className="fw-bold">Vũ Lập</span>
-                <span className="text-mute ps-2">| 0961658797</span>
-              </div>
-              <div className="d-flex flex-row align-items-center">
-                <i className="fa-solid fa-location-dot"></i>{" "}
-                <span className="text-mute ps-2">
-                  Tòa nhà Simco, 28 Phạm Hùng
-                </span>
-              </div>
-              <div className="d-flex">
-                <span className="text-mute text-start">
-                  Phường Mỹ Đình 1, Quận Nam Từ Liêm, Hà nội
-                </span>
-              </div>
-              <div className="d-flex pt-1">
-                <span className="border border-primary text-primary rounded-1 px-1">
-                  Mặc định
-                </span>
-              </div>
+        {listAddress &&
+          listAddress.map((add) => (
+            <div className="col-md-6 pt-2">
+              <button className="btn p-0 w-100" onClick={handleShow}>
+                <div className="card p-2">
+                  <div className="d-flex flex-row align-items-center">
+                    <span className="fw-bold">{add.fullName}</span>
+                    <span className="text-mute ps-2">| (+84) {add.phone}</span>
+                  </div>
+                  <div className="d-flex flex-row align-items-center">
+                    <i className="fa-solid fa-location-dot"></i>{" "}
+                    <span className="text-mute ps-2">{add.detailAddress}</span>
+                  </div>
+                  <div className="d-flex">
+                    <span className="text-mute text-start">{add.address}</span>
+                  </div>
+                  {add.isDefault && (
+                    <div className="d-flex pt-1">
+                      <span className="border border-primary text-primary rounded-1 px-1">
+                        Mặc định
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </button>
             </div>
-          </button>
-        </div>
-
-        {/* address 2 */}
-        <div className="col-md-6 pt-2">
-          <button className="btn p-0 w-100" onClick={handleShow}>
-            <div className="card p-2">
-              <div className="d-flex flex-row align-items-center">
-                <span className="fw-bold">Vũ Lập</span>
-                <span className="text-mute ps-2">| 0961658797</span>
-              </div>
-              <div className="d-flex flex-row align-items-center">
-                <i className="fa-solid fa-location-dot"></i>{" "}
-                <span className="text-mute ps-2">
-                  Tòa nhà Simco, 28 Phạm Hùng
-                </span>
-              </div>
-              <div className="d-flex">
-                <span className="text-mute text-start">
-                  Phường Mỹ Đình 1, Quận Nam Từ Liêm, Hà nội
-                </span>
-              </div>
-            </div>
-          </button>
-        </div>
+          ))}
 
         {/* add new address */}
         <div className="col-md-6 pt-2">
@@ -227,7 +250,7 @@ const AddressComponent = () => {
                 onChange={handleChangeCity}
                 value={selectedCity}
               >
-                <option selected>Thành phố/Tỉnh</option>
+                <option value="">Thành phố/Tỉnh</option>
                 {citiesData &&
                   citiesData.map((city, index) => (
                     <option value={city.name} key={`op${index}`}>
@@ -243,7 +266,7 @@ const AddressComponent = () => {
                 onChange={handleSelectDistrict}
                 value={selectedDistrict}
               >
-                <option selected>Quận/Huyện</option>
+                <option value="">Quận/Huyện</option>
                 {districtsData &&
                   districtsData.map((dis, index) => (
                     <option value={dis.name} key={`district${index}`}>
@@ -259,7 +282,7 @@ const AddressComponent = () => {
                 onChange={handleSelectWard}
                 value={selectedWard}
               >
-                <option selected>Phường/Xã</option>
+                <option value="">Phường/Xã</option>
                 {wardsData &&
                   wardsData.map((ward, index) => (
                     <option value={ward.name} key={`ward${index}`}>

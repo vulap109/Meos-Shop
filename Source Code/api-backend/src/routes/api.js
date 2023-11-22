@@ -68,6 +68,8 @@ const initApiRoutes = (app) => {
     "/client/update-info-account",
     accountController.updateInfoAccount
   );
+  router.post("/client/create-address", accountController.createAddress);
+  router.get("/client/get-addresses/:username", accountController.getAddress);
 
   return app.use("/api", router);
 };

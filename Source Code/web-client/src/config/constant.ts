@@ -10,5 +10,7 @@ export const API = {
   user: {
     getInfoAccount: "client/get-info-account",
     updateInfoAccount: "client/update-info-account",
+    createAddress: "client/create-address",
+    getAllAddress: "client/get-addresses",
   },
 };

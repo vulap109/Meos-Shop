@@ -7,5 +7,11 @@ const getInfoUser = (userName: string) => {
 const updateInfoUser = (data: any) => {
   return axios.post(API.user.updateInfoAccount, data);
 };
+const saveAddress = (data: any) => {
+  return axios.post(API.user.createAddress, data);
+};
+const getAddress = (username: string) => {
+  return axios.get(API.user.getAllAddress + `/${username}`);
+};
 
-export { getInfoUser, updateInfoUser };
+export { getInfoUser, updateInfoUser, saveAddress, getAddress };
