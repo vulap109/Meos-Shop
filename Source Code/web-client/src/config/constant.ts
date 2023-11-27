@@ -12,5 +12,6 @@ export const API = {
     updateInfoAccount: "client/update-info-account",
     createAddress: "client/create-address",
     getAllAddress: "client/get-addresses",
+    updateAddress: "client/update-address",
   },
 };

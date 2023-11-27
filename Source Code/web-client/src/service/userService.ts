@@ -13,5 +13,8 @@ const saveAddress = (data: any) => {
 const getAddress = (username: string) => {
   return axios.get(API.user.getAllAddress + `/${username}`);
 };
+const updateAddress = (data: any) => {
+  return axios.post(API.user.updateAddress, data);
+};
 
-export { getInfoUser, updateInfoUser, saveAddress, getAddress };
+export { getInfoUser, updateInfoUser, saveAddress, getAddress, updateAddress };

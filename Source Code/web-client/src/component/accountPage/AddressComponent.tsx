@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
-import { getAddress, saveAddress } from "../../service/userService";
+import { getAddress, saveAddress, updateAddress } from "../../service/userService";
 import { Dispatch } from "redux";
 import {
   closeModalAction,
@@ -25,6 +25,7 @@ interface wardsType {
   name: string;
 }
 type address = {
+  id: number;
   fullName: string;
   phone: string;
   address: string;
@@ -37,6 +38,8 @@ const AddressComponent = () => {
   const dispatch: Dispatch<any> = useDispatch();
 
   const [show, setShow] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editId, setEditId] = useState<number | null>();
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddres] = useState("");
@@ -50,7 +53,11 @@ const AddressComponent = () => {
   const [listAddress, setListAddress] = useState<address[]>();
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+    setShow(true)
+    setEditMode(false);
+    setEditId(null);
+  };
 
   useEffect(() => {
     const getAddressData = async () => {
@@ -63,7 +70,6 @@ const AddressComponent = () => {
     getAddressData();
     getListAddress();
   }, []);
-
   const getCitiesData = (data: any) => {
     let dataTmp: citiesType[] = [];
     data.map((c: any) =>
@@ -73,7 +79,6 @@ const AddressComponent = () => {
         districts: c.Districts,
       })
     );
-    console.log("cities: ", dataTmp);
     setCitiesData(dataTmp);
   };
   const getDistrictsData = (data: any) => {
@@ -87,7 +92,6 @@ const AddressComponent = () => {
         })
       );
     }
-    console.log("districts: ", dataTmp);
     setDistrictsData(dataTmp);
   };
   const getWardsData = (data: any) => {
@@ -100,7 +104,6 @@ const AddressComponent = () => {
         })
       );
     }
-    console.log("get wards: ", dataTmp);
     setWardsData(dataTmp);
   };
 
@@ -134,7 +137,9 @@ const AddressComponent = () => {
     console.log("selected district: ", e.target.value);
   };
   const handleSaveAddress = async () => {
+    if (dataValidation()) return;
     let dataSend = {
+      id: editMode && editId ? editId : null,
       userName,
       fullName,
       phone,
@@ -143,20 +148,26 @@ const AddressComponent = () => {
       isDefault: defaultAddress ? 1 : 0,
     };
     console.log("check data send ", dataSend);
-    let { data } = await saveAddress(dataSend);
-    console.log("check save address ", data);
+    let res;
+    if (editMode) {
+      res = await updateAddress(dataSend);
+    } else {
+      res = await saveAddress(dataSend);
+    }
+    console.log("check save address ", res.data);
 
-    if (data && data.result) {
+    if (res.data && res.data.result) {
       setFullName("");
       setAddres("");
       setPhone("");
       setSelectedWard("");
       setSelectedDistrict("");
       setSelectedCity("");
+      setDefaultAddress(false);
       handleClose();
       getListAddress();
     } else {
-      dispatch(openModalAction(data.message, closeMsg));
+      dispatch(openModalAction(res.data.message, closeMsg));
     }
   };
   const closeMsg = () => {
@@ -173,6 +184,49 @@ const AddressComponent = () => {
       dispatch(openModalAction(data.message, closeMsg));
     }
   };
+  const handleEditAddress = (item: address) => {
+    setShow(true);
+    setEditMode(true);
+    setEditId(item.id)
+    setFullName(item.fullName);
+    setPhone(item.phone);
+    setAddres(item.detailAddress);
+    setDefaultAddress(item.isDefault)
+    if (item.address) {
+      let adr = item.address.split(", ")
+      console.log("check address ", adr);
+      setSelectedCity(adr[2]);
+      setSelectedDistrict(adr[1]);
+      setSelectedWard(adr[0]);
+    }
+  }
+  const dataValidation = () => {
+    if (!fullName) {
+      dispatch(openModalAction("Full Name is empty!", closeMsg));
+      return true;
+    }
+    if (!phone) {
+      dispatch(openModalAction("Phone is empty!", closeMsg));
+      return true;
+    }
+    if (!selectedCity) {
+      dispatch(openModalAction("City is not selected!", closeMsg));
+      return true;
+    }
+    if (!selectedDistrict) {
+      dispatch(openModalAction("District not selected!", closeMsg));
+      return true;
+    }
+    if (!selectedWard) {
+      dispatch(openModalAction("Ward not selected!", closeMsg));
+      return true;
+    }
+    if (!address) {
+      dispatch(openModalAction("Address is empty!", closeMsg));
+      return true;
+    }
+    return false;
+  }
 
   return (
     <>
@@ -183,7 +237,7 @@ const AddressComponent = () => {
         {listAddress &&
           listAddress.map((add) => (
             <div className="col-md-6 pt-2">
-              <button className="btn p-0 w-100" onClick={handleShow}>
+              <button className="btn p-0 w-100" onClick={() => handleEditAddress(add)}>
                 <div className="card p-2">
                   <div className="d-flex flex-row align-items-center">
                     <span className="fw-bold">{add.fullName}</span>
@@ -302,12 +356,21 @@ const AddressComponent = () => {
             </div>
           </div>
           <div className="d-flex mt-3">
-            <button
+            <div className="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+              <input type="checkbox"
+                className="btn-check"
+                id="btncheck1"
+                autoComplete="off"
+                checked={defaultAddress}
+                onChange={() => setDefaultAddress(!defaultAddress)} />
+              <label className="btn btn-outline-primary" htmlFor="btncheck1">đặt mặc định</label>
+            </div>
+            {/* <button
               className="btn btn-primary"
               onClick={() => setDefaultAddress(true)}
             >
               đặt mặc định
-            </button>
+            </button> */}
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -316,7 +379,7 @@ const AddressComponent = () => {
             className="w-100"
             onClick={handleSaveAddress}
           >
-            Save Changes
+            {editMode ? "Save Changes" : "Create address"}
           </Button>
         </Modal.Footer>
       </Modal>

@@ -95,23 +95,35 @@ const InfoComponent = () => {
   };
   const changeDate = (value: string) => {
     setDayOfBirth(value);
-    if (dataOrigin) {
+    if (dataOrigin && dataOrigin.dateOfBirth) {
       const arrayDate = dataOrigin.dateOfBirth.split("/");
       setShowSaveBtn(value === arrayDate[0]);
+    } else if (!dataOrigin?.dateOfBirth && value) {
+      setShowSaveBtn(false);
+    } else {
+      setShowSaveBtn(true);
     }
   };
   const changeMonth = (value: string) => {
     setMonthOfBirth(value);
-    if (dataOrigin) {
+    if (dataOrigin && dataOrigin.dateOfBirth) {
       const arrayDate = dataOrigin.dateOfBirth.split("/");
       setShowSaveBtn(value === arrayDate[1]);
+    } else if (!dataOrigin?.dateOfBirth && value) {
+      setShowSaveBtn(false);
+    } else {
+      setShowSaveBtn(true);
     }
   };
   const changeYear = (value: string) => {
     setYearOfBirth(value);
-    if (dataOrigin) {
+    if (dataOrigin && dataOrigin.dateOfBirth) {
       const arrayDate = dataOrigin.dateOfBirth.split("/");
       setShowSaveBtn(value === arrayDate[2]);
+    } else if (!dataOrigin?.dateOfBirth && value) {
+      setShowSaveBtn(false);
+    } else {
+      setShowSaveBtn(true);
     }
   };
   const handleUpdateInfo = async () => {

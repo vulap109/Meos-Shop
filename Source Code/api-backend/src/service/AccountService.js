@@ -1,4 +1,5 @@
 import db from "../models";
+import { Op } from 'sequelize';
 
 const findInfoAccount = async (userName) => {
   try {
@@ -85,6 +86,9 @@ const createAddressService = async (rawData) => {
       userId,
     });
     if (data) {
+      if (rawData.isDefault) {
+        setDefaultAddress(userId, data.id);
+      }
       return {
         result: true,
         message: `Create Address successfully.`,
@@ -126,6 +130,7 @@ const getAllAddress = async (userName) => {
     }
     data = await db.Address.findAll({
       attributes: [
+        "id",
         "fullName",
         "address",
         "phone",
@@ -154,10 +159,80 @@ const getAllAddress = async (userName) => {
     };
   }
 };
+const updateAddressService = async (rawData) => {
+  try {
+    let data = [];
+    let adrRow = await checkAddress(rawData.id);
+    if (adrRow) {
+      return {
+        result: false,
+        message: "Update Address faild. This address doesn't exits!",
+      };
+    }
+    let userId = await getUserId(rawData.userName);
+    data = await db.Address.update(
+      {
+        fullName: rawData.fullName,
+        phone: rawData.phone,
+        detailAddress: rawData.detailAddress,
+        address: rawData.address,
+        isDefault: rawData.isDefault,
+      },
+      {
+        where: { id: rawData.id }
+      });
+    console.log(">>>>>>>>>>>>>> check data update address ", data);
+    if (data) {
+      if (rawData.isDefault) {
+        setDefaultAddress(userId, rawData.id);
+      }
+      return {
+        result: true,
+        message: `Update Address successfully.`,
+      };
+    } else {
+      return {
+        result: false,
+        message: "Update Address faild.",
+      };
+    }
+  } catch (error) {
+    // return error if ORM create user has catch
+    console.log("error service Update Address", error);
+    return {
+      result: false,
+      message: "Some error occupied with service!",
+    };
+  }
+};
+const checkAddress = async (id) => {
+  let adr = await db.Address.findOne({
+    where: { id },
+  });
+  if (adr) {
+    // if has one return false
+    return false;
+  }
+  return true;
+}
+const setDefaultAddress = async (userId, id) => {
+  try {
+    let data = []
+    data = await db.Address.update({
+      isDefault: 0,
+    },
+      {
+        where: { userId, id: { [Op.ne]: id }, }
+      });
+  } catch (error) {
+    console.log("set default address error: ", error);
+  }
+}
 
 module.exports = {
   findInfoAccount,
   updateAccountService,
   createAddressService,
   getAllAddress,
+  updateAddressService
 };

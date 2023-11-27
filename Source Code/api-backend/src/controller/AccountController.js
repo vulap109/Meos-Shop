@@ -39,7 +39,7 @@ const updateInfoAccount = async (req, res) => {
     }
     return res.status(200).json({
       result: false,
-      message: "Can not save category without name and price.",
+      message: "Can not save account.",
     });
   } catch (error) {
     // return case error
@@ -69,7 +69,7 @@ const createAddress = async (req, res) => {
     }
     return res.status(200).json({
       result: false,
-      message: "Can not save product without name and price.",
+      message: "Can not save address.",
     });
   } catch (error) {
     // return case error
@@ -104,10 +104,42 @@ const getAddress = async (req, res) => {
     });
   }
 };
+const updateAddress = async (req, res) => {
+  try {
+    if (
+      !req.body.id ||
+      !req.body.fullName ||
+      !req.body.phone ||
+      !req.body.detailAddress ||
+      !req.body.address ||
+      !req.body.userName
+    ) {
+      return res.status(200).json({
+        result: false,
+        message: "Missing an information to save!",
+      });
+    }
+    let save = await accountService.updateAddressService(req.body);
+    if (save) {
+      return res.status(200).json(save);
+    }
+    return res.status(200).json({
+      result: false,
+      message: "Can not save address.",
+    });
+  } catch (error) {
+    // return case error
+    return res.status(500).json({
+      result: false,
+      message: "Some error occupied with server!",
+    });
+  }
+};
 
 module.exports = {
   getInfoAccount,
   updateInfoAccount,
   createAddress,
   getAddress,
+  updateAddress
 };

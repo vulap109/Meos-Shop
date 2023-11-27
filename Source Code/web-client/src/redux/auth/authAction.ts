@@ -22,6 +22,15 @@ export const signInAction = (account: string, password: string) => {
       });
     } else {
       dispatch({ type: "SIGN_IN_ERROR" });
+      dispatch({
+        type: "MODAL_OPEN",
+        payload: {
+          message: data.message,
+          confirmation: false,
+          handleClose: () => dispatch({ type: "MODAL_CLOSE" }),
+          handleSucces: () => { },
+        },
+      });
       // dispatch({ type: "MODAL_CLOSE" });
     }
   };
@@ -45,7 +54,7 @@ export const signOutAction = () => {
           message: data.message,
           confirmation: false,
           handleClose: () => dispatch({ type: "MODAL_CLOSE" }),
-          handleSucces: () => {},
+          handleSucces: () => { },
         },
       });
     }
