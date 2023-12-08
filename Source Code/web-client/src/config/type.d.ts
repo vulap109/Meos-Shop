@@ -12,6 +12,19 @@ interface IUser {
   token: string;
 }
 
+interface IProduct {
+  id: number;
+  images: string;
+  description: string;
+  productName: string;
+  price: string;
+  properties: string;
+  categoryId: number;
+  disscount: number;
+  label: string;
+  information: string;
+}
+
 type AuthState = {
   user: IUser;
   isLoading: boolean;
@@ -30,3 +43,8 @@ type state = {
   authState: AuthState;
   modalState: ModalState;
 };
+
+type propertiesType = {
+  nameProp: string;
+  option: string[];
+}

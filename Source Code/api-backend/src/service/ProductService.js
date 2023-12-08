@@ -129,10 +129,40 @@ const updateProduct = async (rawData) => {
     };
   }
 };
+const findProductsNew = async () => {
+  try {
+    let data = [];
+    data = await db.Product.findAll({
+      // attributes: { exclude: ["createdAt", "updatedAt"] },
+      order: ['createdAt'],
+      limit: 10,
+    });
+    console.log("check data product by id", data);
+    if (data) {
+      return {
+        result: true,
+        data: data,
+      };
+    } else {
+      return {
+        result: false,
+        message: "No data to return.",
+      };
+    }
+  } catch (error) {
+    // return error if ORM create user has catch
+    console.log("error service", error);
+    return {
+      result: false,
+      message: "Some error occupied with service!",
+    };
+  }
+};
 
 module.exports = {
   findAllProducts,
   createProduct,
   findProductById,
   updateProduct,
+  findProductsNew
 };

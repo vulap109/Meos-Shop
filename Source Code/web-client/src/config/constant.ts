@@ -4,14 +4,18 @@ export const API = {
   auth: {
     registerUser: "admin/register-user",
     signinUser: "admin/login",
-    getInfoSignin: "client/get-info-sign-in",
+    getInfoSignin: "client/accounts/get-info-sign-in",
     signoutUser: "admin/logout",
   },
   user: {
-    getInfoAccount: "client/get-info-account",
-    updateInfoAccount: "client/update-info-account",
-    createAddress: "client/create-address",
-    getAllAddress: "client/get-addresses",
-    updateAddress: "client/update-address",
+    getInfoAccount: "client/accounts/get-info-account",
+    updateInfoAccount: "client/accounts/update-info-account",
+    createAddress: "client/accounts/create-address",
+    getAllAddress: "client/accounts/get-addresses",
+    updateAddress: "client/accounts/update-address",
   },
+  product: {
+    getNew: "client/products/get-products-new",
+    getByid: "client/products/get-product-id/"
+  }
 };

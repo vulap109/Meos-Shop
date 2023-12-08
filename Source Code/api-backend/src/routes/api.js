@@ -57,20 +57,24 @@ const initApiRoutes = (app) => {
   router.post("/admin/save-group-role", userController.saveGroupRole);
 
   /// API for client
-  router.all("/client/*", checkUserClientJWT);
+  router.all("/client/accounts/*", checkUserClientJWT);
 
   // auth API
-  router.get("/client/get-info-sign-in", authController.getAccount);
+  router.get("/client/accounts/get-info-sign-in", authController.getAccount);
 
   // user API
-  router.post("/client/get-info-account", accountController.getInfoAccount);
+  router.post("/client/accounts/get-info-account", accountController.getInfoAccount);
   router.post(
-    "/client/update-info-account",
+    "/client/accounts/update-info-account",
     accountController.updateInfoAccount
   );
-  router.post("/client/create-address", accountController.createAddress);
-  router.get("/client/get-addresses/:username", accountController.getAddress);
-  router.post("/client/update-address", accountController.updateAddress);
+  router.post("/client/accounts/create-address", accountController.createAddress);
+  router.get("/client/accounts/get-addresses/:username", accountController.getAddress);
+  router.post("/client/accounts/update-address", accountController.updateAddress);
+
+  // product API
+  router.get("/client/products/get-products-new", productController.getProductsNew);
+  router.get("/client/products/get-product-id/:id", productController.getProductById);
 
   return app.use("/api", router);
 };

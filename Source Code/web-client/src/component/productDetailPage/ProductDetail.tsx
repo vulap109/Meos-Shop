@@ -1,8 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Carousel, Tab, Tabs } from "react-bootstrap";
 import HeaderTitle from "../layout/HeaderTitle";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate, useParams } from "react-router-dom";
+import { getProductById } from "../../service/productService";
+import { formatNumber } from "../../utils/format";
 
+interface infoType {
+  name: string;
+  value: string;
+}
 const ProductDetail = () => {
   const [indexImg, setIndexImg] = useState(0);
   const [similarProduct, setSimilarProduct] = useState([
@@ -45,11 +51,67 @@ const ProductDetail = () => {
       img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/8.webp",
     },
   ]);
+  const [productItem, setProductItem] = useState<IProduct>();
+  const [information, setInformation] = useState<infoType[]>();
+  const [propertiesTofill, setPropertiesToFill] = useState<propertiesType[] | null>();
+  const [productProperties, setProductProperties] = useState();
+  let { id } = useParams();
 
   const handleSelect = (i: number) => {
-    console.log("check selected image index: ", i);
     setIndexImg(i);
   };
+  const fetchProductById = async () => {
+    if (id) {
+      let { data } = await getProductById(id);
+      if (data && data.result) {
+        console.log("fetch data by id ", data);
+        setProductItem(data.data);
+        if (data.data?.information) {
+          prepareInformation(data.data.information);
+        }
+        if (data.data.Category) {
+          prepareProperties(data.data.Category.properties);
+        }
+      }
+    } else {
+      return <Navigate to="/404" />
+    }
+  }
+  const prepareInformation = (information: string) => {
+    let info = information.split(", ");
+    let info1: infoType[] = [];
+    info.map((item: any) => {
+      let strPath = item.split(":")
+      info1.push({
+        name: strPath[0],
+        value: strPath[1]
+      });
+      return info1;
+    })
+    setInformation(info1);
+  }
+  // display properties to select box
+  const prepareProperties = (properties: string) => {
+    let catProperties = JSON.parse(properties.toString());
+    if (catProperties) {
+      catProperties.map(
+        (cp: propertiesType) => {
+          cp.option = cp.option.toString().split("||");
+          handleSelectedProperties(cp.nameProp, cp.option[0]);
+        }
+      );
+    }
+    setPropertiesToFill(catProperties);
+  };
+  // set prpperties is selected
+  const handleSelectedProperties = (propKey: string, value: string) => {
+    let productProp: any = Object.assign({}, productProperties);
+    productProp[propKey] = value;
+    setProductProperties(productProp);
+  };
+  useEffect(() => {
+    fetchProductById();
+  }, [])
 
   return (
     <>
@@ -114,7 +176,7 @@ const ProductDetail = () => {
               <div className="col-lg-7 px-2">
                 <div className="mb-3 shadow-0">
                   <div className="card-body">
-                    <h3>Rucksack Backpack Jeans</h3>
+                    <h3>{productItem?.productName}</h3>
                     <div className="d-flex flex-row">
                       <div className="text-warning mb-1 me-2">
                         <i className="fa fa-star"></i>
@@ -127,49 +189,52 @@ const ProductDetail = () => {
                       <span className="text-muted">154 orders</span>
                     </div>
                     <div className="d-flex flex-row align-items-center mb-1">
-                      <h4 className="mb-1 me-1">$34,50</h4>
-                      <span className="text-danger">
-                        <s>$49.99</s>
-                      </span>
+                      {productItem?.disscount
+                        ?
+                        <>
+                          <h4 className="mb-1 me-1">
+                            {formatNumber(+productItem?.price - (+productItem?.price * productItem?.disscount / 100))}
+                          </h4>
+                          <span className="text-danger">
+                            <s>{formatNumber(+productItem?.price)}</s>
+                          </span>
+                        </>
+                        :
+                        <h4 className="mb-1 me-1">{productItem?.price}</h4>}
                     </div>
-                    <p className="text mb-3">
-                      Short description about the product goes here, for ex its
-                      features. Lorem ipsum dolor sit amet with hapti you enter
-                      into any new area of science, you almost lorem ipsum is
-                      great text consectetur adipisicing
-                    </p>
+                    <p className="text mb-3">{productItem?.description}</p>
                     <h5>Thông tin chung:</h5>
-                    <div className="d-flex flex-row">
-                      <p className="mb-2 col-sm-2 col-3 fw-bold">Type:</p>
-                      <p className="mb-2">Backpack</p>
-                    </div>
-                    <div className="d-flex flex-row">
-                      <p className="mb-2 col-sm-2 col-3 fw-bold">Color:</p>
-                      <p className="mb-2">Blue</p>
-                    </div>
-                    <div className="d-flex flex-row">
-                      <p className="mb-2 col-sm-2 col-3 fw-bold">Material:</p>
-                      <p className="mb-2">Jeans</p>
-                    </div>
-                    <div className="d-flex flex-row">
-                      <p className="mb-2 col-sm-2 col-3 fw-bold">Brand:</p>
-                      <p className="mb-2">Local Brand</p>
-                    </div>
+                    {
+                      information && information.map((inf, index) =>
+                        <div className="d-flex flex-row" key={`inf${index}`}>
+                          <p className="mb-2 col-sm-2 col-3 fw-bold">{inf.name}:</p>
+                          <p className="mb-2">{inf.value}</p>
+                        </div>
+                      )
+                    }
                     <hr />
                     <div className="row">
-                      <div className="col-md-5 col-xl-4 me-5">
-                        <p className="mb-0">Size</p>
-                        <select
-                          className="form-select border border-dark text-center"
-                          style={{ maxWidth: "279px" }}
-                        >
-                          <option value="1">S</option>
-                          <option value="2">M</option>
-                          <option value="3">L</option>
-                          <option value="4">XL</option>
-                          <option value="5">XXL</option>
-                        </select>
-                      </div>
+                      {propertiesTofill && propertiesTofill.map((prop, index) =>
+                        <div className="col-md-5 col-xl-4 me-5" key={`prop${index}`}>
+                          <p className="mb-0">{prop.nameProp}</p>
+                          <select
+                            className="form-select border border-dark text-center"
+                            style={{ maxWidth: "279px" }}
+                            onChange={(e) =>
+                              handleSelectedProperties(prop.nameProp, e.target.value)
+                            }
+                            value={prop.option[0]}
+                          >
+                            {prop.option &&
+                              prop.option.map((pa) => (
+                                <option value={pa} key={`op${pa}`}>
+                                  {pa}
+                                </option>
+                              ))}
+                          </select>
+                        </div>
+                      )}
+
                       <div className="col-md-5 col-xl-4">
                         <p className="mb-0">Quantity</p>
                         <div

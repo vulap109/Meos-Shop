@@ -34,7 +34,7 @@ export const router = createBrowserRouter([
         element: <CheckOut />,
       },
       {
-        path: "product-detail",
+        path: "product-detail/:id",
         element: <ProductDetail />,
       },
       {

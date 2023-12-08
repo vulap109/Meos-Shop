@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ProductItem from "./customComponent/ProductItem";
 import "../styles/Home.scss";
 
@@ -50,6 +50,8 @@ const RecommendedItems = () => {
       disscount: "",
     },
   ];
+  const [recomendedList, setRecomendedList] = useState<IProduct[] | null>();
+
   return (
     // Recommended
     <section>
@@ -59,7 +61,7 @@ const RecommendedItems = () => {
         </header>
 
         <div className="row">
-          {Recommended.map((items, index) => (
+          {recomendedList && recomendedList.map((items, index) => (
             <div
               className="col-lg-3 col-md-4 col-6 product-space"
               key={`re${index}`}
@@ -67,7 +69,6 @@ const RecommendedItems = () => {
               <ProductItem
                 data={items}
                 isWishList={false}
-                key={`productItem${index}`}
               />
             </div>
           ))}

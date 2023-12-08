@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import "../../styles/Home.scss";
 import RecommendedItems from "../RecommendedItems";
 import ProductItem from "../customComponent/ProductItem";
+import { getProductsNew } from "../../service/productService";
 
 const Home = () => {
   const newProduct = [
@@ -79,6 +80,20 @@ const Home = () => {
       disscount: "",
     },
   ];
+  const [productList, setProductList] = useState<IProduct[] | null>();
+
+  const fetchListProduct = async () => {
+    let { data } = await getProductsNew();
+    console.log("check get new product ", data);
+    if (data && data.result) {
+      setProductList(data.data);
+    } else {
+      setProductList(null);
+    }
+  }
+  useEffect(() => {
+    fetchListProduct()
+  }, [])
 
   return (
     <>
@@ -397,12 +412,11 @@ const Home = () => {
           </header>
 
           <div className="row">
-            {newProduct.map((items, index) => (
-              <div className="col-lg-3 col-md-4 col-6 product-space">
+            {productList && productList.map((items, index) => (
+              <div className="col-lg-3 col-md-4 col-6 product-space" key={`productItem${index}`}>
                 <ProductItem
                   data={items}
                   isWishList={false}
-                  key={`productItem${index}`}
                 />
               </div>
             ))}

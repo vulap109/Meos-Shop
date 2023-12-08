@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ProductItem from "../customComponent/ProductItem";
 
 const WishListComponent = () => {
@@ -40,12 +40,14 @@ const WishListComponent = () => {
       disscount: "",
     },
   ];
+  const [productList, setProductList] = useState<IProduct[] | null>();
+
   return (
     <>
       <h4>Danh sách yêu thích</h4>
       <hr />
       <div className="row">
-        {wishlist.map((items, index) => (
+        {productList && productList.map((items, index) => (
           <div className="col-lg-3 col-md-6 col-sm-6">
             <ProductItem
               data={items}

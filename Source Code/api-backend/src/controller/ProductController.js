@@ -104,6 +104,25 @@ const uploadImg = async (req, res) => {
     });
   }
 };
+const getProductsNew = async (req, res) => {
+  try {
+    let productList = {};
+    productList = await productService.findProductsNew();
+    if (productList) {
+      return res.status(200).json(productList);
+    }
+    return res.status(200).json({
+      result: false,
+      message: "Some error occupied with server!",
+    });
+  } catch (error) {
+    // return case error
+    return res.status(500).json({
+      result: false,
+      message: "Some error occupied with server!",
+    });
+  }
+};
 
 module.exports = {
   getAllProducts,
@@ -111,4 +130,5 @@ module.exports = {
   getProductById,
   editProduct,
   uploadImg,
+  getProductsNew
 };

@@ -13,16 +13,25 @@ module.exports = {
         type: Sequelize.STRING,
       },
       properties: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       images: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       description: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT,
       },
       price: {
         type: Sequelize.STRING,
+      },
+      label: {
+        type: Sequelize.STRING,
+      },
+      disscount: {
+        type: Sequelize.INTEGER,
+      },
+      information: {
+        type: Sequelize.TEXT,
       },
       categoryId: {
         type: Sequelize.INTEGER,
