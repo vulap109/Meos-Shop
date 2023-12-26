@@ -1,3 +1,7 @@
 .product-hover:hover {
-  box-shadow: var(--bs-box-shadow)!important;
+  box-shadow: var(--bs-box-shadow) !important;
+}
+
+.thumb-width {
+  max-width: 18%;
 }

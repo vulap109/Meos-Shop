@@ -16,6 +16,7 @@ export const API = {
   },
   product: {
     getNew: "client/products/get-products-new",
-    getByid: "client/products/get-product-id/"
+    getByid: "client/products/get-product-id/",
+    getRecommended: "/client/products/get-product-recomended"
   }
 };

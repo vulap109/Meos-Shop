@@ -48,3 +48,14 @@ type propertiesType = {
   nameProp: string;
   option: string[];
 }
+
+interface IRecommeded {
+  Product: IProduct;
+  productId: number;
+  sumcol: number;
+}
+
+type HTprops = {
+  url: string;
+  titleName: string;
+}

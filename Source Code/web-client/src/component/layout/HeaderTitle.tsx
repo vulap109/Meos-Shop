@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const HeaderTitle = () => {
+const HeaderTitle = ({ data }: { data: HTprops[] }) => {
   return (
     <>
       {/* Heading */}
@@ -10,17 +10,20 @@ const HeaderTitle = () => {
           {/* Breadcrumb */}
           <nav className="d-flex my-2">
             <p className="mb-0 d-flex flex-row">
-              <NavLink to="" className="text-white nav-link">
-                <i className="fa-solid fa-house pe-2"></i>Trang chủ
-              </NavLink>
-              <span className="text-white mx-2"> / </span>
-              <NavLink to="" className="text-white nav-link">
-                Sản phẩm
-              </NavLink>
-              <span className="text-white mx-2"> / </span>
-              <NavLink to="" className="text-white nav-link">
-                <u>Dữ liệu</u>
-              </NavLink>
+              {
+                data ?
+                  data.map((item, index) =>
+                    <>
+                      {index > 0 && <span className="text-white mx-2"> / </span>}
+                      <NavLink to={item.url} className="text-white nav-link">
+                        {item.titleName === "Trang chủ" && <i className="fa-solid fa-house pe-2"></i>}{item.titleName}
+                      </NavLink>
+                    </>)
+                  :
+                  <NavLink to="/" className="text-white nav-link">
+                    <i className="fa-solid fa-house pe-2"></i>Trang chủ
+                  </NavLink>
+              }
             </p>
           </nav>
           {/* Breadcrumb */}

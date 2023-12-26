@@ -8,13 +8,17 @@ import ProductGridView from "./ProductGridView";
 const ProductList = () => {
   const [openCollapse, setOpenCollapse] = useState(false);
   const [productListView, setProductListView] = useState(true);
+  const headerTitleData = [
+    { url: "/", titleName: "Trang chủ" },
+    { url: "", titleName: "Sản phẩm" },
+  ]
 
   // const handleChangeProductView = (type: boolean) => {
   //   setProductListView()
   // }
   return (
     <>
-      <HeaderTitle />
+      <HeaderTitle data={headerTitleData} />
       {/* sidebar + content */}
       <section>
         <div className="container mt-3">

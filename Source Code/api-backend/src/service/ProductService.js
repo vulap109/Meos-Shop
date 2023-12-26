@@ -1,4 +1,5 @@
 import db from "../models";
+import { Sequelize } from 'sequelize';
 
 const findAllProducts = async () => {
   try {
@@ -158,11 +159,45 @@ const findProductsNew = async () => {
     };
   }
 };
+const productRecomendedList = async () => {
+  try {
+    let data = [];
+    data = await db.DetailOrder.findAll({
+      attributes: ['productId', [Sequelize.fn('sum', Sequelize.col('quantity')), 'sumcol']],
+      order: [['sumcol', 'DESC']],
+      limit: 5,
+      group: 'productId',
+      include: {
+        model: db.Product,
+        attributes: ['id', 'productName', 'disscount', 'label', 'price', 'images']
+      },
+    });
+    if (data) {
+      return {
+        result: true,
+        data: data,
+      };
+    } else {
+      return {
+        result: false,
+        message: "No data to return.",
+      };
+    }
+  } catch (error) {
+    // return error if ORM create user has catch
+    console.log("error service", error);
+    return {
+      result: false,
+      message: "Some error occupied with service!",
+    };
+  }
+};
 
 module.exports = {
   findAllProducts,
   createProduct,
   findProductById,
   updateProduct,
-  findProductsNew
+  findProductsNew,
+  productRecomendedList
 };

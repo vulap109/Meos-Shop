@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LabelProduct from "./LabelProduct";
 import { NavLink } from "react-router-dom";
 import HeartButton from "./HeartButton";
@@ -10,13 +10,20 @@ interface productItemProps {
   isWishList: boolean;
 }
 const ProductItem = ({ data, isWishList }: productItemProps) => {
+  const [image, setImage] = useState("");
+
+  useEffect(() => {
+    const img = JSON.parse(data.images);
+    setImage(img[0].src);
+  }, []);
+
   return (
     // <div className="col-lg-3 col-md-6 col-sm-6">
     <div className="card px-2 border shadow-sm mb-4 product-hover">
       {data.label && <LabelProduct label={data.label} />}
       <NavLink to={`/product-detail/${data.id}`} className="justify-content-center d-flex">
         <img
-          src={data.images}
+          src={image}
           className="card-img-top rounded-2"
           alt="product"
           style={{ maxWidth: "200px" }}

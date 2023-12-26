@@ -4,10 +4,14 @@ import HeaderTitle from "../layout/HeaderTitle";
 import { NavLink, Navigate, useParams } from "react-router-dom";
 import { getProductById } from "../../service/productService";
 import { formatNumber } from "../../utils/format";
+import "../../styles/ProductItem.scss";
 
 interface infoType {
   name: string;
   value: string;
+}
+interface carouselType {
+  src: string;
 }
 const ProductDetail = () => {
   const [indexImg, setIndexImg] = useState(0);
@@ -37,25 +41,17 @@ const ProductDetail = () => {
       price: "$14.99",
     },
   ]);
-  const [carouselItem, setCarouselItem] = useState([
-    {
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/5.webp",
-    },
-    {
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/6.webp",
-    },
-    {
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp",
-    },
-    {
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/8.webp",
-    },
-  ]);
+  const [carouselItem, setCarouselItem] = useState<carouselType[]>();
   const [productItem, setProductItem] = useState<IProduct>();
   const [information, setInformation] = useState<infoType[]>();
   const [propertiesTofill, setPropertiesToFill] = useState<propertiesType[] | null>();
   const [productProperties, setProductProperties] = useState();
   let { id } = useParams();
+  const headerTitleData = [
+    { url: "/", titleName: "Trang chủ" },
+    { url: "/products", titleName: "Sản phẩm" },
+    { url: "", titleName: "Chi tiết" }
+  ]
 
   const handleSelect = (i: number) => {
     setIndexImg(i);
@@ -66,6 +62,9 @@ const ProductDetail = () => {
       if (data && data.result) {
         console.log("fetch data by id ", data);
         setProductItem(data.data);
+        console.log("json carousel ", JSON.parse(data.data.images));
+
+        setCarouselItem(JSON.parse(data.data.images));
         if (data.data?.information) {
           prepareInformation(data.data.information);
         }
@@ -115,7 +114,7 @@ const ProductDetail = () => {
 
   return (
     <>
-      <HeaderTitle />
+      <HeaderTitle data={headerTitleData} />
       <section className="bg-light mb-4 mt-3">
         <div className="container">
           <div className="card border">
@@ -132,10 +131,10 @@ const ProductDetail = () => {
                       indicators={false}
                       interval={null}
                     >
-                      {carouselItem.map((item, index) => (
+                      {carouselItem && carouselItem.map((item, index) => (
                         <Carousel.Item key={`carousel${index}`}>
                           <img
-                            src={item.img}
+                            src={item.src}
                             className="card-img-top rounded-2"
                             alt="product"
                           />
@@ -147,18 +146,18 @@ const ProductDetail = () => {
                     {/* product thumb */}
                     <div className="mx-3">
                       <div className="row">
-                        {carouselItem.map((item, index) => (
+                        {carouselItem && carouselItem.map((item, index) => (
                           <button
-                            className={
-                              indexImg === index
-                                ? "col border border-danger card px-0 mx-1"
-                                : "col border card px-0 mx-1"
+                            className={"col border thumb-width " +
+                              (indexImg === index
+                                ? "border-danger card px-0 mx-1"
+                                : "card px-0 mx-1")
                             }
                             key={`thumb${index}`}
                             onClick={() => setIndexImg(index)}
                           >
                             <img
-                              src={item.img}
+                              src={item.src}
                               className="card-img-top rounded-2"
                               alt="product"
                             />
@@ -195,12 +194,18 @@ const ProductDetail = () => {
                           <h4 className="mb-1 me-1">
                             {formatNumber(+productItem?.price - (+productItem?.price * productItem?.disscount / 100))}
                           </h4>
-                          <span className="text-danger">
+                          <span className="text-danger mx-2">
                             <s>{formatNumber(+productItem?.price)}</s>
+                          </span>
+                          <span
+                            style={{ backgroundColor: "#ff0000", fontSize: "0.8rem" }}
+                            className="text-light px-1 my-1 rounded-2"
+                          >
+                            -{productItem.disscount}%
                           </span>
                         </>
                         :
-                        <h4 className="mb-1 me-1">{productItem?.price}</h4>}
+                        <h4 className="mb-1 me-1">{formatNumber(productItem?.price ? +productItem?.price : 0)}</h4>}
                     </div>
                     <p className="text mb-3">{productItem?.description}</p>
                     <h5>Thông tin chung:</h5>

@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ProductItem from "./customComponent/ProductItem";
 import "../styles/Home.scss";
+import { getProductRecommeded } from "../service/productService";
 
 const RecommendedItems = () => {
   const Recommended = [
@@ -50,7 +51,19 @@ const RecommendedItems = () => {
       disscount: "",
     },
   ];
-  const [recomendedList, setRecomendedList] = useState<IProduct[] | null>();
+  const [recomendedList, setRecomendedList] = useState<IRecommeded[] | null>();
+  const fetchProduct = async () => {
+    let { data } = await getProductRecommeded();
+    console.log("check get recm product ", data);
+    if (data && data.result) {
+      setRecomendedList(data.data);
+    } else {
+      setRecomendedList(null);
+    }
+  }
+  useEffect(() => {
+    fetchProduct();
+  }, [])
 
   return (
     // Recommended
@@ -67,7 +80,7 @@ const RecommendedItems = () => {
               key={`re${index}`}
             >
               <ProductItem
-                data={items}
+                data={items.Product}
                 isWishList={false}
               />
             </div>
