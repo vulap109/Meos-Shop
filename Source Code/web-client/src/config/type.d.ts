@@ -20,7 +20,7 @@ interface IProduct {
   price: string;
   properties: string;
   categoryId: number;
-  disscount: number;
+  discount: number;
   label: string;
   information: string;
 }
@@ -49,7 +49,7 @@ type propertiesType = {
   option: string[];
 }
 
-interface IRecommeded {
+interface IProductItem {
   Product: IProduct;
   productId: number;
   sumcol: number;

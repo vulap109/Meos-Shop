@@ -4,6 +4,7 @@ import "../../styles/Home.scss";
 import RecommendedItems from "../RecommendedItems";
 import ProductItem from "../customComponent/ProductItem";
 import { getProductsNew } from "../../service/productService";
+import banner from "../../assets/images/banner-sales.png"
 
 const Home = () => {
   const newProduct = [
@@ -14,7 +15,7 @@ const Home = () => {
       describe: "Model: X-200",
       price: "$29.95",
       priceAf: "",
-      disscount: "",
+      discount: "",
     },
     {
       label: "Offer",
@@ -23,7 +24,7 @@ const Home = () => {
       describe: "Capacity: 128GB",
       price: "$590.00",
       priceAf: "",
-      disscount: "",
+      discount: "",
     },
     {
       label: "",
@@ -32,7 +33,7 @@ const Home = () => {
       describe: "Sizes: S, M, XL",
       price: "$29.95",
       priceAf: "",
-      disscount: "",
+      discount: "",
     },
     {
       label: "",
@@ -41,7 +42,7 @@ const Home = () => {
       describe: "Color: Black, Memory: 128GB",
       price: "$1099.00",
       priceAf: "",
-      disscount: "",
+      discount: "",
     },
     {
       label: "",
@@ -50,7 +51,7 @@ const Home = () => {
       describe: "Sizes: S, M, XL",
       price: "$29.95",
       priceAf: "",
-      disscount: "",
+      discount: "",
     },
     {
       label: "",
@@ -59,7 +60,7 @@ const Home = () => {
       describe: "Model: X-200",
       price: "$18.95",
       priceAf: "",
-      disscount: "",
+      discount: "",
     },
     {
       label: "",
@@ -68,7 +69,7 @@ const Home = () => {
       describe: "Sizes: S, M, XL",
       price: "$18.95",
       priceAf: "",
-      disscount: "",
+      discount: "",
     },
     {
       label: "",
@@ -77,10 +78,11 @@ const Home = () => {
       describe: "Material: Jeans",
       price: "$18.95",
       priceAf: "",
-      disscount: "",
+      discount: "",
     },
   ];
   const [productList, setProductList] = useState<IProduct[] | null>();
+  const [bannerBottom, setBannerBottom] = useState("../assets/images/banner-sales.png");
 
   const fetchListProduct = async () => {
     let { data } = await getProductsNew();
@@ -430,8 +432,15 @@ const Home = () => {
         <div className="container">
           <div className="row gy-4">
             <div className="col-lg-6">
-              <div className="card-banner bg-gray h-100 feature-div">
-                <div className="p-3 p-lg-5 max-width-70">
+              <div className="card-banner h-100">
+                <NavLink to={"/"} className="feature-div">
+                  <img
+                    src={banner}
+                    className="card-img-top rounded-2 h-100"
+                    alt="product"
+                  />
+                </NavLink>
+                {/* <div className="p-3 p-lg-5 max-width-70">
                   <h3 className="text-dark">
                     Best products & brands in our store at 80% off
                   </h3>
@@ -439,7 +448,7 @@ const Home = () => {
                   <button className="btn btn-warning shadow-0">
                     Claim offer
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="col-lg-6">

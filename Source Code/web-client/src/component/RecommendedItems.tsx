@@ -12,7 +12,7 @@ const RecommendedItems = () => {
       describe: "",
       price: "$18.95",
       priceAf: "$16.95",
-      disscount: "18%",
+      discount: "18%",
     },
     {
       label: "",
@@ -21,7 +21,7 @@ const RecommendedItems = () => {
       describe: "",
       price: "$40.95",
       priceAf: "",
-      disscount: "",
+      discount: "",
     },
     {
       label: "",
@@ -30,7 +30,7 @@ const RecommendedItems = () => {
       describe: "",
       price: "$17.95",
       priceAf: "$16.95",
-      disscount: "18%",
+      discount: "18%",
     },
     {
       label: "",
@@ -39,7 +39,7 @@ const RecommendedItems = () => {
       describe: "",
       price: "$13.95",
       priceAf: "",
-      disscount: "",
+      discount: "",
     },
     {
       label: "",
@@ -48,10 +48,10 @@ const RecommendedItems = () => {
       describe: "",
       price: "$13.95",
       priceAf: "",
-      disscount: "",
+      discount: "",
     },
   ];
-  const [recomendedList, setRecomendedList] = useState<IRecommeded[] | null>();
+  const [recomendedList, setRecomendedList] = useState<IProductItem[] | null>();
   const fetchProduct = async () => {
     let { data } = await getProductRecommeded();
     console.log("check get recm product ", data);

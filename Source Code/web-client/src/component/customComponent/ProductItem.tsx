@@ -21,7 +21,7 @@ const ProductItem = ({ data, isWishList }: productItemProps) => {
     // <div className="col-lg-3 col-md-6 col-sm-6">
     <div className="card px-2 border shadow-sm mb-4 product-hover">
       {data.label && <LabelProduct label={data.label} />}
-      <NavLink to={`/product-detail/${data.id}`} className="justify-content-center d-flex">
+      <NavLink to={`/product-detail/${data.id}`} className="justify-content-center d-flex pb-1">
         <img
           src={image}
           className="card-img-top rounded-2"
@@ -34,17 +34,17 @@ const ProductItem = ({ data, isWishList }: productItemProps) => {
           {data.productName}
         </NavLink>
         <div className="price-wrap mb-2 d-flex justify-content-between">
-          {data.disscount ? (
+          {data.discount ? (
             <>
               <div>
-                <strong>{formatNumber(+data.price - (+data.price * data.disscount / 100))}</strong>
+                <strong>{formatNumber(+data.price - (+data.price * data.discount / 100))}</strong>
                 <del>{formatNumber(+data.price)}</del>
               </div>
               <span
                 style={{ backgroundColor: "#ff0000", fontSize: "0.8rem" }}
                 className="text-light px-1 my-1 rounded-2"
               >
-                -{data.disscount}%
+                -{data.discount}%
               </span>
             </>
           ) :

@@ -1,18 +1,19 @@
 /* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 1200px) { 
+@media only screen and (min-width: 1200px) {
   .product-space {
     width: 20%;
   }
 }
 
-.intro-container{
+.intro-container {
   height: 350px;
+
   .intro-content {
     max-width: 500px;
   }
 }
 
-.side-intro-container{
+.side-intro-container {
   background-color: #f87217;
 }
 
@@ -26,20 +27,18 @@
 
 .feature-div {
   min-height: 200px;
-  background-size: cover;
-  background-position: center;
   width: 100%;
-  background-repeat: no-repeat;
   top: 50%;
-  background-image: url('https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/banners/banner-item2.webp');
 }
 
 .max-width-70 {
   max-width: 70%;
 }
+
 .min-width-200 {
   min-width: 200px;
 }
+
 .max-width-400 {
   max-width: 400px;
 }

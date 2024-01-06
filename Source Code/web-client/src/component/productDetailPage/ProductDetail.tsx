@@ -13,34 +13,16 @@ interface infoType {
 interface carouselType {
   src: string;
 }
+interface ISimilarProduct {
+  id: number;
+  images: string;
+  productName: string;
+  price: string;
+  discount: number;
+}
 const ProductDetail = () => {
   const [indexImg, setIndexImg] = useState(0);
-  const [similarProduct, setSimilarProduct] = useState([
-    {
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/11.webp",
-      title: "Winter jacket for men and lady",
-      details: "Yellow, Jeans",
-      price: "$14.99",
-    },
-    {
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/12.webp",
-      title: "Mens T-shirt Cotton Base",
-      details: "Blue, Medium",
-      price: "$14.99",
-    },
-    {
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/13.webp",
-      title: "Blazer Suit Dress Jacket for Men",
-      details: "XL size, Jeans, Blue",
-      price: "$14.99",
-    },
-    {
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/9.webp",
-      title: "Men's Denim Jeans Shorts",
-      details: "Yellow, Jeans",
-      price: "$14.99",
-    },
-  ]);
+  const [similarProduct, setSimilarProduct] = useState<ISimilarProduct[]>();
   const [carouselItem, setCarouselItem] = useState<carouselType[]>();
   const [productItem, setProductItem] = useState<IProduct>();
   const [information, setInformation] = useState<infoType[]>();
@@ -70,6 +52,22 @@ const ProductDetail = () => {
         }
         if (data.data.Category) {
           prepareProperties(data.data.Category.properties);
+        }
+        if (data && data.similarProduct) {
+          let SiProduct = JSON.parse(JSON.stringify(data.similarProduct));
+          let SPTmp: ISimilarProduct[] = [];
+          SiProduct.map((sp: IProductItem) => {
+            let img = JSON.parse(sp.Product.images);
+            SPTmp.push({
+              id: sp.Product.id,
+              images: img[0].src,
+              productName: sp.Product.productName,
+              price: sp.Product.price,
+              discount: sp.Product.discount
+            });
+          });
+          console.log("json SiProduct ", SPTmp);
+          setSimilarProduct(SPTmp);
         }
       }
     } else {
@@ -188,20 +186,20 @@ const ProductDetail = () => {
                       <span className="text-muted">154 orders</span>
                     </div>
                     <div className="d-flex flex-row align-items-center mb-1">
-                      {productItem?.disscount
+                      {productItem?.discount
                         ?
                         <>
-                          <h4 className="mb-1 me-1">
-                            {formatNumber(+productItem?.price - (+productItem?.price * productItem?.disscount / 100))}
+                          <h4 className="text-danger fw-bold mb-1 me-1">
+                            {formatNumber(+productItem?.price - (+productItem?.price * productItem?.discount / 100))}
                           </h4>
-                          <span className="text-danger mx-2">
+                          <span className="mx-2">
                             <s>{formatNumber(+productItem?.price)}</s>
                           </span>
                           <span
                             style={{ backgroundColor: "#ff0000", fontSize: "0.8rem" }}
                             className="text-light px-1 my-1 rounded-2"
                           >
-                            -{productItem.disscount}%
+                            -{productItem.discount}%
                           </span>
                         </>
                         :
@@ -334,19 +332,32 @@ const ProductDetail = () => {
             <div className="col-lg-4">
               <div className="card border p-3">
                 <h5>Sản phẩm liên quan</h5>
-                {similarProduct.map((item, index) => (
-                  <div className="row" key={`similar${index}`}>
+                {similarProduct && similarProduct.map((item, index) => (
+                  <div className="row pt-2" key={`similar${index}`}>
                     <div className="me-lg-5">
                       <NavLink to="/" className="d-flex nav-link">
                         <img
-                          src={item.img}
+                          src={item.images}
                           className="border rounded me-3 img-product"
                           alt="product"
                         />
-                        <div className="">
-                          <span>{item.title}</span>
-                          <p className="text-muted">{item.details}</p>
-                          <p className="fw-bold">{item.price}</p>
+                        <div className="d-flex flex-column">
+                          <span>{item.productName}</span>
+                          {/* <p className="text-muted">{item.details}</p> */}
+                          <p className="m-0">
+                            <s>{formatNumber(+item?.price)}</s>
+                          </p>
+                          <div className="">
+                            <span className="fw-bold text-danger me-3">
+                              {formatNumber(+item.price - (+item.price * item.discount / 100))}
+                            </span>
+                            <span
+                              style={{ backgroundColor: "#ff0000", fontSize: "0.8rem" }}
+                              className="text-light px-1 my-1 rounded-2"
+                            >
+                              -{item.discount}%
+                            </span>
+                          </div>
                         </div>
                       </NavLink>
                     </div>

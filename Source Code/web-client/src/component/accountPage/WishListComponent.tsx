@@ -10,7 +10,7 @@ const WishListComponent = () => {
       describe: "",
       price: "$18.95",
       priceAf: "$16.95",
-      disscount: "18%",
+      discount: "18%",
     },
     {
       label: "",
@@ -19,7 +19,7 @@ const WishListComponent = () => {
       describe: "",
       price: "$40.95",
       priceAf: "",
-      disscount: "",
+      discount: "",
     },
     {
       label: "",
@@ -28,7 +28,7 @@ const WishListComponent = () => {
       describe: "",
       price: "$17.95",
       priceAf: "$16.95",
-      disscount: "18%",
+      discount: "18%",
     },
     {
       label: "",
@@ -37,7 +37,7 @@ const WishListComponent = () => {
       describe: "",
       price: "$13.95",
       priceAf: "",
-      disscount: "",
+      discount: "",
     },
   ];
   const [productList, setProductList] = useState<IProduct[] | null>();

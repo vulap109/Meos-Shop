@@ -1,5 +1,6 @@
 import db from "../models";
 import { Sequelize } from 'sequelize';
+import { Op } from 'sequelize';
 
 const findAllProducts = async () => {
   try {
@@ -41,9 +42,27 @@ const findProductById = async (id) => {
     });
     console.log("check data product by id", data);
     if (data) {
+      // get similar product by category id
+      let similarProduct = [];
+      similarProduct = await db.DetailOrder.findAll({
+        attributes: ['productId', [Sequelize.fn('sum', Sequelize.col('quantity')), 'sumcol']],
+        order: [['sumcol', 'DESC']],
+        limit: 5,
+        group: 'productId',
+        include: {
+          model: db.Product,
+          attributes: ['id', 'productName', 'discount', 'label', 'price', 'images'],
+          where: {
+            categoryId: data.categoryId,
+            id: { [Op.ne]: data.id }
+          }
+        },
+      });
+      console.log("check data product similar", similarProduct);
       return {
         result: true,
         data: data,
+        similarProduct: similarProduct,
       };
     } else {
       return {
@@ -169,7 +188,7 @@ const productRecomendedList = async () => {
       group: 'productId',
       include: {
         model: db.Product,
-        attributes: ['id', 'productName', 'disscount', 'label', 'price', 'images']
+        attributes: ['id', 'productName', 'discount', 'label', 'price', 'images']
       },
     });
     if (data) {

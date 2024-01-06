@@ -27,7 +27,7 @@ module.exports = {
       label: {
         type: Sequelize.STRING,
       },
-      disscount: {
+      discount: {
         type: Sequelize.INTEGER,
       },
       information: {
