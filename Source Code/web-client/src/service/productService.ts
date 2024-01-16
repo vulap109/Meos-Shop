@@ -10,5 +10,8 @@ const getProductById = (id: string) => {
 const getProductRecommeded = () => {
     return axios.get(API.product.getRecommended);
 };
+const getProductByCat = (id: string) => {
+    return axios.get(API.product.getByCategory + id);
+};
 
-export { getProductsNew, getProductById, getProductRecommeded }
+export { getProductsNew, getProductById, getProductRecommeded, getProductByCat }

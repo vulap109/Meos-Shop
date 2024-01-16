@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const HeaderTitle = ({ data }: { data: HTprops[] }) => {
+const HeaderTitle = ({ data }: { data: breadcrumbProps[] }) => {
   return (
     <>
       {/* Heading */}
@@ -13,12 +13,12 @@ const HeaderTitle = ({ data }: { data: HTprops[] }) => {
               {
                 data ?
                   data.map((item, index) =>
-                    <>
+                    <span className="d-flex" key={`bc${index}`}>
                       {index > 0 && <span className="text-white mx-2"> / </span>}
-                      <NavLink to={item.url} className="text-white nav-link">
+                      <NavLink to={item.url} className="text-white nav-link" >
                         {item.titleName === "Trang chủ" && <i className="fa-solid fa-house pe-2"></i>}{item.titleName}
                       </NavLink>
-                    </>)
+                    </span>)
                   :
                   <NavLink to="/" className="text-white nav-link">
                     <i className="fa-solid fa-house pe-2"></i>Trang chủ

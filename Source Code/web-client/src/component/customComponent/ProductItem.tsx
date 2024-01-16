@@ -33,23 +33,25 @@ const ProductItem = ({ data, isWishList }: productItemProps) => {
         <NavLink to={`/product-detail/${data.id}`} className="nav-link">
           {data.productName}
         </NavLink>
-        <div className="price-wrap mb-2 d-flex justify-content-between">
+        <div className="price-wrap mb-2 d-flex flex-column">
           {data.discount ? (
             <>
               <div>
-                <strong>{formatNumber(+data.price - (+data.price * data.discount / 100))}</strong>
                 <del>{formatNumber(+data.price)}</del>
               </div>
-              <span
-                style={{ backgroundColor: "#ff0000", fontSize: "0.8rem" }}
-                className="text-light px-1 my-1 rounded-2"
-              >
-                -{data.discount}%
-              </span>
+              <div>
+                <strong className="me-2">{formatNumber(+data.price - (+data.price * data.discount / 100))}</strong>
+                <span
+                  style={{ backgroundColor: "#ff0000", fontSize: "0.8rem" }}
+                  className="text-light px-1 my-1 rounded-2"
+                >
+                  -{data.discount}%
+                </span>
+              </div>
             </>
           ) :
             (<>
-              <div>
+              <div className="mt-4">
                 <strong>{formatNumber(+data.price)}</strong>
               </div>
             </>)

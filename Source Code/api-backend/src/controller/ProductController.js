@@ -142,6 +142,31 @@ const getProductsRecomended = async (req, res) => {
     });
   }
 };
+const getProductsByCategory = async (req, res) => {
+  try {
+    if (!req.params.idCat) {
+      return res.status(200).json({
+        result: false,
+        message: "Can not find category.",
+      });
+    }
+    let productList = {};
+    productList = await productService.productByCategory(req.params.idCat);
+    if (productList) {
+      return res.status(200).json(productList);
+    }
+    return res.status(200).json({
+      result: false,
+      message: "Some error occupied with server!",
+    });
+  } catch (error) {
+    // return case error
+    return res.status(500).json({
+      result: false,
+      message: "Some error occupied with server!",
+    });
+  }
+};
 
 module.exports = {
   getAllProducts,
@@ -150,5 +175,6 @@ module.exports = {
   editProduct,
   uploadImg,
   getProductsNew,
-  getProductsRecomended
+  getProductsRecomended,
+  getProductsByCategory,
 };

@@ -1,31 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Accordion, Button, Collapse } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate, useParams } from "react-router-dom";
 import HeaderTitle from "../layout/HeaderTitle";
 import ProductListView from "./ProductListView";
 import ProductGridView from "./ProductGridView";
+import { categoryT } from "../../config/constant";
+import { getProductByCat } from "../../service/productService";
 
 const ProductList = () => {
-  const [openCollapse, setOpenCollapse] = useState(false);
-  const [productListView, setProductListView] = useState(true);
-  const headerTitleData = [
+  const breadcrumbOg = [
     { url: "/", titleName: "Trang chủ" },
     { url: "", titleName: "Sản phẩm" },
-  ]
+  ];
+  const [openCollapse, setOpenCollapse] = useState(false);
+  const [productList, setProductList] = useState<IProduct[] | null>();
+  const [breadcrumb, setBreadcrumb] = useState<breadcrumbProps[]>(breadcrumbOg);
+  let { categoryParam } = useParams();
 
+  // fetch product by menu selected
+  const fetchProductListByCategory = async () => {
+    if (categoryParam) {
+      let categoryId = categoryT.find(c => c.url === categoryParam)?.id
+      if (categoryId) {
+        let { data } = await getProductByCat(categoryId.toString());
+        if (data && data.result) {
+          setProductList(data.data);
+        } else {
+          setProductList(null);
+        }
+      } else {
+        return <Navigate to="/404" />
+      }
+    } else {
+      return <Navigate to="/404" />
+    }
+  }
+  // set breadcrumb by menu selected
+  const handleSetHeader = () => {
+    let HedTmp = breadcrumbOg;
+    let categoryName = categoryT.find(c => c.url === categoryParam)?.title
+    HedTmp.push({ url: "", titleName: categoryName ? categoryName : "" });
+    setBreadcrumb(HedTmp);
+  }
+  useEffect(() => {
+    fetchProductListByCategory();
+    handleSetHeader();
+  }, [categoryParam])
   // const handleChangeProductView = (type: boolean) => {
   //   setProductListView()
   // }
   return (
     <>
-      <HeaderTitle data={headerTitleData} />
+      <HeaderTitle data={breadcrumb} />
       {/* sidebar + content */}
       <section>
         <div className="container mt-3">
           <div className="row">
             {/* sidebar */}
             <div className="col-lg-3">
-              {/* Toggle button */}
+              {/* Toggle button filter */}
               <Button
                 onClick={() => setOpenCollapse(!openCollapse)}
                 aria-controls="navbarSupportedContent"
@@ -102,7 +135,6 @@ const ProductList = () => {
                               type="checkbox"
                               value=""
                               id="flexCheckChecked1"
-                              checked
                             />
                             <label
                               className="form-check-label"
@@ -121,7 +153,6 @@ const ProductList = () => {
                               type="checkbox"
                               value=""
                               id="flexCheckChecked2"
-                              checked
                             />
                             <label
                               className="form-check-label"
@@ -140,7 +171,6 @@ const ProductList = () => {
                               type="checkbox"
                               value=""
                               id="flexCheckChecked3"
-                              checked
                             />
                             <label
                               className="form-check-label"
@@ -159,7 +189,6 @@ const ProductList = () => {
                               type="checkbox"
                               value=""
                               id="flexCheckChecked4"
-                              checked
                             />
                             <label
                               className="form-check-label"
@@ -321,7 +350,6 @@ const ProductList = () => {
                             type="checkbox"
                             value=""
                             id="flexCheckDefault"
-                            checked
                           />
                           <label
                             className="form-check-label"
@@ -341,7 +369,6 @@ const ProductList = () => {
                             type="checkbox"
                             value=""
                             id="flexCheckDefault"
-                            checked
                           />
                           <label
                             className="form-check-label"
@@ -361,7 +388,6 @@ const ProductList = () => {
                             type="checkbox"
                             value=""
                             id="flexCheckDefault"
-                            checked
                           />
                           <label
                             className="form-check-label"
@@ -381,7 +407,6 @@ const ProductList = () => {
                             type="checkbox"
                             value=""
                             id="flexCheckDefault"
-                            checked
                           />
                           <label
                             className="form-check-label"
@@ -406,13 +431,15 @@ const ProductList = () => {
               <header className="d-sm-flex align-items-center border-bottom mb-4 pb-3">
                 <strong className="d-block py-2">32 Items found </strong>
                 <div className="ms-auto">
+                  <span><i className="fa-solid fa-arrow-down-wide-short"></i> Sắp xếp theo: </span>
                   <select className="form-select d-inline-block w-auto border pt-1">
-                    <option value="0">Best match</option>
-                    <option value="1">Recommended</option>
-                    <option value="2">High rated</option>
-                    <option value="3">Randomly</option>
+                    <option value="0">Nổi bật</option>
+                    <option value="1">Tên từ A-Z</option>
+                    <option value="2">Tên từ Z-A</option>
+                    <option value="3">Giá giảm dần</option>
+                    <option value="4">Giá tăng dần</option>
                   </select>
-                  <div className="btn-group shadow-0 border">
+                  {/* <div className="btn-group shadow-0 border">
                     <button
                       className={
                         productListView
@@ -435,12 +462,17 @@ const ProductList = () => {
                     >
                       <i className="fa fa-th fa-lg"></i>
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </header>
 
               {/* Product listing */}
-              {productListView ? <ProductListView /> : <ProductGridView />}
+              {productList && productList.length > 0
+                ?
+                <ProductGridView products={productList} />
+                :
+                (<h3>Không có sản phẩm</h3>)
+              }
 
               <hr />
 

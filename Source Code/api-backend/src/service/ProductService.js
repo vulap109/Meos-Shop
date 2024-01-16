@@ -211,6 +211,43 @@ const productRecomendedList = async () => {
     };
   }
 };
+const productByCategory = async (idCat) => {
+  try {
+    let data = [];
+    data = await db.Product.findAll({
+      attributes: ['id', 'productName', 'discount', 'label', 'price', 'images', 'description', 'properties', 'categoryId', 'information'],
+      include: {
+        model: db.Category,
+        attributes: ['id'],
+        where: {
+          [Op.or]: [
+            { parent: idCat },
+            { id: idCat }
+          ]
+        }
+      },
+    });
+
+    if (data) {
+      return {
+        result: true,
+        data: data,
+      };
+    } else {
+      return {
+        result: false,
+        message: "No data to return.",
+      };
+    }
+  } catch (error) {
+    // return error if ORM create user has catch
+    console.log("error service", error);
+    return {
+      result: false,
+      message: "Some error occupied with service!",
+    };
+  }
+};
 
 module.exports = {
   findAllProducts,
@@ -218,5 +255,6 @@ module.exports = {
   findProductById,
   updateProduct,
   findProductsNew,
-  productRecomendedList
+  productRecomendedList,
+  productByCategory,
 };

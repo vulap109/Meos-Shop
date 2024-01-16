@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Collapse, NavDropdown } from "react-bootstrap";
-import logo from "../../assets/icons/cat.png";
-import "../../styles/Menu.scss";
 import { useSelector } from "react-redux";
+import logo from "../../assets/icons/cat.png";
+import { categoryT } from "../../config/constant"
+import "../../styles/Menu.scss";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -149,12 +150,17 @@ const Header = () => {
 
                 {/* Left links */}
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li className="nav-item">
-                    <NavLink to="/products" className={"nav-link"}>
-                      Products
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
+                  {
+                    categoryT && categoryT.map((c, index) =>
+                      <li className="nav-item" key={`menu${index}`}>
+                        <NavLink to={`/products/${c.url}`} className={"nav-link"}>
+                          {c.title}
+                        </NavLink>
+                      </li>
+                    )
+                  }
+
+                  {/* <li className="nav-item">
                     <NavLink to="/shopping-cart" className={"nav-link"}>
                       My Cart
                     </NavLink>
@@ -178,15 +184,15 @@ const Header = () => {
                     <NavLink to="/menuname" className={"nav-link"}>
                       Menu name
                     </NavLink>
-                  </li>
+                  </li> */}
                   {/* Navbar dropdown */}
-                  <li className="nav-item dropdown">
+                  {/* <li className="nav-item dropdown">
                     <NavDropdown title="Other" id="basic-nav-dropdown">
                       <NavDropdown.Item>Logout</NavDropdown.Item>
                       <NavDropdown.Item>Logout2</NavDropdown.Item>
                       <NavDropdown.Item>Logout3</NavDropdown.Item>
                     </NavDropdown>
-                  </li>
+                  </li> */}
                 </ul>
                 {/* Left links */}
               </div>

@@ -17,6 +17,17 @@ export const API = {
   product: {
     getNew: "client/products/get-products-new",
     getByid: "client/products/get-product-id/",
-    getRecommended: "/client/products/get-product-recomended"
+    getRecommended: "/client/products/get-product-recomended",
+    getByCategory: "/client/products/get-product-category/"
   }
 };
+
+export const categoryT = [
+  { id: 1, title: "Laptop", url: "laptop" },
+  { id: 2, title: "Laptop gaming", url: "laptop-gaming" },
+  { id: 3, title: "PC", url: "pc" },
+  { id: 4, title: "Màn hình", url: "monitor" },
+  { id: 5, title: "Bàn phím", url: "key-board" },
+  { id: 6, title: "Chuột", url: "mouse" },
+  { id: 7, title: "Phụ kiện", url: "accessory" },
+]

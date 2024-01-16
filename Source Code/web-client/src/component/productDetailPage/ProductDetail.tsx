@@ -332,37 +332,42 @@ const ProductDetail = () => {
             <div className="col-lg-4">
               <div className="card border p-3">
                 <h5>Sản phẩm liên quan</h5>
-                {similarProduct && similarProduct.map((item, index) => (
-                  <div className="row pt-2" key={`similar${index}`}>
-                    <div className="me-lg-5">
-                      <NavLink to="/" className="d-flex nav-link">
-                        <img
-                          src={item.images}
-                          className="border rounded me-3 img-product"
-                          alt="product"
-                        />
-                        <div className="d-flex flex-column">
-                          <span>{item.productName}</span>
-                          {/* <p className="text-muted">{item.details}</p> */}
-                          <p className="m-0">
-                            <s>{formatNumber(+item?.price)}</s>
-                          </p>
-                          <div className="">
-                            <span className="fw-bold text-danger me-3">
-                              {formatNumber(+item.price - (+item.price * item.discount / 100))}
-                            </span>
-                            <span
-                              style={{ backgroundColor: "#ff0000", fontSize: "0.8rem" }}
-                              className="text-light px-1 my-1 rounded-2"
-                            >
-                              -{item.discount}%
-                            </span>
+                {similarProduct && similarProduct.length > 0
+                  ?
+                  similarProduct.map((item, index) => (
+                    <div className="row pt-2" key={`similar${index}`}>
+                      <div className="me-lg-5">
+                        <NavLink to="/" className="d-flex nav-link">
+                          <img
+                            src={item.images}
+                            className="border rounded me-3 img-product"
+                            alt="product"
+                          />
+                          <div className="d-flex flex-column">
+                            <span>{item.productName}</span>
+                            {/* <p className="text-muted">{item.details}</p> */}
+                            <p className="m-0">
+                              <s>{formatNumber(+item?.price)}</s>
+                            </p>
+                            <div className="">
+                              <span className="fw-bold text-danger me-3">
+                                {formatNumber(+item.price - (+item.price * item.discount / 100))}
+                              </span>
+                              <span
+                                style={{ backgroundColor: "#ff0000", fontSize: "0.8rem" }}
+                                className="text-light px-1 my-1 rounded-2"
+                              >
+                                -{item.discount}%
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      </NavLink>
+                        </NavLink>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                  :
+                  <h6>Không có sản phẩm tương tự</h6>
+                }
               </div>
             </div>
           </div>

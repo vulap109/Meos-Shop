@@ -55,7 +55,7 @@ interface IProductItem {
   sumcol: number;
 }
 
-type HTprops = {
+type breadcrumbProps = {
   url: string;
   titleName: string;
 }

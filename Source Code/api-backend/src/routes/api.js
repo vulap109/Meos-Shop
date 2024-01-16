@@ -76,6 +76,7 @@ const initApiRoutes = (app) => {
   router.get("/client/products/get-products-new", productController.getProductsNew);
   router.get("/client/products/get-product-id/:id", productController.getProductById);
   router.get("/client/products/get-product-recomended", productController.getProductsRecomended);
+  router.get("/client/products/get-product-category/:idCat", productController.getProductsByCategory);
 
   return app.use("/api", router);
 };
