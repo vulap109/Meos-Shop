@@ -37,7 +37,7 @@ const ProductList = () => {
   }
   // set breadcrumb by menu selected
   const handleSetHeader = () => {
-    let HedTmp = breadcrumbOg;
+    let HedTmp = JSON.parse(JSON.stringify(breadcrumbOg));
     let categoryName = categoryT.find(c => c.url === categoryParam)?.title
     HedTmp.push({ url: "", titleName: categoryName ? categoryName : "" });
     setBreadcrumb(HedTmp);

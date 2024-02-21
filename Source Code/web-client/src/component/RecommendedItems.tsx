@@ -1,56 +1,10 @@
 import React, { useEffect, useState } from "react";
+import Carousel from "react-multi-carousel";
+import { getProductRecommeded } from "../service/productService";
 import ProductItem from "./customComponent/ProductItem";
 import "../styles/Home.scss";
-import { getProductRecommeded } from "../service/productService";
 
 const RecommendedItems = () => {
-  const Recommended = [
-    {
-      label: "New",
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp",
-      title: "Gaming Headset with Mic",
-      describe: "",
-      price: "$18.95",
-      priceAf: "$16.95",
-      discount: "18%",
-    },
-    {
-      label: "",
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/5.webp",
-      title: "Apple Watch Series 1 Sport",
-      describe: "",
-      price: "$40.95",
-      priceAf: "",
-      discount: "",
-    },
-    {
-      label: "",
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/9.webp",
-      title: "Men's Denim Jeans Shorts",
-      describe: "",
-      price: "$17.95",
-      priceAf: "$16.95",
-      discount: "18%",
-    },
-    {
-      label: "",
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/10.webp",
-      title: "Mens T-shirt Cotton Base Layer Slim fit",
-      describe: "",
-      price: "$13.95",
-      priceAf: "",
-      discount: "",
-    },
-    {
-      label: "",
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/11.webp",
-      title: "Mens T-shirt Cotton Base Layer Slim fit",
-      describe: "",
-      price: "$13.95",
-      priceAf: "",
-      discount: "",
-    },
-  ];
   const [recomendedList, setRecomendedList] = useState<IProductItem[] | null>();
   const fetchProduct = async () => {
     let { data } = await getProductRecommeded();
@@ -74,7 +28,64 @@ const RecommendedItems = () => {
         </header>
 
         <div className="row">
-          {recomendedList && recomendedList.map((items, index) => (
+          {recomendedList &&
+            <Carousel
+              additionalTransfrom={0}
+              autoPlaySpeed={3000}
+              centerMode={false}
+              containerClass="container-with-dots"
+              draggable
+              infinite
+              minimumTouchDrag={80}
+              pauseOnHover
+              slidesToSlide={1}
+              swipeable
+              responsive={{
+                desktop: {
+                  breakpoint: {
+                    max: 3000,
+                    min: 1024
+                  },
+                  items: 5,
+                  partialVisibilityGutter: 40
+                },
+                mobile: {
+                  breakpoint: {
+                    max: 464,
+                    min: 0
+                  },
+                  items: 1,
+                  partialVisibilityGutter: 30
+                },
+                tablet: {
+                  breakpoint: {
+                    max: 1024,
+                    min: 768
+                  },
+                  items: 3,
+                  partialVisibilityGutter: 30
+                },
+                tablet2: {
+                  breakpoint: {
+                    max: 768,
+                    min: 464
+                  },
+                  items: 2,
+                  partialVisibilityGutter: 30
+                }
+              }}
+            >
+              {recomendedList.map((items, index) => (
+                <div className="me-4" key={`productItem${index}`}>
+                  <ProductItem
+                    data={items.Product}
+                    isWishList={false}
+                  />
+                </div>
+              ))}
+            </Carousel>
+          }
+          {/* {recomendedList && recomendedList.map((items, index) => (
             <div
               className="col-lg-3 col-md-4 col-6 product-space"
               key={`re${index}`}
@@ -84,7 +95,7 @@ const RecommendedItems = () => {
                 isWishList={false}
               />
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     </section>

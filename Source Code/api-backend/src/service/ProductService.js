@@ -184,7 +184,7 @@ const productRecomendedList = async () => {
     data = await db.DetailOrder.findAll({
       attributes: ['productId', [Sequelize.fn('sum', Sequelize.col('quantity')), 'sumcol']],
       order: [['sumcol', 'DESC']],
-      limit: 5,
+      limit: 10,
       group: 'productId',
       include: {
         model: db.Product,

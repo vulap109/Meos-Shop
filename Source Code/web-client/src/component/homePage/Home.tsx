@@ -1,101 +1,107 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import "../../styles/Home.scss";
-import RecommendedItems from "../RecommendedItems";
+import Carousel from "react-multi-carousel";
+import { getProductsNew, getProductByCat } from "../../service/productService";
 import ProductItem from "../customComponent/ProductItem";
-import { getProductsNew } from "../../service/productService";
+import RecommendedItems from "../RecommendedItems";
 import banner from "../../assets/images/banner-sales.png"
+import "../../styles/Home.scss";
 
 const Home = () => {
-  const newProduct = [
-    {
-      label: "New",
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/1.webp",
-      title: "GoPro action camera 4K",
-      describe: "Model: X-200",
-      price: "$29.95",
-      priceAf: "",
-      discount: "",
-    },
-    {
-      label: "Offer",
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/2.webp",
-      title: "Canon EOS professional",
-      describe: "Capacity: 128GB",
-      price: "$590.00",
-      priceAf: "",
-      discount: "",
-    },
-    {
-      label: "",
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/3.webp",
-      title: "Modern product name here",
-      describe: "Sizes: S, M, XL",
-      price: "$29.95",
-      priceAf: "",
-      discount: "",
-    },
-    {
-      label: "",
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/4.webp",
-      title: "Apple iPhone 13 Pro max",
-      describe: "Color: Black, Memory: 128GB",
-      price: "$1099.00",
-      priceAf: "",
-      discount: "",
-    },
-    {
-      label: "",
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/5.webp",
-      title: "Modern product name here",
-      describe: "Sizes: S, M, XL",
-      price: "$29.95",
-      priceAf: "",
-      discount: "",
-    },
-    {
-      label: "",
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/6.webp",
-      title: "Modern product name here",
-      describe: "Model: X-200",
-      price: "$18.95",
-      priceAf: "",
-      discount: "",
-    },
-    {
-      label: "",
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/7.webp",
-      title: "Modern product name here",
-      describe: "Sizes: S, M, XL",
-      price: "$18.95",
-      priceAf: "",
-      discount: "",
-    },
-    {
-      label: "",
-      img: "https://bootstrap-ecommerce.com/bootstrap5-ecommerce/images/items/8.webp",
-      title: "Modern product name here",
-      describe: "Material: Jeans",
-      price: "$18.95",
-      priceAf: "",
-      discount: "",
-    },
-  ];
   const [productList, setProductList] = useState<IProduct[] | null>();
+  const [laptopGamingListShow, setLaptopGamingListShow] = useState<IProduct[] | null>();
+  const [pcListShow, setPCListShow] = useState<IProduct[] | null>();
+  const [monitorListShow, setMonitorListShow] = useState<IProduct[] | null>();
+  const [keyboardListShow, setKeyboardListShow] = useState<IProduct[] | null>();
+  const [mouseListShow, setMouseListShow] = useState<IProduct[] | null>();
+  const [accessoryListShow, setAccessoryListShow] = useState<IProduct[] | null>();
+
   const [bannerBottom, setBannerBottom] = useState("../assets/images/banner-sales.png");
 
+  // get list new product
   const fetchListProduct = async () => {
     let { data } = await getProductsNew();
     console.log("check get new product ", data);
     if (data && data.result) {
-      setProductList(data.data);
+      setProductList(data.data.slice(0, 5));
     } else {
       setProductList(null);
     }
   }
+  // get list laptop gaming best seller
+  const fetchListLaptopGaming = async () => {
+    let { data } = await getProductByCat("2");
+    console.log("check get laptop gaming list: ", data);
+    if (data && data.result) {
+      setLaptopGamingListShow(data.data.slice(0, 10));
+    } else {
+      setLaptopGamingListShow(null);
+    }
+  }
+
+  // get list PC best seller
+  const fetchListPC = async () => {
+    let { data } = await getProductByCat("3");
+    console.log("check get PC list: ", data);
+    if (data && data.result) {
+      setPCListShow(data.data.slice(0, 10));
+    } else {
+      setPCListShow(null);
+    }
+  }
+
+  // get list monitor best seller
+  const fetchListMonitor = async () => {
+    let { data } = await getProductByCat("4");
+    console.log("check get monitor list: ", data);
+    if (data && data.result) {
+      setMonitorListShow(data.data.slice(0, 10));
+    } else {
+      setMonitorListShow(null);
+    }
+  }
+
+  // get list keyboard best seller
+  const fetchListKeyB = async () => {
+    let { data } = await getProductByCat("5");
+    console.log("check get key board list: ", data);
+    if (data && data.result) {
+      setKeyboardListShow(data.data.slice(0, 10));
+    } else {
+      setKeyboardListShow(null);
+    }
+  }
+
+  // get list mouse best seller
+  const fetchListMouse = async () => {
+    let { data } = await getProductByCat("6");
+    console.log("check get mouse list: ", data);
+    if (data && data.result) {
+      setMouseListShow(data.data.slice(0, 10));
+    } else {
+      setMouseListShow(null);
+    }
+  }
+
+  // get list accessory best seller
+  const fetchListAccessory = async () => {
+    let { data } = await getProductByCat("7");
+    console.log("check get accessory list: ", data);
+    if (data && data.result) {
+      setAccessoryListShow(data.data.slice(0, 10));
+    } else {
+      setAccessoryListShow(null);
+    }
+  }
   useEffect(() => {
-    fetchListProduct()
-  }, [])
+    fetchListProduct();
+    fetchListLaptopGaming();
+    fetchListPC();
+    fetchListMonitor();
+    fetchListKeyB();
+    fetchListMouse();
+    fetchListAccessory();
+  }, []);
 
   return (
     <>
@@ -409,10 +415,17 @@ const Home = () => {
       {/* Products */}
       <section>
         <div className="container my-5">
-          <header className="mb-4">
+          <header className="mb-4 d-flex justify-content-between">
             <h3>New products</h3>
+            <div>
+              <button className="btn">
+                <i className="fa-solid fa-circle-chevron-left fs-3 text-primary"></i>
+              </button>
+              <button className="btn">
+                <i className="fa-solid fa-circle-chevron-right fs-3 text-primary"></i>
+              </button>
+            </div>
           </header>
-
           <div className="row">
             {productList && productList.map((items, index) => (
               <div className="col-lg-3 col-md-4 col-6 product-space" key={`productItem${index}`}>
@@ -423,9 +436,467 @@ const Home = () => {
               </div>
             ))}
           </div>
+          <hr />
         </div>
       </section>
       {/* Products */}
+
+      {/* Laptop gaming */}
+      <section>
+        <div className="container my-5">
+          <header className="mb-4 d-flex justify-content-between">
+            <h3>Laptop gaming bán chạy</h3>
+            <div>
+              <NavLink to={"/products/laptop-gaming"} className="nav-link text-primary fs-5">Xem tất cả</NavLink>
+            </div>
+          </header>
+          <div className="row">
+            {laptopGamingListShow &&
+              <Carousel
+                additionalTransfrom={0}
+                autoPlaySpeed={3000}
+                centerMode={false}
+                containerClass="container-with-dots"
+                draggable
+                infinite
+                minimumTouchDrag={80}
+                pauseOnHover
+                // arrows
+                // focusOnSelect={false}
+                // keyBoardControl
+                // renderArrowsWhenDisabled={false}
+                // renderButtonGroupOutside={false}
+                // renderDotsOutside={false}
+                // rewind={false}
+                // rewindWithAnimation={false}
+                // rtl={false}
+                // shouldResetAutoplay
+                // showDots={false}
+                slidesToSlide={1}
+                swipeable
+                responsive={{
+                  desktop: {
+                    breakpoint: {
+                      max: 3000,
+                      min: 1024
+                    },
+                    items: 5,
+                    partialVisibilityGutter: 40
+                  },
+                  mobile: {
+                    breakpoint: {
+                      max: 464,
+                      min: 0
+                    },
+                    items: 1,
+                    partialVisibilityGutter: 30
+                  },
+                  tablet: {
+                    breakpoint: {
+                      max: 1024,
+                      min: 768
+                    },
+                    items: 3,
+                    partialVisibilityGutter: 30
+                  },
+                  tablet2: {
+                    breakpoint: {
+                      max: 768,
+                      min: 464
+                    },
+                    items: 2,
+                    partialVisibilityGutter: 30
+                  }
+                }}
+              >
+                {laptopGamingListShow.map((items, index) => (
+                  <div className="me-4" key={`productItem${index}`}>
+                    <ProductItem
+                      data={items}
+                      isWishList={false}
+                    />
+                  </div>
+                ))}
+              </Carousel>
+            }
+          </div>
+          <hr />
+        </div>
+      </section>
+      {/* Laptop gaming */}
+
+      {/* PC */}
+      <section>
+        <div className="container my-5">
+          <header className="mb-4 d-flex justify-content-between">
+            <h3>PC bán chạy</h3>
+            <div>
+              <NavLink to={"/products/pc"} className="nav-link text-primary fs-5">Xem tất cả</NavLink>
+            </div>
+          </header>
+          <div className="row">
+            {pcListShow &&
+              <Carousel
+                additionalTransfrom={0}
+                autoPlaySpeed={3000}
+                centerMode={false}
+                containerClass="container-with-dots"
+                draggable
+                infinite
+                minimumTouchDrag={80}
+                pauseOnHover
+                slidesToSlide={1}
+                swipeable
+                responsive={{
+                  desktop: {
+                    breakpoint: {
+                      max: 3000,
+                      min: 1024
+                    },
+                    items: 5,
+                    partialVisibilityGutter: 40
+                  },
+                  mobile: {
+                    breakpoint: {
+                      max: 464,
+                      min: 0
+                    },
+                    items: 1,
+                    partialVisibilityGutter: 30
+                  },
+                  tablet: {
+                    breakpoint: {
+                      max: 1024,
+                      min: 768
+                    },
+                    items: 3,
+                    partialVisibilityGutter: 30
+                  },
+                  tablet2: {
+                    breakpoint: {
+                      max: 768,
+                      min: 464
+                    },
+                    items: 2,
+                    partialVisibilityGutter: 30
+                  }
+                }}
+              >
+                {pcListShow.map((items, index) => (
+                  <div className="me-4" key={`productItem${index}`}>
+                    <ProductItem
+                      data={items}
+                      isWishList={false}
+                    />
+                  </div>
+                ))}
+              </Carousel>
+            }
+          </div>
+          <hr />
+        </div>
+      </section>
+      {/* PC */}
+
+      {/* Monitor */}
+      <section>
+        <div className="container my-5">
+          <header className="mb-4 d-flex justify-content-between">
+            <h3>Màn hình bán chạy</h3>
+            <div>
+              <NavLink to={"/products/monitor"} className="nav-link text-primary fs-5">Xem tất cả</NavLink>
+            </div>
+          </header>
+          <div className="row">
+            {monitorListShow && monitorListShow.length > 0 ?
+              <Carousel
+                additionalTransfrom={0}
+                autoPlaySpeed={3000}
+                centerMode={false}
+                containerClass="container-with-dots"
+                draggable
+                infinite
+                minimumTouchDrag={80}
+                pauseOnHover
+                slidesToSlide={1}
+                swipeable
+                responsive={{
+                  desktop: {
+                    breakpoint: {
+                      max: 3000,
+                      min: 1024
+                    },
+                    items: 5,
+                    partialVisibilityGutter: 40
+                  },
+                  mobile: {
+                    breakpoint: {
+                      max: 464,
+                      min: 0
+                    },
+                    items: 1,
+                    partialVisibilityGutter: 30
+                  },
+                  tablet: {
+                    breakpoint: {
+                      max: 1024,
+                      min: 768
+                    },
+                    items: 3,
+                    partialVisibilityGutter: 30
+                  },
+                  tablet2: {
+                    breakpoint: {
+                      max: 768,
+                      min: 464
+                    },
+                    items: 2,
+                    partialVisibilityGutter: 30
+                  }
+                }}
+              >
+                {monitorListShow.map((items, index) => (
+                  <div className="me-4" key={`productItem${index}`}>
+                    <ProductItem
+                      data={items}
+                      isWishList={false}
+                    />
+                  </div>
+                ))}
+              </Carousel>
+              :
+              <h5>Sản phẩm đang cập nhật</h5>
+            }
+          </div>
+          <hr />
+        </div>
+      </section>
+      {/* Monitor */}
+
+      {/* key board */}
+      <section>
+        <div className="container my-5">
+          <header className="mb-4 d-flex justify-content-between">
+            <h3>Bàn phím bán chạy</h3>
+            <div>
+              <NavLink to={"/products/key-board"} className="nav-link text-primary fs-5">Xem tất cả</NavLink>
+            </div>
+          </header>
+          <div className="row">
+            {keyboardListShow && keyboardListShow.length > 0 ?
+              <Carousel
+                additionalTransfrom={0}
+                autoPlaySpeed={3000}
+                centerMode={false}
+                containerClass="container-with-dots"
+                draggable
+                infinite
+                minimumTouchDrag={80}
+                pauseOnHover
+                slidesToSlide={1}
+                swipeable
+                responsive={{
+                  desktop: {
+                    breakpoint: {
+                      max: 3000,
+                      min: 1024
+                    },
+                    items: 5,
+                    partialVisibilityGutter: 40
+                  },
+                  mobile: {
+                    breakpoint: {
+                      max: 464,
+                      min: 0
+                    },
+                    items: 1,
+                    partialVisibilityGutter: 30
+                  },
+                  tablet: {
+                    breakpoint: {
+                      max: 1024,
+                      min: 768
+                    },
+                    items: 3,
+                    partialVisibilityGutter: 30
+                  },
+                  tablet2: {
+                    breakpoint: {
+                      max: 768,
+                      min: 464
+                    },
+                    items: 2,
+                    partialVisibilityGutter: 30
+                  }
+                }}
+              >
+                {keyboardListShow.map((items, index) => (
+                  <div className="me-4" key={`productItem${index}`}>
+                    <ProductItem
+                      data={items}
+                      isWishList={false}
+                    />
+                  </div>
+                ))}
+              </Carousel>
+              :
+              <h5>Sản phẩm đang cập nhật</h5>
+            }
+          </div>
+          <hr />
+        </div>
+      </section>
+      {/* key board */}
+
+      {/* Mouse */}
+      <section>
+        <div className="container my-5">
+          <header className="mb-4 d-flex justify-content-between">
+            <h3>Chuột bán chạy</h3>
+            <div>
+              <NavLink to={"/products/mouse"} className="nav-link text-primary fs-5">Xem tất cả</NavLink>
+            </div>
+          </header>
+          <div className="row">
+            {mouseListShow && mouseListShow.length > 0 ?
+              <Carousel
+                additionalTransfrom={0}
+                autoPlaySpeed={3000}
+                centerMode={false}
+                containerClass="container-with-dots"
+                draggable
+                infinite
+                minimumTouchDrag={80}
+                pauseOnHover
+                slidesToSlide={1}
+                swipeable
+                responsive={{
+                  desktop: {
+                    breakpoint: {
+                      max: 3000,
+                      min: 1024
+                    },
+                    items: 5,
+                    partialVisibilityGutter: 40
+                  },
+                  mobile: {
+                    breakpoint: {
+                      max: 464,
+                      min: 0
+                    },
+                    items: 1,
+                    partialVisibilityGutter: 30
+                  },
+                  tablet: {
+                    breakpoint: {
+                      max: 1024,
+                      min: 768
+                    },
+                    items: 3,
+                    partialVisibilityGutter: 30
+                  },
+                  tablet2: {
+                    breakpoint: {
+                      max: 768,
+                      min: 464
+                    },
+                    items: 2,
+                    partialVisibilityGutter: 30
+                  }
+                }}
+              >
+                {mouseListShow.map((items, index) => (
+                  <div className="me-4" key={`productItem${index}`}>
+                    <ProductItem
+                      data={items}
+                      isWishList={false}
+                    />
+                  </div>
+                ))}
+              </Carousel>
+              :
+              <h5>Sản phẩm đang cập nhật</h5>
+            }
+          </div>
+          <hr />
+        </div>
+      </section>
+      {/* Mouse */}
+
+      {/* Accessory */}
+      <section>
+        <div className="container my-5">
+          <header className="mb-4 d-flex justify-content-between">
+            <h3>Phụ kiện bán chạy</h3>
+            <div>
+              <NavLink to={"/products/accessory"} className="nav-link text-primary fs-5">Xem tất cả</NavLink>
+            </div>
+          </header>
+          <div className="row">
+            {accessoryListShow && accessoryListShow.length > 0 ?
+              <Carousel
+                additionalTransfrom={0}
+                autoPlaySpeed={3000}
+                centerMode={false}
+                containerClass="container-with-dots"
+                draggable
+                infinite
+                minimumTouchDrag={80}
+                pauseOnHover
+                slidesToSlide={1}
+                swipeable
+                responsive={{
+                  desktop: {
+                    breakpoint: {
+                      max: 3000,
+                      min: 1024
+                    },
+                    items: 5,
+                    partialVisibilityGutter: 40
+                  },
+                  mobile: {
+                    breakpoint: {
+                      max: 464,
+                      min: 0
+                    },
+                    items: 1,
+                    partialVisibilityGutter: 30
+                  },
+                  tablet: {
+                    breakpoint: {
+                      max: 1024,
+                      min: 768
+                    },
+                    items: 3,
+                    partialVisibilityGutter: 30
+                  },
+                  tablet2: {
+                    breakpoint: {
+                      max: 768,
+                      min: 464
+                    },
+                    items: 2,
+                    partialVisibilityGutter: 30
+                  }
+                }}
+              >
+                {accessoryListShow.map((items, index) => (
+                  <div className="me-4" key={`productItem${index}`}>
+                    <ProductItem
+                      data={items}
+                      isWishList={false}
+                    />
+                  </div>
+                ))}
+              </Carousel>
+              :
+              <h5>Sản phẩm đang cập nhật</h5>
+            }
+          </div>
+          <hr />
+        </div>
+      </section>
+      {/* Accessory */}
 
       {/* Feature */}
       <section className="">
