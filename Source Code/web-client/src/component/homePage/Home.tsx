@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Carousel from "react-multi-carousel";
+import { useSelector } from "react-redux";
+// import { Dispatch } from "redux";
+
 import { getProductsNew, getProductByCat } from "../../service/productService";
 import ProductItem from "../customComponent/ProductItem";
 import RecommendedItems from "../RecommendedItems";
 import banner from "../../assets/images/banner-sales.png"
 import "../../styles/Home.scss";
+// import { AddCart } from "../../redux/cart/cartAction";
 
 const Home = () => {
+  // const dispatch: Dispatch<any> = useDispatch();
+  const carts = useSelector((state: state) => state.cartState);
+
   const [productList, setProductList] = useState<IProduct[] | null>();
   const [laptopGamingListShow, setLaptopGamingListShow] = useState<IProduct[] | null>();
   const [pcListShow, setPCListShow] = useState<IProduct[] | null>();
@@ -93,6 +100,7 @@ const Home = () => {
       setAccessoryListShow(null);
     }
   }
+
   useEffect(() => {
     fetchListProduct();
     fetchListLaptopGaming();
@@ -102,6 +110,10 @@ const Home = () => {
     fetchListMouse();
     fetchListAccessory();
   }, []);
+  useEffect(() => {
+    console.log("check cart state: ", carts);
+
+  }, [carts])
 
   return (
     <>
@@ -451,7 +463,7 @@ const Home = () => {
             </div>
           </header>
           <div className="row">
-            {laptopGamingListShow &&
+            {laptopGamingListShow && laptopGamingListShow.length > 0 ?
               <Carousel
                 additionalTransfrom={0}
                 autoPlaySpeed={3000}
@@ -518,6 +530,8 @@ const Home = () => {
                   </div>
                 ))}
               </Carousel>
+              :
+              <h5>Sản phẩm đang cập nhật</h5>
             }
           </div>
           <hr />
@@ -535,7 +549,7 @@ const Home = () => {
             </div>
           </header>
           <div className="row">
-            {pcListShow &&
+            {pcListShow && pcListShow.length > 0 ?
               <Carousel
                 additionalTransfrom={0}
                 autoPlaySpeed={3000}
@@ -591,6 +605,8 @@ const Home = () => {
                   </div>
                 ))}
               </Carousel>
+              :
+              <h5>Sản phẩm đang cập nhật</h5>
             }
           </div>
           <hr />

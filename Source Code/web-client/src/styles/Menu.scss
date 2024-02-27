@@ -1,14 +1,17 @@
 .dropdown-menu {
   animation: 0.5s slidedown;
 }
+
 @keyframes slidedown {
   from {
     transform: translateY(0);
   }
+
   to {
     transform: translateY(0.2%);
   }
 }
+
 .navbar-collapse {
   animation: 0.5s slidedown;
 }
@@ -18,6 +21,7 @@
   .header-position {
     height: 175px;
   }
+
   .collapse-position {
     top: 175px;
   }
@@ -28,6 +32,7 @@
   .header-position {
     height: 175px;
   }
+
   .collapse-position {
     top: 175px;
   }
@@ -41,10 +46,11 @@
 // }
 
 /* Large devices (laptops/desktops, 992px and up) */
-@media only screen and (min-width: 992px) { 
+@media only screen and (min-width: 992px) {
   .header-position {
     height: 92px;
   }
+
   .collapse-position {
     top: 92px;
   }
@@ -55,7 +61,12 @@
   .header-position {
     height: 71px;
   }
+
   .collapse-position {
     top: 71px;
   }
+}
+
+.badge-fs {
+  font-size: 0.6rem;
 }

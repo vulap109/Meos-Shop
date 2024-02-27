@@ -12,6 +12,7 @@ const Header = () => {
   const { auth, userName } = useSelector(
     (state: state) => state.authState.user
   );
+  const numberCart = useSelector((state: state) => state.cartState.numberCart);
 
   useEffect(() => {
     // close navbar collapse
@@ -121,8 +122,13 @@ const Header = () => {
                       "border rounded py-1 px-3 nav-link d-flex align-items-center"
                     }
                   >
-                    <i className="fas fa-shopping-cart m-1 me-md-2"></i>
-                    <p className="d-none d-md-block mb-0">My cart</p>
+                    <i className="fas fa-shopping-cart m-1 me-md-2 position-relative fs-5">
+                      <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger py-1 badge-fs">
+                        {numberCart < 100 ? numberCart : "99+"}
+                        <span className="visually-hidden">Product in cart</span>
+                      </span>
+                    </i>
+                    <p className="d-none d-md-block mb-0">Giỏ hàng</p>
                   </NavLink>
                 </div>
               </div>

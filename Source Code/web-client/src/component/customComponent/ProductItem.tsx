@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
-import LabelProduct from "./LabelProduct";
 import { NavLink } from "react-router-dom";
+import { Dispatch } from "redux";
+import { useDispatch } from "react-redux";
+
+import LabelProduct from "./LabelProduct";
 import HeartButton from "./HeartButton";
 import "../../styles/ProductItem.scss";
 import { formatNumber } from "../../utils/format";
+import { AddCart } from "../../redux/cart/cartAction";
 
 interface productItemProps {
   data: IProduct;
@@ -11,10 +15,27 @@ interface productItemProps {
 }
 const ProductItem = ({ data, isWishList }: productItemProps) => {
   const [image, setImage] = useState("");
+  const dispatch: Dispatch<any> = useDispatch();
 
-  useEffect(() => {
+  const addToCart = (item: IProduct) => {
+    let product: ICart = {
+      id: item.id,
+      image: image,
+      productName: item.productName,
+      price: item.price,
+      discount: item.discount,
+      quantity: 1,
+    }
+    dispatch(AddCart(product));
+    console.log("check product add to cart: ", product);
+  }
+
+  const getImgProduct = () => {
     const img = JSON.parse(data.images);
     setImage(img[0].src);
+  }
+  useEffect(() => {
+    getImgProduct();
   }, []);
 
   return (
@@ -60,7 +81,7 @@ const ProductItem = ({ data, isWishList }: productItemProps) => {
 
         {!isWishList && (
           <div className="border-top border-2 d-flex align-items-end py-3 px-0 mt-auto">
-            <button className="btn btn-outline-primary w-100 px-1 text-truncate">
+            <button className="btn btn-outline-primary w-100 px-1 text-truncate" onClick={() => addToCart(data)}>
               <i className="fa-solid fa-cart-shopping me-2"></i>
               <span className="d-none d-sm-inline">Thêm vào giỏ</span>
             </button>

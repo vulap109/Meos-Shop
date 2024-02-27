@@ -25,6 +25,15 @@ interface IProduct {
   information: string;
 }
 
+interface ICart {
+  id: number;
+  image: string;
+  productName: string;
+  price: string;
+  discount: number;
+  quantity: number;
+}
+
 type AuthState = {
   user: IUser;
   isLoading: boolean;
@@ -38,10 +47,15 @@ type ModalState = {
   handleSuccess: () => void;
   handleClose: () => void;
 };
+type CartState = {
+  numberCart: number;
+  carts: ICart[];
+};
 
 type state = {
   authState: AuthState;
   modalState: ModalState;
+  cartState: CartState;
 };
 
 type propertiesType = {

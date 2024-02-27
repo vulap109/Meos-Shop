@@ -28,7 +28,7 @@ const RecommendedItems = () => {
         </header>
 
         <div className="row">
-          {recomendedList &&
+          {recomendedList && recomendedList.length > 0 ?
             <Carousel
               additionalTransfrom={0}
               autoPlaySpeed={3000}
@@ -84,6 +84,8 @@ const RecommendedItems = () => {
                 </div>
               ))}
             </Carousel>
+            :
+            <h5>Sản phẩm đang cập nhật</h5>
           }
           {/* {recomendedList && recomendedList.map((items, index) => (
             <div
