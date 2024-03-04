@@ -31,7 +31,7 @@ const ProductDetail = () => {
   let { id } = useParams();
   const headerTitleData = [
     { url: "/", titleName: "Trang chủ" },
-    { url: "/products", titleName: "Sản phẩm" },
+    { url: "", titleName: "Sản phẩm" },
     { url: "", titleName: "Chi tiết" }
   ]
 

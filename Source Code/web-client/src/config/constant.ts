@@ -30,4 +30,6 @@ export const categoryT = [
   { id: 5, title: "Bàn phím", url: "key-board" },
   { id: 6, title: "Chuột", url: "mouse" },
   { id: 7, title: "Phụ kiện", url: "accessory" },
-]
+];
+
+export const cartLocalStorage = "shopping-cart";

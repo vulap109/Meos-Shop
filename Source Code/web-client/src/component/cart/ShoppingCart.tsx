@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { Dispatch } from "redux";
 import RecommendedItems from "../RecommendedItems";
-import "../../styles/ShoppingCart.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { formatNumber } from "../../utils/format";
+import { DecreaseQuantity, DeleteCart, IncreaseQuantity } from "../../redux/cart/cartAction";
+import "../../styles/ShoppingCart.scss";
 
 const ShoppingCart = () => {
   const navigate = useNavigate();
+  const dispatch: Dispatch<any> = useDispatch();
   const carts = useSelector((state: state) => state.cartState);
   const [totalBillAfter, setTotalBillAfter] = useState(0);
   const [totalBill, setTotalBill] = useState(0);
@@ -31,9 +34,18 @@ const ShoppingCart = () => {
     setTotalBill(totalBill);
     setTotalBillAfter(totalBill + deliveryFee);
   }
+  const handleIncrease = (key: number) => {
+    dispatch(IncreaseQuantity(key));
+  }
+  const handleDecrease = (key: number) => {
+    dispatch(DecreaseQuantity(key));
+  }
+  const handleDelete = (key: number) => {
+    dispatch(DeleteCart(key));
+  }
   useEffect(() => {
     prepareForBill();
-  }, [carts.numberCart])
+  }, [carts.numberCart]);
 
   return (
     <>
@@ -87,7 +99,9 @@ const ShoppingCart = () => {
                             }
                           </div>
                           <div className="input-group border border-secondary rounded">
-                            <button className="btn btn-light border-end">
+                            <button className="btn btn-light border-end"
+                              onClick={() => handleDecrease(index)}
+                              disabled={product.quantity <= 1}>
                               <i className="fa-solid fa-minus"></i>
                             </button>
                             <input type="text"
@@ -95,7 +109,8 @@ const ShoppingCart = () => {
                               aria-describedby="btnGroupQuantity"
                               disabled
                               value={product.quantity} />
-                            <button className="btn btn-light border-start">
+                            <button className="btn btn-light border-start"
+                              onClick={() => handleIncrease(index)}>
                               <i className="fa-solid fa-plus"></i>
                             </button>
                           </div>
@@ -105,6 +120,7 @@ const ShoppingCart = () => {
                             <button
                               type="button"
                               className="btn btn-outline-danger"
+                              onClick={() => handleDelete(index)}
                             >
                               <i className="fa-solid fa-trash-can"></i>
                             </button>
@@ -113,7 +129,7 @@ const ShoppingCart = () => {
                       </div>
                     ))
                     :
-                    <h5>Giỏ hàng của bạn đang trống</h5>
+                    <h5 className="fw-normal">Giỏ hàng của bạn đang trống</h5>
                   }
 
                   {/* demo item */}

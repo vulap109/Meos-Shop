@@ -1,20 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Collapse, NavDropdown } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import logo from "../../assets/icons/cat.png";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
 import { categoryT } from "../../config/constant"
+import { cartRefresh } from "../../redux/cart/cartAction";
+import logo from "../../assets/icons/cat.png";
 import "../../styles/Menu.scss";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const dispatch: Dispatch<any> = useDispatch();
   const { auth, userName } = useSelector(
     (state: state) => state.authState.user
   );
   const numberCart = useSelector((state: state) => state.cartState.numberCart);
 
   useEffect(() => {
+    dispatch(cartRefresh());
+
     // close navbar collapse
     const closeCollapse = (e: MouseEvent) => {
       if (!buttonRef.current?.contains(e.target as Node)) {
